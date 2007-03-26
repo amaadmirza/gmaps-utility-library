@@ -357,9 +357,7 @@ MarkerManager.prototype.addMarker = function(marker, minZoom, opt_maxZoom) {
   var maxZoom = this.getOptMaxZoom_(opt_maxZoom);
   me.addMarkerBatch_(marker, minZoom, maxZoom);
   var gridPoint = me.getTilePoint_(marker.getPoint(), me.mapZoom_, GSize.ZERO);
-  if (me.shownBounds_.containsPoint(gridPoint) &&
-      minZoom <= me.shownBounds_.z &&
-      me.shownBounds_.z <= maxZoom) {
+  if(me.isGridPointVisible_(gridPoint)) {
     me.addOverlay_(marker);
     me.notifyListeners_();
   }
@@ -447,12 +445,11 @@ MarkerManager.prototype.getGridBounds_ = function(bounds, zoom, swPadding,
   var sw = this.getTilePoint_(bl, zoom, swPadding);
   var ne = this.getTilePoint_(tr, zoom, nePadding);
   var gw = this.gridWidth_[zoom];
-
+  
   // Crossing the prime meridian requires correction of bounds.
   if (tr.lng() < bl.lng() || ne.x < sw.x) {
     sw.x -= gw;
   }
-
   if (ne.x - sw.x  + 1 >= gw) {
     // Computed grid bounds are larger than the world; truncate.
     sw.x = 0;
@@ -533,7 +530,7 @@ MarkerManager.prototype.updateMarkers_ = function() {
   var me = this;
   me.mapZoom_ = this.map_.getZoom();
   var newBounds = me.getMapGridBounds_();
-
+  
   // If the move does not include new grid sections,
   // we have no work to do:
   if (newBounds.equals(me.shownBounds_) && newBounds.z == me.shownBounds_.z) {
