@@ -358,7 +358,7 @@ MarkerManager.prototype.addMarker = function(marker, minZoom, opt_maxZoom) {
   var maxZoom = this.getOptMaxZoom_(opt_maxZoom);
   me.addMarkerBatch_(marker, minZoom, maxZoom);
   var gridPoint = me.getTilePoint_(marker.getPoint(), me.mapZoom_, GSize.ZERO);
-  if (me.shownBounds_.containsPoint(gridPoint) &&
+  if (me.shownBounds_.contains(gridPoint) &&
       minZoom <= me.shownBounds_.z &&
       me.shownBounds_.z <= maxZoom) {
     me.addOverlay_(marker);
