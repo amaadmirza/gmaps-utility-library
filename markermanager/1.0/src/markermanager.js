@@ -358,7 +358,7 @@ MarkerManager.prototype.addMarker = function(marker, minZoom, opt_maxZoom) {
   var maxZoom = this.getOptMaxZoom_(opt_maxZoom);
   me.addMarkerBatch_(marker, minZoom, maxZoom);
   var gridPoint = me.getTilePoint_(marker.getPoint(), me.mapZoom_, GSize.ZERO);
-  if (me.shownBounds_.contains(gridPoint) &&
+  if (me.shownBounds_.containsPoint(gridPoint) &&
       minZoom <= me.shownBounds_.z &&
       me.shownBounds_.z <= maxZoom) {
     me.addOverlay_(marker);
@@ -367,6 +367,18 @@ MarkerManager.prototype.addMarker = function(marker, minZoom, opt_maxZoom) {
   this.numMarkers_[minZoom]++;
 };
 
+/**
+ * Returns true if this bounds (inclusively) contains the given point.
+ * @param {Point} point  The point to test.
+ * @return {Boolean} This Bounds contains the given Point.
+ */
+GBounds.prototype.containsPoint = function(point) {
+  var outer = this;
+  return (outer.minX <= point.x &&
+          outer.maxX >= point.x &&
+          outer.minY <= point.y &&
+          outer.maxY >= point.y);
+}
 
 /**
  * Get a cell in the grid, creating it first if necessary.
