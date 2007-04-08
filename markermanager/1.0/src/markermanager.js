@@ -118,7 +118,7 @@ MarkerManager.MERCATOR_ZOOM_LEVEL_ZERO_RANGE = 256;
 MarkerManager.prototype.resetManager_ = function() {
   var me = this;
   var mapWidth = MarkerManager.MERCATOR_ZOOM_LEVEL_ZERO_RANGE;
-  for (var zoom = 0; zoom < me.maxZoom_; ++zoom) {
+  for (var zoom = 0; zoom <= me.maxZoom_; ++zoom) {
     me.grid_[zoom] = [];
     me.numMarkers_[zoom] = 0;
     me.gridWidth_[zoom] = Math.ceil(mapWidth/me.tileSize_);
