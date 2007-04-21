@@ -13,7 +13,7 @@
 <p>To use a marker manager, create a <code>MarkerManager</code> object. In the simplest case, just pass a map to it.</p>
 <pre class="prettyprint">
 var map = new GMap2(document.getElementById("map"));
-var mgr = new GMarkerManager(map);
+var mgr = new MarkerManager(map);
 </pre>
 
 <p>You may also specify a number of options to fine-tune the marker manager's performance. These options are passed via a <code>MarkerManagerOptions</code> object, which contains the following fields:</p>
@@ -30,7 +30,7 @@ The <code>MarkerManagerOptions</code> object is an object literal, so you simply
 <pre class="prettyprint">
 var map = new GMap2(document.getElementById("map"));
 var mgrOptions = { borderPadding: 50, maxZoom: 15, trackMarkers: true };
-var mgr = new GMarkerManager(map, mgrOptions);
+var mgr = new MarkerManager(map, mgrOptions);
 </pre>
 
 <p>Once you create a manager, you will want to add markers to it. <code>MarkerManager</code> supports adding single markers one at a time using the <code>addMarker()</code> method or a collection passed as an array using the <code>addMarkers()</code> method. Single markers added using <code>addMarker()</code> will appear immediately on the map provided that they fall within the current view and specified zoom level constraints.</p>
@@ -60,7 +60,7 @@ function getWeatherMarkers(n) {
 }
 
 function setupWeatherMarkers() {
-  mgr = new GMarkerManager(map);
+  mgr = new MarkerManager(map);
   mgr.addMarkers(getWeatherMarkers(20), 3);
   mgr.addMarkers(getWeatherMarkers(200), 6);
   mgr.addMarkers(getWeatherMarkers(1000), 8);
