@@ -13,6 +13,7 @@
 <p>To use a marker manager, create a <code>MarkerManager</code> object. In the simplest case, just pass a map to it.</p>
 <pre class="prettyprint">
 var map = new GMap2(document.getElementById("map"));
+map.setCenter(new GLatLng(37.4419, -122.1419), 13);
 var mgr = new MarkerManager(map);
 </pre>
 
@@ -29,6 +30,7 @@ The <code>MarkerManagerOptions</code> object is an object literal, so you simply
 </p>
 <pre class="prettyprint">
 var map = new GMap2(document.getElementById("map"));
+map.setCenter(new GLatLng(37.4419, -122.1419), 13);
 var mgrOptions = { borderPadding: 50, maxZoom: 15, trackMarkers: true };
 var mgr = new MarkerManager(map, mgrOptions);
 </pre>
