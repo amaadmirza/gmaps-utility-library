@@ -3,8 +3,10 @@
 <head> 
 <style type="text/css">
 div.LabeledMarker_markerLabel  {
-  color: white;
+  color: black;
   font-family: Arial;
+  width: 32px;
+  text-align: center;
 }
 </style>
 <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxQcTQoRJ_JVFHVwderj38GcfiXt6hQX5E6h3W3sV-l-QbtgIls1pN0iAw"
@@ -15,15 +17,10 @@ div.LabeledMarker_markerLabel  {
 var cm_map;
 var cm_mapMarkers = [];
 var cm_mapHTMLS = [];
+var icon;
 
 // Create a base icon for all of our markers that specifies the
 // shadow, icon dimensions, etc.
-
-var icon = new GIcon();
-icon.image = 'manhattan/red_marker.png';
-icon.iconSize = new GSize(32, 32);
-icon.iconAnchor = new GPoint(16, 16);
-icon.infoWindowAnchor = new GPoint(25, 7);
 
 // Change these parameters to customize map
 var param_wsId = "od6";
@@ -47,6 +44,13 @@ function cm_load() {
     cm_map.addControl(new GSmallMapControl());
     cm_map.addControl(new GMapTypeControl());
     cm_map.setCenter(new GLatLng( 43.907787,-79.359741), 2);
+
+    icon = new GIcon();
+    icon.image = 'http://gmaps-samples.googlecode.com/svn/trunk/markers/circular/greencirclemarker.png';
+    icon.iconSize = new GSize(32, 32);
+    icon.iconAnchor = new GPoint(16, 16);
+    icon.infoWindowAnchor = new GPoint(25, 7);
+
     cm_getJSON();
   } else {
     alert("Sorry, the Google Maps API is not compatible with this browser");
@@ -60,6 +64,7 @@ function cm_load() {
  */
 function cm_markerClicked(markerNum) {
   cm_mapMarkers[markerNum].openInfoWindowHtml(cm_mapHTMLS[markerNum]);
+  cm_mapMarkers[markerNum].setImage('http://gmaps-samples.googlecode.com/svn/trunk/markers/circular/yellowcirclemarker.png');
 }
 
 /** 
@@ -145,13 +150,25 @@ function cm_createMarker(point, title, html, rank) {
 	"icon": icon,
 	"clickable": true,
 	"labelText": title,
-	"labelOffset": new GSize(-10, -8)
+	"labelOffset": new GSize(-16, -8)
 	};
   var newPoint = point;
   var marker = new LabeledMarker(newPoint, markerOpts);
 
   GEvent.addListener(marker, "click", function() {
     marker.openInfoWindowHtml(html);
+  });
+
+  GEvent.addListener(marker, "mouseover", function() {
+    marker.setImage('http://gmaps-samples.googlecode.com/svn/trunk/markers/circular/yellowcirclemarker.png');
+  });
+
+  GEvent.addListener(marker, "mouseout", function() {
+    marker.setImage('http://gmaps-samples.googlecode.com/svn/trunk/markers/circular/greencirclemarker.png');
+  });
+
+  GEvent.addListener(marker, "infowindowclose", function() {
+    marker.setImage('http://gmaps-samples.googlecode.com/svn/trunk/markers/circular/greencirclemarker.png');
   });
 
   return marker;
