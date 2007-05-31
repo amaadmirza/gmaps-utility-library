@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>DragZoomControl Documentation: Examples</title>
+   <link rel="stylesheet" type="text/css" href="http://code.google.com/apis/maps/documentation/local_extensions.css" /> 
+   <link rel="stylesheet" type="text/css" href="http://code.google.com/css/dev_docs.css" />
+   <script type="text/javascript" src="http://code.google.com/apis/maps/include/prettify.js"></script>
+  </head>
+  <body onload="prettyPrint()">
+<h1><a name="DragZoomControl_HowTo" id="DragZoomControl_HowTo"></a>DragZoomControl How-to</h1>
+<p>
+You can add DragZoom to any Google map with a couple of lines of code.
+</p>
+<ol>
+  <li>Include gzoom.js in your document header. </li>
+    <pre class="code">&lt;script src=&quot;gzoom.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</pre>
+
+  <li>Add DragZoom to your map like any other control. Example:</li>
+    <pre class="code">map = new GMap2($id(&quot;large-google-map&quot;));<br />map.addControl(new GSmallMapControl());<br /><strong>map.addControl(new DragZoomControl());
+</strong></pre>
+  <li><strong>Important!</strong> Make sure your and doctype and namespaces are set correctly:</li>
+    <pre class="code">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;<br />
+&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;<br />
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:v=&quot;urn:schemas-microsoft-com:vml&quot; &gt;</pre>
+  <li>For Internet Explorer: make sure you enable the VML behavior:
+    <pre class="code">&lt;style type=&quot;text/css&quot;&gt;v\:* {behavior:url(#default#VML);}&lt;/style&gt;</pre>
+  </li>
+</ol>
+
+<h2>A Simple DragZoomControl Example </h2>
+<p> This is the &quot;Hello World&quot; code from the GMaps documentation. The lines you need to add for DragZoom are in bold. </p>
+
+<pre class="code">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;<br />   &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;<br />&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:v=&quot;urn:schemas-microsoft-com:vml&quot; &gt;<br />  &lt;head&gt;<br />    &lt;style type=&quot;text/css&quot;&gt;v\:* {behavior:url(#default#VML);}&lt;/style&gt;<br />     &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=utf-8&quot;/&gt;<br />    &lt;title&gt;Google Maps JavaScript API Example&lt;/title&gt;
+		<br />    &lt;script src=&quot;http://maps.google.com/maps?file=api&amp;v=2&amp;key=YOUR_KEY_HERE&quot;<br />      type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br />    <strong>&lt;script src=&quot;/javascripts/dragzoom.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</strong><br />    &lt;script type=&quot;text/javascript&quot;&gt;<br /><br />    //&lt;![CDATA[<br /><br />    function load() {<br />      if (GBrowserIsCompatible()) {<br />        var map = new GMap2(document.getElementById(&quot;map&quot;));<br />        map.setCenter(new GLatLng(37.4419, -122.1419), 13);<br />       <strong> map.addControl(new DragZoomControl());</strong><br />      }<br />    }<br /><br />    //]]&gt;<br />    &lt;/script&gt;<br />  &lt;/head&gt;<br />  &lt;body onload=&quot;load()&quot; onunload=&quot;GUnload()&quot;&gt;<br />    &lt;div id=&quot;map&quot; style=&quot;width: 900px; height: 600px&quot;&gt;&lt;/div&gt;<br />  &lt;/body&gt;<br />&lt;/html&gt;</pre>
+
+<p>
+<a href="../examples/simpledragzoom.html">View example (simpledragzoom.html).</a>
+</p>
+
+<h2>Advanced usage</h2>
+<p>The DragZoom constructor takes three optional arguments, <a href="reference.html#DragZoomBoxStyleOptions">DragZoomBoxStyleOptions</a>, <a href="reference.html#DragZoomOtherOptions">DragZoomOtherOptions</a>, and <a href="reference.html#DragZoomCallbacks">DragZoomCallbacks</a>.
+  All three are optional, but if you want to include one, you need to include the previous hashes too, even if they are empty. 
+  The following example uses all the default options except one - stickyZoomEnabled, which makes the zoom stay on until the user clicks the control.</p>
+
+  <pre class="code">map.addControl(new DragZoomControl({},{},{stickyZoomEnabled:true}));</pre>
+
+  <p>To play with the first two options parameters, check out this <a href="../examples/dragzoomoptions.html">interactive options playground.</a>
+  </p>
+
+<h2>An Advanced DragZoomControl Example</h2>
+<p>This example customizes the overlay (with DragZoomBoxStyleOptions), provides some of the additional 
+  options (with DragZoomOtherOptions), and all of the callback (with DragZoomCallbacks): <a href="http://earthcode.com/demo/gzoom/demo1.html">see 
+  example</a>. The DragZoom instantiation code:</p>
+	
+<pre class="code">
+  /* first set of options is for the visual overlay.*/
+  var boxStyleOpts = {
+    opacity:.2,
+    border:"2px solid red"
+  }
+
+  /* second set of options is for everything else */
+  var otherOpts = {
+    buttonHTML:"&lt;img src='/images/zoom-button.gif' /&gt;",
+    buttonZoomingHTML:"&lt;img src='/images/zoom-button-activated.gif' /&gt;",
+    buttonStartingStyle:{width:'24px',height:'24px'}
+  };
+
+  /* third set of options specifies callbacks */
+  var callbacks = {
+    buttonclick:function(){display("Looks like you activated DragZoom!")},
+    dragstart:function(){display("Started to Drag . . .")},
+    dragging:function(x1,y1,x2,y2){display("Dragging, currently x="+x2+",y="+y2)},
+    dragend:function(nw,ne,se,sw,nwpx,nepx,sepx,swpx){display("Zoom! NE="+ne+";SW="+sw)}
+  };
+  
+  map.addControl(new DragZoomControl(boxStyleOpts, otherOpts, callbacks));	
+</pre>
+
+<p>
+<a href="../examples/advanceddragzoom.html">View example (advanceddragzoom.html).</a>
+</p>
+
+<h2>Using an image for the button instead of text</h2>
+<p>The example above demonstrates how to substitute an image for text on the DragZoom button. Basically, you can do so by using the buttonHTML and buttonZoomingHTML arguments (in DragZoomOtherOptions) to specify images rather than text. 
+  You can put any valid html in these arguments, even a combination of images and text. 
+  Just make sure you set the width and height of the button (through the buttonStartingStyle) as appropriate for the look of the button. 
+  If you need the size or background of the button to change when activated, you can set styles in the buttonZoomingStyle argument.</p>
+
+<h2>Specifying the position of the DragZoom control</h2>
+<p>Like all controls, DragZoom can be placed anywhere you want on the map by specifying an optional GControlPosition. An example:</p>
+
+<pre class="code">map.addControl(new DragZoomControl(),new GControlPosition(G_ANCHOR_TOP_RIGHT,new GSize(10,10)));</pre>
+
+<h2>Browser compatibility</h2>
+<p>You need a modern browser. DragZoom has been tested with IE6/XP, IE7/XP,Safari2/OS10.4,
+FF1.4/OS10.4, FF1.4.1/XP, FF2/XP.</p>
+<p>It works with  Opera9/XP, but there is some jumpiness and odd scrollbar behavior. </p>
+
+<h2>Notes</h2>
+<ul>
+    <li>If you resize the map div via CSS you have to call map.checkResize() -- Google's rules, not mine!</li>
+    <li>on IE, you must have VML enabled for the post-zoom outline to display: <a href="http://www.google.com/apis/maps/documentation/#XHTML_and_VML">see here</a></li>
+    <li>if you're seeing wierdness on IE, check your doctype. I tested with mostly with XHTML 1.0 Transitional, and noticed some potential problems with border widths and scrolling on other doctypes.</li>
+    <li>like any GMaps application, <strong>make sure you register GUnload() on document unload</strong>. See Google's documentation if you're not sure how.</li>
+</ul>
+</body>
+</html>
