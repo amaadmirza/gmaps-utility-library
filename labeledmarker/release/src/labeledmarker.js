@@ -36,17 +36,17 @@
  */
 function LabeledMarker(latlng, opt_opts){
   this.latlng_ = latlng;
-  this.opts_ = opt_opts;
+  this.opts_ = opt_opts || {};
 
-  this.labelText_ = opt_opts.labelText || "";
-  this.labelClass_ = opt_opts.labelClass || "LabeledMarker_markerLabel";
-  this.labelOffset_ = opt_opts.labelOffset || new GSize(0, 0);
+  this.labelText_ = this.opts_.labelText || "";
+  this.labelClass_ = this.opts_.labelClass || "LabeledMarker_markerLabel";
+  this.labelOffset_ = this.opts_.labelOffset || new GSize(0, 0);
   
-  this.clickable_ = opt_opts.clickable || true;
+  this.clickable_ = this.opts_.clickable || true;
   
-  if (opt_opts.draggable) {
-  	// This version of LabeledMarker doesn't support dragging.
-  	opt_opts.draggable = false;
+  if (this.opts_.draggable) {
+    // This version of LabeledMarker doesn't support dragging.
+    this.opts_.draggable = false;
   }
   
   GMarker.apply(this, arguments);
