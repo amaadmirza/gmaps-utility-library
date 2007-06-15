@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ExtMapTypeControl V1.0 Reference</title>
+<link rel="stylesheet" type="text/css" href="http://code.google.com/css/dev_docs.css"></link>
+</head>
+<body>
+<h2>
+<a name="ExtMapTypeControl"></a>class ExtMapTypeControl</h2>
+<p>
+This class lets you add a control to the map which looks like the typical GMapTypeControl from the obfuscated API. By specifying additional options however, you can also add a Traffic button to the control and a drop-down legend for that button.
+It extends <a href="http://www.google.com/apis/maps/documentation/reference.html#GControl" target="_blank">GControl</a>.
+</p>
+<h3>Constructor</h3>
+<table summary="class ExtMapTypeControl - Constructor">
+<tbody><tr>
+<th>Constructor</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">ExtMapTypeControl(<span class="type" title="type:  ExtMapTypeControlOptions">opt_options</span>)</td>
+<td>
+Creates a ExtMapTypeControl with the specified option hash (optional).
+</td>
+</tr>
+</tbody></table>
+
+
+<h2>
+<a name="ExtMapTypeControlOptions"></a>class ExtMapTypeControlOptions</h2>
+<p>Instances of this class are used in the <code><span class="nomatch">opts_options</span></code> argument to the constructor of the
+<code><span class="xref"><a href="#ExtMapTypeControl">ExtMapTypeControl</a></span></code> class. There is no constructor for this class. 
+Instead, this class is instantiated as a javascript object literal. 
+<h3>Properties</h3>
+<p>As the name of this class indicates, all properties are optional.</p>
+
+<table style="width: 90%;" summary="class ExtMapTypeControlOptions - Properties">
+<tbody><tr>
+<th>Properties</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">showTraffic</td>
+<td class="code"> Boolean</td>
+<td> If set to true, Traffic button will appear to left of other buttons.</td>
+
+</tr>
+<tr class="even">
+<td class="code">showTrafficKey</td>
+<td class="code"> Boolean</td>
+<td> If this option and showTraffic are set to true, a "?" button will appear next to Traffic button, and show a drop-down legend when clicked.
+</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
