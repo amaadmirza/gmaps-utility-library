@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>DragZoom V1.0 Reference</title>
+<link rel="stylesheet" type="text/css" href="http://code.google.com/css/dev_docs.css"></link>
+</head>
+<body>
+<h2>
+<a name="DragZoom"></a>class DragZoomControl</h2>
+<p>
+This class lets you add a control to the map which, when clicked, will let the map user zoom by dragging a rectangle on the map.
+It extends <a href="http://www.google.com/apis/maps/documentation/reference.html#GControl" target="_blank">GControl</a>.
+</p>
+<h3>Constructor</h3>
+<table summary="class DragZoomControl - Constructor">
+<tbody><tr>
+<th>Constructor</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">DragZoomControl(<span class="type" title="type:  DragZoomBoxStyleOptions">opts_boxStyle</span>, <span class="type" title="type:  DragZoomOtherOptions"> opts_other</span>, <span class="type" title="type: DragZoomCallbacks"> opts_callbacks </span>)</td>
+<td>
+Creates a DragZoomControl with the specified options (hashes). All parameters are required, even if empty hashes.
+</td>
+</tr>
+</tbody></table>
+
+<h3>
+<a name="DragZoomMethods"></a>Methods</h3>
+<table style="width: 90%;" summary="class DragZoomMethods">
+<tbody><tr>
+<th>Methods</th>
+<th>Return Value</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">saveMapContext(text)</td>
+<td class="code">None</td>
+<td> The map context is pushed onto the context stack, the backButtonHTML is set to 'text', and the back button is made visible.</td>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a name="DragZoomBoxStyleOptions"></a>class DragZoomBoxStyleOptions</h2>
+<p>Instances of this class are used in the <code><span class="nomatch">opts_boxStyle</span></code> argument to the constructor of the
+<code><span class="xref"><a href="#DragZoomControl">DragZoomControl</a></span></code> class. There is no constructor for this class. 
+Instead, this class is instantiated as a javascript object literal. 
+<h3>Properties</h3>
+<p>As the name of this class indicates, all properties are optional.</p>
+
+<table style="width: 90%;" summary="class DragZoomBoxStyleOptions - Properties">
+<tbody><tr>
+<th>Properties</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">opacity</td>
+<td class="code"> Number</td>
+<td> Opacity of the veil from 0-1. Default is 0.2.</td>
+
+</tr>
+<tr class="even">
+<td class="code">fillColor</td>
+<td class="code"> String</td>
+<td> Hex value of fill color. Default is "#000".
+</td>
+</tr>
+<tr class="odd">
+
+<td class="code">border</td>
+<td class="code"> String</td>
+<td> CSS-style declaration of border. Default is "2px solid blue".
+</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>
+<a name="DragZoomOtherOptions"></a>class DragZoomOtherOptions</h2>
+<p>Instances of this class are used in the <code><span class="nomatch">opts_other</span></code> argument to the constructor of the
+<code><span class="xref"><a href="#DragZoomControl">DragZoomControl</a></span></code> class. There is no constructor for this class. 
+Instead, this class is instantiated as a javascript object literal. 
+<h3>Properties</h3>
+<p>As the name of this class indicates, all properties are optional.</p>
+
+<table style="width: 90%;" summary="class DragZoomOtherOptions - Properties">
+<tbody><tr>
+<th>Properties</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">buttonHTML</td>
+<td class="code"> String</td>
+<td> The zoom button HTML in non-activated state. Default is "zoom..".</td>
+
+</tr>
+<tr class="even">
+<td class="code">buttonStartingStyle</td>
+<td class="code"> Object</td>
+<td> A hash of CSS styles for the zoom button which are common to both un-activated and activated state. Default is {width: '52px', border: '1px solid black', padding: '2px'}.
+</td>
+</tr>
+<tr class="odd">
+
+<td class="code">buttonStyle</td>
+<td class="code"> Object</td>
+<td> A hash of CSS styles for the zoom button which will be applied when the button is in un-activated state. Default is {background: '#FFF'}.
+</td>
+</tr>
+<tr class="even">
+
+<td class="code">buttonZoomingHTML</td>
+<td class="code"> String</td>
+<td> HTML which is placed in the zoom button when the button is activated. Default is "Drag a region on the map".
+</td>
+</tr>
+<tr class="odd">
+
+<td class="code">buttonZoomingStyle</td>
+<td class="code"> Object</td>
+<td> A hash of CSS styles for the zoom button which will be applied when the button is activated. Default is {background: '#FF0'}.
+</td>
+</tr>
+<tr class="even">
+
+<td class="code">backButtonHTML</td>
+<td class="code"> String</td>
+<td> HTML which is placed in the back button when the button is activated. Default is "Drag Zoom Back".
+</td>
+</tr>
+<tr class="odd">
+
+<td class="code">backButtonStyle</td>
+<td class="code"> Object</td>
+<td> A hash of CSS styles for the back button which will be applied when the button is activated. Default is {background: '#FFF', display: 'none'}.
+</td>
+</tr>
+<tr class="even">
+
+<td class="code">backButtonEnabled</td>
+<td class="code"> Boolean</td>
+<td> Determines whether or not the back button functionality is turned on.  Default is false.
+</td>
+</tr>
+<tr class="odd">
+
+<td class="code">overlayRemoveTime</td>
+<td class="code"> Number</td>
+<td> The number of milliseconds to wait before removing the rectangle indicating the zoomed-in area after the zoom has happened. Default is 6000.
+</td>
+</tr>
+<tr class="even">
+
+<td class="code">stickyZoomEnabled</td>
+<td class="code"> Boolean</td>
+<td> Whether or not the control stays in "zoom mode" until turned off. When true, the user can zoom repeatedly, until clicking on the zoom button again to turn zoom mode off. Defaults to false.
+</td>
+</tr>
+
+</tbody>
+</table>
+
+
+<h2>
+<a name="DragZoomCallbacks"></a>class DragZoomCallbacks</h2>
+<p>Instances of this class are used in the <code><span class="nomatch">opts_callbacks</span></code> argument to the constructor of the
+<code><span class="xref"><a href="#DragZoomControl">DragZoomControl</a></span></code> class, and allow you to set callback functions for various DragZoom events. There is no constructor for this class. 
+Instead, this class is instantiated as a javascript object literal. 
+
+<h3>Properties</h3>
+<p>As the name of this class indicates, all properties are optional.</p>
+
+<table style="width: 90%;" summary="class DragZoomCallbacks - Properties">
+<tbody><tr>
+<th>Properties</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">buttonclick</td>
+<td class="code"> Function</td>
+<td> Called when the DragZoom is activated by clicking on the "zoom" button.</td>
+
+</tr>
+<tr class="even">
+<td class="code">dragstart</td>
+<td class="code"> Function</td>
+<td> Called when user starts to drag a rectangle. Callback args are x,y -- the pixel values, relative to the upper-left-hand corner of the map, where the user began dragging.
+</td>
+</tr>
+<tr class="odd">
+
+<td class="code">dragging</td>
+<td class="code"> Function</td>
+<td> Called repeatedly while the user is dragging. Callback args are startX,startY, currentX,currentY -- the pixel values of the start of the drag, and the current drag point, respectively.
+</td>
+</tr>
+<tr class="even">
+
+<td class="code">dragend</td>
+<td class="code"> Function</td>
+<td> 
+Called when the user releases the mouse button after dragging the rectangle. Callback args are: NW {GLatLng}, NE {GLatLng}, SE {GLatLng}, SW {GLatLng}, NW {GPoint}, NE {GPoint}, SE {GPoint}, SW {GPoint}.
+ The first 4 are the latitudes/longitudes; the last 4 are the pixel coords on the map.
+</td>
+</tr>
+<tr class="odd">
+
+<td class="code">backbuttonclick</td>
+<td class="code"> Function</td>
+<td> 
+Called after the map context is restored as a result of clicking the back button. Callback arg: method (boolean) -- set true if
+this backbuttonclick was to restore context set by the saveMapContext(text) method, else false.</td>
+</tr>
+
+
+</tbody>
+</table>
+
+</body>
+</html>
