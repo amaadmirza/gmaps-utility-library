@@ -29,12 +29,12 @@
       var i = Math.floor(IMAGES.length*Math.random());
       if (!ICONS[i]) {
         var icon = new GIcon();
-        icon.image = "http://www.google.com/apis/maps/documentation/markermanager/" 
+        icon.image = "images/" 
             + IMAGES[i] + ".png";
         icon.iconAnchor = new GPoint(16, 16);
         icon.infoWindowAnchor = new GPoint(16, 0);
         icon.iconSize = new GSize(32, 32);
-        icon.shadow = "http://www.google.com/apis/maps/documentation/markermanager/" 
+        icon.shadow = "images/" 
             + IMAGES[i] + "-shadow.png";
         icon.shadowSize = new GSize(59, 32);
         ICONS[i] = icon;
