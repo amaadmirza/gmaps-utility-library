@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" >
+  <head>
+    <style type="text/css">v\:* {behavior:url(#default#VML);}</style>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google Maps JavaScript API Example</title>
+		
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxQGj0PqsCtxKvarsoS-iqLdqZSKfxRdmoPmGl7Y9335WLC36wIGYa6o5Q" type="text/javascript"></script>
+    <script src="../src/dragzoom.js" type="text/javascript"></script>
+    <script src="./scripts/textualzoomcontrol.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+    //<![CDATA[
+
+    function load() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map"));
+        map.setCenter(new GLatLng(40.78, -73.9713), 12);
+        map.addControl(
+          new TextualZoomControl(),
+          new GControlPosition(G_ANCHOR_TOP_LEFT, new GSize(7,7)));
+        map.enableContinuousZoom();
+ 
+        var otherOpts = { 
+          buttonStartingStyle: {display:"block",color:"black",background:"white",width:"7em",textAlign:"center",
+            fontFamily:"Verdana",fontSize:"12px",fontWeight:"bold",border:"1px solid gray",paddingBottom:"1px",cursor:"pointer"},
+          buttonHTML: "Drag Zoom",
+          buttonZoomingHTML: 'Drag a region on the map (click here to reset)',
+          buttonZoomingStyle: {background:"yellow"},
+          backButtonHTML: "Drag Zoom Back",  
+          backButtonStyle: {display:"none",marginTop:"3px",background:"#FFFFC8"},
+          backButtonEnabled: true} 
+
+        map.addControl(new DragZoomControl({}, otherOpts, {}), new GControlPosition(G_ANCHOR_TOP_LEFT, new GSize(7,39)));
+      }
+    }
+
+    //]]>
+    </script>
+  </head>
+  <body onload="load()" onunload="GUnload()">
+    <div id="map" style="width: 900px; height: 600px;"></div>
+  </body>
+</html>
