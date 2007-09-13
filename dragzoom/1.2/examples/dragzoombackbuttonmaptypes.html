@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" >
+  <head>
+    <style type="text/css">v\:* {behavior:url(#default#VML);}</style>
+     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google Maps JavaScript API Example</title>
+		
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxQGj0PqsCtxKvarsoS-iqLdqZSKfxRdmoPmGl7Y9335WLC36wIGYa6o5Q" type="text/javascript"></script>
+    <script src="../src/dragzoom.js" type="text/javascript"></script>
+    <script src="scripts/TextualZoomControl.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+    //<![CDATA[
+
+    function load() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map"));
+        map.setCenter(new GLatLng(40.76, -73.9713), 11);
+        map.addControl(new GMapTypeControl());
+        map.addControl(
+          new DragZoomControl(
+            {}, 
+            { buttonStartingStyle: {display:"block",color:"black",background:"white",width:"7em",textAlign:"center",
+                paddingBottom:"2px",fontFamily:"Verdana",fontSize:"12px",fontWeight:"bold",border:"1px solid gray",cursor:"pointer"},
+              buttonHTML: "Drag Zoom",
+              buttonZoomingHTML: 'Drag a region on the map (click here to reset)',
+              buttonZoomingStyle: {background:"yellow"},
+              backButtonHTML: "Drag Zoom Back",  
+              backButtonStyle: {display:"none",marginTop:"3px",background:"#FFFFC8"},
+              backButtonEnabled: true, 
+              overlayRemoveTime: 1500}, 
+            {}),
+          new GControlPosition(G_ANCHOR_TOP_LEFT, new GSize(7,7)));
+      }
+    }
+
+    //]]>
+    </script>
+  </head>
+  <body onload="load()" onunload="GUnload()">
+    <table width=80% style="text-align:left;border:1px solid black"><tr><td style="font:16pt Ariel">
+      Illustrating the restoring of map context including the map type using the DragZoom back button.
+    </td></tr><tr><td style="font:14pt">
+    <ul>
+      <li>Select an area using the DragZoom around New York Harbor (about 1/3 of the screen). When the map has zoomed in, change the Map Type to 
+      <b>Hybrid</b>.</li> 
+      <li>Do another DragZoom (don't click the back button yet) highlighting the Brooklyn waterfront and then change the Map Type to 
+      <b>Satellite</b>.</li> 
+      <li>Now use the DragZoom back button and you will see the sequence reversed. The Map Types will be restored to the value for each 
+      zoom level.</li>
+    </ul>
+    Play around, zooming in and out using the DragZoom and changing the Map Type Controls.
+    </td></tr></table>
+    <p>
+    <div id="map" style="width:900px; height: 600px; border:1px solid black"></div>
+
+  </body>
+</html>
