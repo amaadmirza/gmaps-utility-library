@@ -78,7 +78,7 @@ It also uses more CSS definitions to create a sidebar with a style similar to th
 <p>
 The marker groups are created based on an attribute in the XML tag. The marker groups are stored in a javascript object that acts as an associative array, with the key for each group being the same as the attribute value stored in the XML (e.g. <code>group="restaurant"</code>). The relevant parts of the javascript code that creates the groups are shown below:
 </p>
-<pre>
+<pre class="prettyprint">
 var markerGroups = { "restaurant": [], "bar": []};
 ...
 // in GDownloadUrl callback
@@ -90,7 +90,7 @@ markerGroups[type].push(marker);
 <p>
 <p>
 In this example, we create checkboxes for each marker group, and then call a function to toggle that group's visibility when the checkbox is toggled (<code>onclick="toggleGroup('restaurant')"</code>). The <code>toggleGroup</code> function is shown below:
-<pre>
+<pre class="prettyprint">
 function toggleGroup(type) {
   for (var i = 0; i &lt; markerGroups[type].length; i++) {
     var marker = markerGroups[type][i];
@@ -106,7 +106,7 @@ function toggleGroup(type) {
 <p>
 We also create a checkbox for showing the marker labels, and call a function to toggle all labels when the checkbox is toggled (<code>onclick="toggleLabels()"</code>). That function uses <code>LabeledMarker.setLabelVisibility</code> to set the visibility of the labels. The <code>toggleLabels</code> function is shown below:
 </p>
-<pre>
+<pre class="prettyprint">
 function toggleLabels() {
   var showLabels = document.getElementById("labelsCheckbox").checked;
   for (groupName in markerGroups) {
