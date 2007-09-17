@@ -131,8 +131,8 @@ LabeledMarker.prototype.redraw = function(force) {
  */
  LabeledMarker.prototype.remove = function() {
   GEvent.clearInstanceListeners(this.div_);
-  if (node.outerHTML) {
-    node.outerHTML = ""; //prevent pseudo-leak in IE
+  if (this.div_.outerHTML) {
+    this.div_.outerHTML = ""; //prevent pseudo-leak in IE
   }
   this.div_.parentNode.removeChild(this.div_);
   this.div_ = null;
