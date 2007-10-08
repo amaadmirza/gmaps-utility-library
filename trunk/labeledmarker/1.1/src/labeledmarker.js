@@ -134,7 +134,9 @@ LabeledMarker.prototype.redraw = function(force) {
   if (this.div_.outerHTML) {
     this.div_.outerHTML = ""; //prevent pseudo-leak in IE
   }
-  this.div_.parentNode.removeChild(this.div_);
+  if (this.div_.parentNode) {
+    this.div_.parentNode.removeChild(this.div_);
+  }
   this.div_ = null;
   GMarker.prototype.remove.apply(this, arguments);
 }
