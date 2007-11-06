@@ -1,5 +1,5 @@
 /*
-* LabeledMarker Class
+* LabeledMarker Class, v1.1
 *
 * Copyright 2007 Mike Purvis (http://uwmike.com)
 * 
@@ -36,17 +36,19 @@
  */
 function LabeledMarker(latlng, opt_opts){
   this.latlng_ = latlng;
-  this.opts_ = opt_opts || {};
+  this.opts_ = opt_opts;
 
-  this.labelText_ = this.opts_.labelText || "";
-  this.labelClass_ = this.opts_.labelClass || "LabeledMarker_markerLabel";
-  this.labelOffset_ = this.opts_.labelOffset || new GSize(0, 0);
+  this.labelText_ = opt_opts.labelText || "";
+  this.labelClass_ = opt_opts.labelClass || "LabeledMarker_markerLabel";
+  this.labelOffset_ = opt_opts.labelOffset || new GSize(0, 0);
   
-  this.clickable_ = this.opts_.clickable || true;
-  
-  if (this.opts_.draggable) {
-    // This version of LabeledMarker doesn't support dragging.
-    this.opts_.draggable = false;
+  this.clickable_ = opt_opts.clickable || true;
+  this.title_ = opt_opts.title || "";
+  this.labelVisibility_  = true;
+   
+  if (opt_opts.draggable) {
+  	// This version of LabeledMarker doesn't support dragging.
+  	opt_opts.draggable = false;
   }
   
   GMarker.apply(this, arguments);
@@ -74,6 +76,8 @@ LabeledMarker.prototype.initialize = function(map) {
   this.div_.innerHTML = this.labelText_;
   this.div_.style.position = "absolute";
   this.div_.style.cursor = "pointer";
+  this.div_.title = this.title_;
+  
   map.getPane(G_MAP_MARKER_PANE).appendChild(this.div_);
 
   if (this.clickable_) {
@@ -127,7 +131,12 @@ LabeledMarker.prototype.redraw = function(force) {
  */
  LabeledMarker.prototype.remove = function() {
   GEvent.clearInstanceListeners(this.div_);
-  this.div_.parentNode.removeChild(this.div_);
+  if (this.div_.outerHTML) {
+    this.div_.outerHTML = ""; //prevent pseudo-leak in IE
+  }
+  if (this.div_.parentNode) {
+    this.div_.parentNode.removeChild(this.div_);
+  }
   this.div_ = null;
   GMarker.prototype.remove.apply(this, arguments);
 }
@@ -139,4 +148,69 @@ LabeledMarker.prototype.redraw = function(force) {
  */
 LabeledMarker.prototype.copy = function() {
   return new LabeledMarker(this.latlng_, this.opt_opts_);
+}
+
+
+/**
+ * Shows the marker, and shows label if it wasn't hidden. Note that this function 
+ * triggers the event GMarker.visibilitychanged in case the marker is currently hidden.
+ */
+LabeledMarker.prototype.show = function() {
+  GMarker.prototype.show.apply(this, arguments);
+  if (this.labelVisibility_) {
+    this.showLabel();
+  } else {
+    this.hideLabel();
+  }
+}
+
+
+/**
+ * Hides the marker and label if it is currently visible. Note that this function 
+ * triggers the event GMarker.visibilitychanged in case the marker is currently visible.
+ */
+LabeledMarker.prototype.hide = function() {
+  GMarker.prototype.hide.apply(this, arguments);
+  this.hideLabel();
+}
+
+
+/**
+ * Sets the visibility of the label, which will be respected during show/hides.
+ * If marker is visible when set, it will show or hide label appropriately.
+ */
+LabeledMarker.prototype.setLabelVisibility = function(visibility) {
+  this.labelVisibility_ = visibility;
+  if (!this.isHidden()) { // Marker showing, make visible change
+    if (this.labelVisibility_) {
+      this.showLabel();
+    } else {
+      this.hideLabel();
+    }
+  }
+}
+
+
+/**
+ * Returns whether label visibility is set on.
+ * @return {Boolean}  
+ */
+LabeledMarker.prototype.getLabelVisibility = function() {
+  return this.labelVisibility_;
+}
+
+
+/**
+ * Hides the label of the marker.
+ */
+LabeledMarker.prototype.hideLabel = function() {
+  this.div_.style.visibility = 'hidden';
+}
+
+
+/**
+ * Shows the label of the marker.
+ */
+LabeledMarker.prototype.showLabel = function() {
+  this.div_.style.visibility = 'visible';
 }
