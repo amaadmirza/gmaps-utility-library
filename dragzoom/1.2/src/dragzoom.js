@@ -1,5 +1,5 @@
 /*
-* DragZoomControl Class 
+* DragZoomControl Class v1.2 
 *  Copyright (c) 2005-2007, Andre Lewis, andre@earthcode.com
 *
 * Back Button functionality
