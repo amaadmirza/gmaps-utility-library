@@ -1,5 +1,5 @@
 /*
-* ExtMapTypeControl Class 
+* ExtMapTypeControl Class v1.2 
 *  Copyright (c) 2007, Google 
 *  Author: Pamela Fox, others
 * 
@@ -43,50 +43,57 @@ ExtMapTypeControl.prototype.initialize = function(map) {
   var container = document.createElement("div");
   var me = this;
 
-  var mapDiv = me.createButton_("Map");
-  var satDiv = me.createButton_("Satellite");
-  var hybDiv = me.createButton_("Hybrid");
- 
-  me.assignButtonEvent_(mapDiv, map, G_NORMAL_MAP, [satDiv, hybDiv]);
-  me.assignButtonEvent_(satDiv, map, G_SATELLITE_MAP, [mapDiv, hybDiv]);
-  me.assignButtonEvent_(hybDiv, map, G_HYBRID_MAP, [satDiv, mapDiv]);
-  GEvent.addListener(map, "maptypechanged", function() {
-    if (map.getCurrentMapType() == G_NORMAL_MAP) {
-      GEvent.trigger(mapDiv, "click"); 
-    } else if (map.getCurrentMapType() == G_SATELLITE_MAP) {
-      GEvent.trigger(satDiv, "click");
-    } else if (map.getCurrentMapType() == G_HYBRID_MAP) {
-      GEvent.trigger(hybDiv, "click");
+  var mapTypes = map.getMapTypes();
+  var mapTypeDivs = me.addMapTypeButtons_(map);
+
+  GEvent.addListener(map, "addmaptype", function() {
+    var newMapTypes = map.getMapTypes();
+    var newMapType = newMapTypes.pop();
+    var newMapTypeDiv = me.createButton_(newMapType.getName());
+    mapTypes.push(newMapType);
+    mapTypeDivs.push(newMapTypeDiv);
+    me.resetButtonEvents_(map, mapTypeDivs);
+    container.appendChild(newMapTypeDiv);
+  });
+  GEvent.addListener(map, "removemaptype", function() {
+    for (var i = 0; i < mapTypeDivs.length; i++) {
+      GEvent.clearListeners(mapTypeDivs[i], "click");
+      container.removeChild(mapTypeDivs[i]);
+    }
+    mapTypeDivs = me.addMapTypeButtons_(map);
+    me.resetButtonEvents_(map, mapTypeDivs);
+    for (var i = 0; i < mapTypeDivs.length; i++ ) {
+      container.appendChild(mapTypeDivs[i]);
     }
   });
 
- if (me.options.showTraffic) {
-   var trafficDiv = me.createButton_("Traffic");
-   trafficDiv.style.marginRight = "8px";
-   trafficDiv.style.visibility = 'hidden';
-   trafficDiv.firstChild.style.cssFloat = "left";
-   trafficDiv.firstChild.style.styleFloat = "left";
-   // Sending true makes overlay hidden by default
-   me.trafficInfo = new GTrafficOverlay(true);
-   me.trafficInfo.hidden = true;
-   // We have to do this so that we can sense if traffic is in view
-   GEvent.addListener(me.trafficInfo, "changed", function(hasTrafficInView) {
-     if (hasTrafficInView) {
-       trafficDiv.style.visibility = 'visible';
-     } else {
-       trafficDiv.style.visibility = 'hidden';
-     }
-   });
-   map.addOverlay(me.trafficInfo);
+  if (me.options.showTraffic) {
+    var trafficDiv = me.createButton_("Traffic");
+    trafficDiv.style.marginRight = "8px";
+    trafficDiv.style.visibility = 'hidden';
+    trafficDiv.firstChild.style.cssFloat = "left";
+    trafficDiv.firstChild.style.styleFloat = "left";
+    // Sending true makes overlay hidden by default
+    me.trafficInfo = new GTrafficOverlay(true);
+    me.trafficInfo.hidden = true;
+    // We have to do this so that we can sense if traffic is in view
+    GEvent.addListener(me.trafficInfo, "changed", function(hasTrafficInView) {
+      if (hasTrafficInView) {
+        trafficDiv.style.visibility = 'visible';
+      } else {
+        trafficDiv.style.visibility = 'hidden';
+      }
+    });
+    map.addOverlay(me.trafficInfo);
 
-   GEvent.addDomListener(trafficDiv.firstChild, "click", function() {
-     if (me.trafficInfo.hidden) {
-       me.trafficInfo.hidden = false;
-       me.trafficInfo.show();
-     } else {
-       me.trafficInfo.hidden = true;
-       me.trafficInfo.hide();
-     }
+    GEvent.addDomListener(trafficDiv.firstChild, "click", function() {
+      if (me.trafficInfo.hidden) {
+        me.trafficInfo.hidden = false;
+        me.trafficInfo.show();
+      } else {
+        me.trafficInfo.hidden = true;
+        me.trafficInfo.hide();
+      }
       me.toggleButton_(trafficDiv.firstChild, !me.trafficInfo.hidden);
     });
 
@@ -105,7 +112,7 @@ ExtMapTypeControl.prototype.initialize = function(map) {
                      {"color": "#c0c0c0", "text": "No data"}];
       for (var i = 0; i < keyInfo.length; i++) {
         keyExpandedDiv.innerHTML += "<div style='text-align: left'><span style='background-color: " + keyInfo[i].color + "'>&nbsp;&nbsp</span>"
-          +  "<span style='color: " + keyInfo[i].color + "'> " + keyInfo[i].text + " </span>" + "</div>"; 
+            +  "<span style='color: " + keyInfo[i].color + "'> " + keyInfo[i].text + " </span>" + "</div>"; 
       }
       keyExpandedDiv.style.display = "none";
 
@@ -119,7 +126,7 @@ ExtMapTypeControl.prototype.initialize = function(map) {
         }
         me.toggleButton_(keyDiv, me.keyExpanded);
       });
-    
+
       me.toggleButton_(keyDiv, me.keyExpanded);
     }
 
@@ -134,13 +141,58 @@ ExtMapTypeControl.prototype.initialize = function(map) {
     container.appendChild(trafficDiv);
   }
 
-  container.appendChild(mapDiv);
-  container.appendChild(satDiv);
-  container.appendChild(hybDiv);
+  for (var i = 0; i < mapTypeDivs.length; i++ ) {
+    container.appendChild(mapTypeDivs[i]);
+  }
 
   map.getContainer().appendChild(container);
 
   return container;
+}
+
+/*
+ * Creates buttons for map types.
+ * @param {GMap2} Map object for which to create buttons.
+ * @return {Array} Divs containing the buttons.
+ */
+ExtMapTypeControl.prototype.addMapTypeButtons_ = function(map) {
+  var me = this;
+  var mapTypes = map.getMapTypes();
+  var mapTypeDivs = new Array();
+  for (var i = 0; i < mapTypes.length; i++) {
+    mapTypeDivs[i] = me.createButton_(mapTypes[i].getName());
+  }
+  me.resetButtonEvents_(map, mapTypeDivs);
+  return mapTypeDivs;
+}
+
+/*
+ * Ensures that map type button events are assigned correctly.
+ * @param {GMap2} Map object for which to reset events.
+ * @param {Array} mapTypeDivs Divs containing map type buttons.
+ */
+ExtMapTypeControl.prototype.resetButtonEvents_ = function(map, mapTypeDivs) {
+  var me = this;
+  var mapTypes = map.getMapTypes();
+  for (var i = 0; i < mapTypeDivs.length; i++) {
+    var otherDivs = new Array;
+    for (var j = 0; j < mapTypes.length; j++ ) {
+      if (j != i) {
+        otherDivs.push(mapTypeDivs[j]);
+      }
+    }
+    me.assignButtonEvent_(mapTypeDivs[i], map, mapTypes[i], otherDivs);
+  }
+  GEvent.addListener(map, "maptypechanged", function() {
+    var divIndex = 0;
+    var mapType = map.getCurrentMapType();
+    for (var i = 0; i < mapTypes.length; i++) {
+      if (mapTypes[i] == mapType) {
+        divIndex = i;
+      }
+    }
+    GEvent.trigger(mapTypeDivs[divIndex], "click");
+  });
 }
 
 /*
