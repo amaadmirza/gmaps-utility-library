@@ -4,8 +4,8 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <title>Google Maps API Example - Simple Labeled Marker</title>
-    <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxQcTQoRJ_JVFHVwderj38GcfiXt6hQX5E6h3W3sV-l-QbtgIls1pN0iAw"
-            type="text/javascript"></script>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA-O3c-Om9OcvXMOJXreXHAxQGj0PqsCtxKvarsoS-iqLdqZSKfxS27kJqGZajBjvuzOBLizi931BUow"
+      type="text/javascript"></script>
     <script src="../src/labeledmarker.js"></script>
     <script type="text/javascript">
     //<![CDATA[
@@ -21,7 +21,7 @@
         var latlng = new GLatLng(48.25, 11.00);
 
         var icon = new GIcon();
-        icon.image = 'manhattan/red_marker.png';
+        icon.image = 'http://gmaps-samples.googlecode.com/svn/trunk/markers/circular/greencirclemarker.png';
         icon.iconSize = new GSize(32, 32);
         icon.iconAnchor = new GPoint(16, 16);
         icon.infoWindowAnchor = new GPoint(25, 7);
@@ -29,6 +29,7 @@
         opts = { 
           "icon": icon,
           "clickable": true,
+          "title": "letter A",
           "labelText": "A",
           "labelOffset": new GSize(-6, -10)
         };
