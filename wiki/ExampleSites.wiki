@@ -1,0 +1,9 @@
+#summary Links to examples of implementations of the various libraries offered here.
+#labels Featured
+
+= Example Sites =
+
+If you've used one of the libraries offered here, feel free to link to an example site. Please list libraries used and any implementation tips.
+
+  * Link: http://www.kreisalarm.de/drkmap
+    * Libraries used: [http://gmaps-utility-library.googlecode.com/svn/trunk/labeledmarker/ LabeledMarker], [http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager MarkerManager]
