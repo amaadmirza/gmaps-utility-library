@@ -1,6 +1,9 @@
 /*
-* DragZoomControl Class 
+* DragZoomControl Class v1.2 
 *  Copyright (c) 2005-2007, Andre Lewis, andre@earthcode.com
+*
+* Back Button functionality
+*  Copyright (c)  2007, Richard Garland, papabear.newyork@gmail.com
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -17,6 +20,9 @@
 * This class lets you add a control to the map which will let the user
 *  zoom by dragging a rectangle.
 *  More info on original GZoom at http://earthcode.com
+*
+* Back Button functionality provides the user with a one click means to return the map state 
+*  to its state prior to the DragZoom.  Sequential DragZooms are backed out in reverse order.
 */
 
 /**
@@ -41,6 +47,10 @@
  *   opts_other.stickyZoomEnabled {Boolean} Whether or not the control stays in 
  *     "zoom mode" until turned off. When true, the user can zoom repeatedly, 
  *     until clicking on the zoom button again to turn zoom mode off.
+ *   opts_other.backButtonEnabled {Boolean} enables Back Button functionality
+ *   opts_other.backButtonHTML {String} The back button HTML
+ *   opts_other.backButtonStyle {Object} A hash of css styles for the back button
+ *     which will be applied when the button is created.	
  * @param {opts_callbacks} Named optional arguments:
  *   opts_callbacks.buttonclick {Function} Called when the DragZoom is activated 
  *     by clicking on the "zoom" button. 
@@ -54,7 +64,25 @@
  *     after dragging the rectangle. Callback args are: NW {GLatLng}, NE {GLatLng}, 
  *     SE {GLatLng}, SW {GLatLng}, NW {GPoint}, NE {GPoint}, SE {GPoint}, SW {GPoint}.
  *     The first 4 are the latitudes/longitudes; the last 4 are the pixel coords on the map.
- */ 
+ *   opts_callbacks.backbuttonclick {Function} Called when the back button is activated 
+ *     after the map context is restored. Callback args: methodCall (boolean) set true if
+ *     this backbuttonclick was to restore context set by the mathod call, else false.
+ * Method
+ *    this.saveMapContext(text) Call to push map context onto the backStack and set the button text 
+ *    this.initiateZoom() Call to simulate clicking the dragZoom button
+ *    this.initiateZoomBack() Call to simulate clicking the dragZoom back button
+ **/
+
+/**
+ *  Versions
+ *  1.0 original version (v 189) 5/24/2007
+ *  1.1 backbutton functionality added  (v 211) 7/30/2007
+ *  1.2 bug fixes and 2 new methods 9/6/2007
+ *    fix text selection conflict in IE
+ *    fix align-text:center inheritance problem in IE
+ *    create methods initiateZoom and initiateZoomBack which call buttonclick_() and backbuttonclick_()
+ **/
+
 function DragZoomControl(opts_boxStyle, opts_other, opts_callbacks) {
   // Holds all information needed globally
   // Not all globals are initialized here
@@ -90,6 +118,9 @@ function DragZoomControl(opts_boxStyle, opts_other, opts_callbacks) {
   style.outlineWidth = parseInt(borderStyleArray[0].replace(/\D/g,''));
   style.outlineColor = borderStyleArray[2];
   style.alphaIE = 'alpha(opacity=' + (style.opacity * 100) + ')';
+ 
+  // map context stack for back button
+  this.globals.backStack = [];
 
   // Other options
   this.globals.options={
@@ -97,9 +128,12 @@ function DragZoomControl(opts_boxStyle, opts_other, opts_callbacks) {
     buttonStartingStyle: 
       {width: '52px', border: '1px solid black', padding: '2px'},
     buttonStyle: {background: '#FFF'},
+    backButtonHTML: 'zoom back',
+    backButtonStyle: {background: '#FFF', display: 'none'},
     buttonZoomingHTML: 'Drag a region on the map',
     buttonZoomingStyle: {background: '#FF0'},
     overlayRemoveTime: 6000,
+    backButtonEnabled: false,
     stickyZoomEnabled: false
   };
 	
@@ -107,7 +141,7 @@ function DragZoomControl(opts_boxStyle, opts_other, opts_callbacks) {
     this.globals.options[s] = opts_other[s]
   }
 
-  // callbacks: buttonclick, dragstart, dragging, dragend
+  // callbacks: buttonclick, dragstart, dragging, dragend, backbuttonclick 
   if (opts_callbacks == null) {
     opts_callbacks = {}
   }
@@ -116,12 +150,38 @@ function DragZoomControl(opts_boxStyle, opts_other, opts_callbacks) {
 
 DragZoomControl.prototype = new GControl();
 
+/**
+ * Methods
+ */
 
 /**
- * Creates a new button to control gzoom and appends to map div.
- * @param {DOM Node} map The div returned by map.getContainer()
+ * Method called to save the map context before the zoom.
+ * Back Button functionality:	
+ * @param {text} text string for the back button
  */
-DragZoomControl.prototype.initButton_ = function(mapDiv) {
+DragZoomControl.prototype.saveMapContext = function(text) {
+  if (this.globals.options.backButtonEnabled) {
+    this.saveBackContext_(text,true);
+    this.globals.backButtonDiv.style.display = 'block';
+  }	
+};
+
+/**
+ * Method called to initiate a dragZoom as if the user had clicked the dragZoom button.
+ */
+DragZoomControl.prototype.initiateZoom = function() {this.buttonclick_()};
+
+/**
+ * Method called to initiate a dragZoom back operation as if the user had clicked the dragZoom back button.
+ * Back Button functionality:	
+ */
+DragZoomControl.prototype.initiateZoomBack = function() {if (this.globals.options.backButtonEnabled) this.backbuttonclick_()};	
+
+/**
+ * Creates a new button to control gzoom and appends to the button container div.
+ * @param {DOM Node} buttonContainerDiv created in main .initialize code
+ */
+DragZoomControl.prototype.initButton_ = function(buttonContainerDiv) {
   var G = this.globals;
   var buttonDiv = document.createElement('div');
   buttonDiv.innerHTML = G.options.buttonHTML;
@@ -129,8 +189,24 @@ DragZoomControl.prototype.initButton_ = function(mapDiv) {
   DragZoomUtil.style([buttonDiv], {cursor: 'pointer', zIndex:200});
   DragZoomUtil.style([buttonDiv], G.options.buttonStartingStyle);
   DragZoomUtil.style([buttonDiv], G.options.buttonStyle);
-  mapDiv.appendChild(buttonDiv);
+  buttonContainerDiv.appendChild(buttonDiv);
   return buttonDiv;
+};
+
+/**												
+ * Creates a second new button to control backup zoom and appends to the button container div.
+ * @param {DOM Node} buttonContainerDiv created in main .initialize code
+ */
+DragZoomControl.prototype.initBackButton_ = function(buttonContainerDiv) {
+  var G = this.globals;
+  var backButtonDiv = document.createElement('div');
+  backButtonDiv.innerHTML = G.options.backButtonHTML;
+  backButtonDiv.id = 'gzoom-back';
+  DragZoomUtil.style([backButtonDiv], {cursor: 'pointer', zIndex:200});
+  DragZoomUtil.style([backButtonDiv], G.options.buttonStartingStyle);
+  DragZoomUtil.style([backButtonDiv], G.options.backButtonStyle);
+  buttonContainerDiv.appendChild(backButtonDiv);
+  return backButtonDiv;
 };
 
 /**
@@ -141,9 +217,11 @@ DragZoomControl.prototype.setButtonMode_ = function(mode){
   var G = this.globals;
   if (mode == 'zooming') {
     G.buttonDiv.innerHTML = G.options.buttonZoomingHTML;
+    DragZoomUtil.style([G.buttonDiv], G.options.buttonStartingStyle);
     DragZoomUtil.style([G.buttonDiv], G.options.buttonZoomingStyle);
   } else {
     G.buttonDiv.innerHTML = G.options.buttonHTML;
+    DragZoomUtil.style([G.buttonDiv], G.options.buttonStartingStyle);
     DragZoomUtil.style([G.buttonDiv], G.options.buttonStyle);
   }
 };
@@ -158,48 +236,68 @@ DragZoomControl.prototype.initialize = function(map) {
   var G = this.globals;
   var me = this;
   var mapDiv = map.getContainer();
-  //DOM:button
-  var buttonDiv = this.initButton_(mapDiv);
+ 
+  // Create div for both buttons	
+    var buttonContainerDiv = document.createElement("div");	
+    DragZoomUtil.style([buttonContainerDiv], {cursor: 'pointer', zIndex: 150});
 
+  // create and init the zoom button
+    //DOM:button
+    var buttonDiv = this.initButton_(buttonContainerDiv);
+
+  // create and init the back button				
+    //DOM:button
+    var backButtonDiv = this.initBackButton_(buttonContainerDiv);
+  
+  // Add the two buttons to the map 					
+    mapDiv.appendChild(buttonContainerDiv);
+ 
   //DOM:map covers
-  var zoomDiv = document.createElement("div");
-  zoomDiv.id ='gzoom-map-cover';
-  zoomDiv.innerHTML ='<div id="gzoom-outline" style="position:absolute;display:none;"></div><div id="gzoom-cornerTopDiv" style="position:absolute;display:none;"></div><div id="gzoom-cornerLeftDiv" style="position:absolute;display:none;"></div><div id="gzoom-cornerRightDiv" style="position:absolute;display:none;"></div><div id="gzoom-cornerBottomDiv" style="position:absolute;display:none;"></div>';
-  DragZoomUtil.style([zoomDiv], {position: 'absolute', display: 'none', overflow: 'hidden', cursor: 'crosshair', zIndex: 101});
-  mapDiv.appendChild(zoomDiv);
-
+    var zoomDiv = document.createElement("div");
+    zoomDiv.id ='gzoom-map-cover';
+    zoomDiv.innerHTML ='<div id="gzoom-outline" style="position:absolute;display:none;"></div><div id="gzoom-cornerTopDiv" style="position:absolute;display:none;"></div><div id="gzoom-cornerLeftDiv" style="position:absolute;display:none;"></div><div id="gzoom-cornerRightDiv" style="position:absolute;display:none;"></div><div id="gzoom-cornerBottomDiv" style="position:absolute;display:none;"></div>';
+    DragZoomUtil.style([zoomDiv], {position: 'absolute', display: 'none', overflow: 'hidden', cursor: 'crosshair', zIndex: 101});
+    mapDiv.appendChild(zoomDiv);
+  
   // add event listeners
-  GEvent.addDomListener(buttonDiv, 'click', function(e) {
-    me.buttonclick_(e);
-  });
-  GEvent.addDomListener(zoomDiv, 'mousedown', function(e) {
-    me.coverMousedown_(e);
-  });
-  GEvent.addDomListener(document, 'mousemove', function(e) {
-    me.drag_(e);
-  });
-  GEvent.addDomListener(document, 'mouseup', function(e) {
-    me.mouseup_(e);
-  });
-
+    GEvent.addDomListener(buttonDiv, 'click', function(e) {
+      me.buttonclick_(e);
+    });
+    GEvent.addDomListener(backButtonDiv, 'click', function(e) {
+      me.backbuttonclick_(e);
+    });
+    GEvent.addDomListener(zoomDiv, 'mousedown', function(e) {
+      me.coverMousedown_(e);
+    });
+    GEvent.addDomListener(document, 'mousemove', function(e) {
+      me.drag_(e);
+    });
+    GEvent.addDomListener(document, 'mouseup', function(e) {
+      me.mouseup_(e);
+    });
+  
   // get globals
-  G.mapPosition = DragZoomUtil.getElementPosition(mapDiv);
-  G.outlineDiv = DragZoomUtil.gE("gzoom-outline");	
-  G.buttonDiv = DragZoomUtil.gE("gzoom-control");
-  G.mapCover = DragZoomUtil.gE("gzoom-map-cover");
-  G.cornerTopDiv = DragZoomUtil.gE("gzoom-cornerTopDiv");
-  G.cornerRightDiv = DragZoomUtil.gE("gzoom-cornerRightDiv");
-  G.cornerBottomDiv = DragZoomUtil.gE("gzoom-cornerBottomDiv");
-  G.cornerLeftDiv = DragZoomUtil.gE("gzoom-cornerLeftDiv");
-  G.map = map;
-
-  G.borderCorrection = G.style.outlineWidth * 2;	
-  this.setDimensions_();
-
+    G.mapPosition = DragZoomUtil.getElementPosition(mapDiv);
+    G.outlineDiv = DragZoomUtil.gE("gzoom-outline");	
+    G.buttonDiv = DragZoomUtil.gE("gzoom-control");
+    G.backButtonDiv = DragZoomUtil.gE("gzoom-back");
+    G.mapCover = DragZoomUtil.gE("gzoom-map-cover");
+    G.cornerTopDiv = DragZoomUtil.gE("gzoom-cornerTopDiv");
+    G.cornerRightDiv = DragZoomUtil.gE("gzoom-cornerRightDiv");
+    G.cornerBottomDiv = DragZoomUtil.gE("gzoom-cornerBottomDiv");
+    G.cornerLeftDiv = DragZoomUtil.gE("gzoom-cornerLeftDiv");
+    G.map = map;
+  
+    G.borderCorrection = G.style.outlineWidth * 2;	
+    this.setDimensions_();
+  
   //styles
-  this.initStyles_();
+    this.initStyles_();
 
-  return buttonDiv;
+  // disable text selection on map cover
+    G.mapCover.onselectstart = function() {return false}; 
+    
+  return buttonContainerDiv;
 };
 
 /**
@@ -324,23 +422,26 @@ DragZoomControl.prototype.mouseup_ = function(e){
       setTimeout (function() {G.map.removeOverlay(zoomAreaPoly)}, G.options.overlayRemoveTime);  
     }catch(e) {}
 
-    oBounds = new GLatLngBounds();
-    oBounds.extend(nw);
-    oBounds.extend(ne);
-    oBounds.extend(se);
-    oBounds.extend(sw);
-    zoomLevel = G.map.getBoundsZoomLevel(oBounds);
-    center = oBounds.getCenter();
+    polyBounds = zoomAreaPoly.getBounds();
+    var ne = polyBounds.getNorthEast();
+    var sw = polyBounds.getSouthWest();
+    var se = new GLatLng(sw.lat(), ne.lng());
+    var nw = new GLatLng(ne.lat(), sw.lng());
+    zoomLevel = G.map.getBoundsZoomLevel(polyBounds);
+    center = polyBounds.getCenter();
     G.map.setCenter(center, zoomLevel);
 
     // invoke callback if provided
     if (G.callbacks.dragend != null) {
       G.callbacks.dragend(nw, ne, se, sw, nwpx, nepx, sepx, swpx);
     }
-		
+
     //re-init if sticky
     if (G.options.stickyZoomEnabled) {
+      //GLog.write("stickyZoomEnabled, re-initting");
       this.initCover_();
+      if (G.options.backButtonEnabled) this.saveBackContext_(G.options.backButtonHTML,false); // save the map context for back button
+      G.backButtonDiv.style.display='none';
     }
   }
 };
@@ -354,8 +455,9 @@ DragZoomControl.prototype.setDimensions_ = function() {
   G.mapWidth  = mapSize.width;
   G.mapHeight = mapSize.height;
   G.mapRatio  = G.mapHeight / G.mapWidth;
+  // set left:0px in next <div>s in case we inherit text-align:center from map <div> in IE.
   DragZoomUtil.style([G.mapCover, G.cornerTopDiv, G.cornerRightDiv, G.cornerBottomDiv, G.cornerLeftDiv], 
-    {width: G.mapWidth + 'px', height: G.mapHeight +'px'});
+    {left: '0px',width: G.mapWidth + 'px', height: G.mapHeight +'px'});
 };
 
 /**
@@ -372,11 +474,64 @@ DragZoomControl.prototype.initStyles_ = function(){
  * Function called when the zoom button's click event is captured.
  */
 DragZoomControl.prototype.buttonclick_ = function(){
-  if (this.globals.mapCover.style.display == 'block') { // reset if clicked before dragging
+  var G = this.globals;	
+  G.backButtonDiv.style.display='none';
+  if (G.mapCover.style.display == 'block') { // reset if clicked before dragging 
     this.resetDragZoom_();
+    if (G.options.backButtonEnabled) {  
+      this.restoreBackContext_();  // pop the backStack on a button reset
+      if (G.backStack.length==0) G.backButtonDiv.style.display='none';
+    }
   } else {
     this.initCover_();
+    if ( G.options.backButtonEnabled ) this.saveBackContext_(G.options.backButtonHTML,false); // save the map context for back button
   }
+};
+
+/**
+ * Back Button functionality:	
+ * Function called when the back button's click event is captured.
+ * calls the function to set the map context back to where it was before the zoom.
+ */
+DragZoomControl.prototype.backbuttonclick_ = function(){
+  var G = this.globals;	
+  if (G.options.backButtonEnabled && G.backStack.length > 0) {
+    this.restoreBackContext_();
+    // invoke the callback if provided
+    if (G.callbacks['backbuttonclick'] != null) {
+      G.callbacks.backbuttonclick(G.methodCall);
+    }
+  }
+};
+
+/** 
+ * Back Button functionality:	
+ * Saves the map context and pushes it on the backStack for later use by the back button
+ */
+DragZoomControl.prototype.saveBackContext_ = function(text,methodCall) {
+  var G = this.globals;
+  var backFrame = {};
+  backFrame["center"] = G.map.getCenter();
+  backFrame["zoom"] = G.map.getZoom();
+  backFrame["maptype"] = G.map.getCurrentMapType();
+  backFrame["text"] = G.backButtonDiv.innerHTML; // this saves the previous button text
+  backFrame["methodCall"] = methodCall; //This determines if it was an internal or method call
+  G.backStack.push(backFrame);
+  G.backButtonDiv.innerHTML = text;
+  // Back Button is turned on in resetDragZoom_()
+};
+
+/** 
+ * Back Button functionality:	
+ * Pops the previous map context off of the backStack and restores the map to that context
+ */
+DragZoomControl.prototype.restoreBackContext_ = function() {
+  var G = this.globals;
+  var backFrame = G.backStack.pop();
+  G.map.setCenter(backFrame["center"],backFrame["zoom"],backFrame["maptype"]);
+  G.backButtonDiv.innerHTML = backFrame["text"];
+  G.methodCall = backFrame["methodCall"];
+  if (G.backStack.length==0) G.backButtonDiv.style.display = 'none'; // if we're at the top of the stack, hide the back botton
 };
 
 /**
@@ -451,8 +606,8 @@ DragZoomControl.prototype.resetDragZoom_ = function() {
     {display: 'none', opacity: G.style.opacity, filter: G.style.alphaIE});
   G.outlineDiv.style.display = 'none';	
   this.setButtonMode_('normal');
+  if (G.options.backButtonEnabled  && (G.backStack.length > 0)) G.backButtonDiv.style.display = 'block'; // show the back button
 };
-
 
 /* utility functions in DragZoomUtil.namespace */
 var DragZoomUtil={};
@@ -535,4 +690,3 @@ DragZoomUtil.getManyElements = function(idsString){
   };
   return elements;
 };
-	
