@@ -1,5 +1,5 @@
 /* Copyright (c) 2007 Google Inc.
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  *
- *
+ * Version: 1.0
  * Author: Doug Ricket, others
  * 
  * Marker manager is an interface between the map and the user, designed
@@ -90,12 +90,17 @@ function MarkerManager(map, opt_opts) {
   // NOTE: These two closures provide easy access to the map.
   // They are used as callbacks, not as methods.
   me.removeOverlay_ = function(marker) {
-    map.removeOverlay(marker);
-    me.shownMarkers_--;
+    if (!marker.isInfoWindowOpened) {
+      map.removeOverlay(marker);
+      me.shownMarkers_--;
+    }
   };
   me.addOverlay_ = function(marker) {
-    map.addOverlay(marker);
-    me.shownMarkers_++;
+    if (!marker.isInfoWindowOpened) {
+      marker.isInfoWindowOpened = false;
+      map.addOverlay(marker);
+      me.shownMarkers_++;
+    }
   };
 
   me.resetManager_();
@@ -172,6 +177,15 @@ MarkerManager.prototype.addMarkerBatch_ = function(marker, minZoom, maxZoom) {
   if (this.trackMarkers_) {
     GEvent.bind(marker, "changed", this, this.onMarkerMoved_);
   }
+
+  GEvent.addListener(marker, "infowindowopen", function() {
+    marker.isInfoWindowOpened = true;
+  });
+
+  GEvent.addListener(marker, "infowindowclose", function() {
+    marker.isInfoWindowOpened = false;
+  });
+
   var gridPoint = this.getTilePoint_(mPoint, maxZoom, GSize.ZERO);
 
   for (var zoom = maxZoom; zoom >= minZoom; zoom--) {
@@ -704,4 +718,3 @@ MarkerManager.prototype.removeFromArray = function(array, value, opt_notype) {
   }
   return shift;
 };
-
