@@ -1,5 +1,5 @@
 /*
-* ExtMapTypeControl Class 
+* ExtMapTypeControl Class v1.2 
 *  Copyright (c) 2007, Google 
 *  Author: Pamela Fox, others
 * 
