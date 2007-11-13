@@ -70,7 +70,7 @@ ExtMapTypeControl.prototype.initialize = function(map) {
   if (me.options.showTraffic) {
     var trafficDiv = me.createButton_("Traffic");
     trafficDiv.style.marginRight = "8px";
-    trafficDiv.style.visibility = 'hidden';
+    trafficDiv.style.visibility = 'visible';
     trafficDiv.firstChild.style.cssFloat = "left";
     trafficDiv.firstChild.style.styleFloat = "left";
     // Sending true makes overlay hidden by default
