@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ExtInfoWindow V1.0 Reference</title>
+  <link rel="stylesheet" type="text/css" href="http://code.google.com/css/dev_docs.css"></link>
+</head>
+<body>
+<h2><a name="ExtInfoWindow"></a>class ExtInfoWindow</h2>
+<p>
+  This class is used to create a custom info window that will mimic
+  the behavior of the standard <code>GInfoWindow</code>.  Additionally this class lets you 
+  easily theme your <code>GInfoWindow</code> through CSS id attributes and even pull content
+  from a supplied Ajax url in the constructor options, giving the user a more control
+  over every aspect of the <code>GInfoWindow</code>.
+</p>
+<h3>Constructor</h3>
+<table summary="class ExtInfoWindow - Constructor">
+<tbody><tr>
+<th>Constructor</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">
+  None
+</td>
+<td>
+  <code>ExtInfoWindow</code> has no constructor. It is created by 
+  <code><a href="#GMarker">GMarker.openExtInfoWindow(map, cssId, html, opt_opts)</a></code>
+</td>
+</tr>
+</tbody></table>
+<h3>Methods</h3>
+<table summary="class ExtInfoWindow - Methods">
+<tbody><tr>
+<th>Methods</th>
+<th>Return Value</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">resize()</td>
+<td class="code"><span class="void">none</span></td>
+<td>
+  Recalculate the size of the info window and reposition the map if required.  This method is important to use
+  if you are doing any kind of manipulation on the contents of an <code>ExtInfoWindow</code> prior to it opening
+  or updating via ajax.
+</td>
+</tr>
+</tbody></table>
+<h2><a name="ExtInfoWindowOptions"></a>class ExtInfoWindowOptions</h2>
+<p>
+  This class represents optional arguments to the
+  <code><span class="xref"><a href="#ExtInfoWindow">ExtInfoWindow</a></span></code> constructor.
+  It has no constructor, but is	instantiated as object literal.
+</p>
+<h3>Properties</h3>
+<table summary="class ExtInfoWindowOptions - Properties">
+<tbody><tr>
+<th>Properties</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">ajaxUrl</td>
+<td class="code">String</td>
+<td>
+  A string of the url where the <code>ExtInfoWindow</code> should request HTML data. Notice that, since 
+  the <code>XmlHttpRequest</code> object is used to execute the request, it is subject to the same-origin 
+  restriction of cross-site scripting, i.e. the URL must refer to the same server as the URL of the 
+  current document that executes this code.  NOTE: content returned is assumed to be valid HTML content.
+</td>
+</tr>
+<tr class="even">
+<td class="code">beakOffset</td>
+<td class="code">Number</td>
+<td>
+  The number of pixels a the beak, or pointer end, of the <code>ExtInfoWindow</code> should be
+  moved up vertically.  This is useful when working with an <code>ExtInfoWindow</code> with a border.
+  The default value is <code><span class="nomatch">0</span></code>.	
+</td>
+</tr>
+<tr class="odd">
+<td class="code">paddingX</td>
+<td class="code">Number</td>
+<td>
+  The number, in pixels, that <code>ExtInfoWindow</code> should pad on the left and right sides
+  when positioning itself inside the viewable map region. 
+  The default value is <code><span class="nomatch">0</span></code>.
+</td>
+</tr>
+
+<tr class="even">
+<td class="code">paddingY</td>
+<td class="code">Number</td>
+<td>
+	The number, in pixels, that <code>ExtInfoWindow</code> should pad on the top and bottom sides
+	when positioning itself inside the viewable map region. 
+	The default value is <code><span class="nomatch">0</span></code>.
+</td>
+</tr>
+</tbody></table>
+<h2><a name="GMarker"></a>class GMarker</h2>
+<p>
+	These are the new methods added on to the 
+	<code><a href="http://www.google.com/apis/maps/documentation/reference.html#GMarker">GMarker</a></code> 
+	class. For further details on the 
+	<code><a href="http://www.google.com/apis/maps/documentation/reference.html#GMarker">GMarker</a></code> 
+	class please visit the official 
+	<a href="http://www.google.com/apis/maps/documentation/reference.html">Google Maps API documents</a>.
+</p>
+<h3>Methods</h3>
+<table summary="class GMarker - Methods">
+<tbody><tr>
+<th>Methods</th>
+<th>Return Value</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">
+  openExtInfoWindow(<span class="type" title="type:  GMap2">map</span>, <span class="type" title="type:  String"> cssId</span>, <span class="type" title="type:  HTML"> html</span>, <span class="type" title="type:  ExtInfoWindowOptions"> opt_opts</span>)
+</td>
+<td class="code"><span class="void">none</span></td>
+<td>
+  Opens the <code>ExtInfoWindow</code> over the icon of the marker. The content of the info window is 
+  given as a string that contains HTML text. Additionally, if an optional ajax url is passed, process 
+  that request to get the new contents of info window.
+</td>
+</tr>
+<tr class="even">
+<td class="code">closeExtInfoWindow(<span class="type" title="type:  GMap2">map</span>)</td>
+<td class="code"><span class="void">none</span></td>
+<td>
+    Closes the <code>ExtInfoWindow</code>.
+</td>
+</tr>
+</tbody></table>
+<h2>
+<a name="GMap2"></a>class GMap2</h2>
+<p>
+  These are the new methods added on to the 
+  <code><a href="http://www.google.com/apis/maps/documentation/reference.html#GMap2">GMap2</a></code> 
+  class. For further details on the 
+  <code><a href="http://www.google.com/apis/maps/documentation/reference.html#GMap2">GMap2</a></code> 
+  class please visit the official 
+  <a href="http://www.google.com/apis/maps/documentation/reference.html">Google Maps API documents</a>.
+</p>
+<h3>Methods</h3>
+<table summary="class GMap2 - Methods">
+<tbody><tr>
+<th>Methods</th>
+<th>Return Value</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">closeExtInfoWindow()</td>
+<td class="code"><span class="void">none</span></td>
+<td>
+  Closes the <code>ExtInfoWindow</code> currently open on the map.
+</td>
+</tr>
+<tr class="even">
+<td class="code">getExtInfoWindow()</td>
+<td class="code"><span class="void">none</span></td>
+<td>
+  Returns the instance <code>ExtInfoWindow</code> currently open on the map, or null if none exists.
+</td>
+</tr>
+</tbody></table>
+<h3>Events</h3>
+<table summary="class GMap2 - Events">
+<tbody><tr>
+<th>Events</th>
+<th>Arguments</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">extinfowindowopen</td>
+<td class="code">
+  none
+</td>
+<td>
+  This event is fired when the <code>ExtInfoWindow</code> opens.
+</td>
+</tr>
+<tr class="even">
+<td class="code">extinfowindowbeforeclose</td>
+<td class="code">
+  none
+</td>
+<td>
+  This event is fired before the <code>ExtInfoWindow</code> closes.
+</td>
+</tr>
+<tr class="odd">
+<td class="code">extinfowindowclose</td>
+<td class="code">
+  none
+</td>
+<td>
+  This event is fired when the <code>ExtInfoWindow</code> closes. The event 
+  <code>extinfowindowbeforeclose</code> is fired before this event.
+</td>
+</tr><tr class="even">
+<td class="code">extinfowindowupdate</td>
+<td class="code">
+  none
+</td>
+<td>
+  This event is fired when the <code>ExtInfoWindow</code> is done pulling in new content from its ajax request.
+</td>
+</tr>
+</tbody></table>
+</body>
+</html>
