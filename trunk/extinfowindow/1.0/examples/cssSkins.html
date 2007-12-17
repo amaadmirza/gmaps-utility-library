@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>ExtInfoWindow Example: CSS Skinned ExtInfoWindows</title>
+
+    <link type="text/css" rel="Stylesheet" media="screen" href="css/redInfoWindow.css"/>
+    <link type="text/css" rel="Stylesheet" media="screen" href="css/funkyBox.css"/>
+    <link type="text/css" rel="Stylesheet" media="screen" href="css/bubbleInfoWindow.css"/>
+    <link type="text/css" rel="Stylesheet" media="screen" href="css/coolBlues.css"/>
+    <link type="text/css" rel="Stylesheet" media="screen" href="css/opacityWindow.css"/>
+
+    <style>
+      #map{
+        width: 700px;
+        height: 400px;
+      }
+    </style>
+
+    <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxQGj0PqsCtxKvarsoS-iqLdqZSKfxRdmoPmGl7Y9335WLC36wIGYa6o5Q">
+    </script>
+    <script src="../src/extinfowindow.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var map;
+      function load() {
+        if (GBrowserIsCompatible()) {
+          map = new GMap2(document.getElementById("map"));
+          map.setCenter(new GLatLng(44, -96), 4);
+          map.addControl(new GLargeMapControl());
+
+          //default google marker with a regular html info window
+          defaultMarker = new GMarker( new GLatLng(35, -103));
+          GEvent.addListener(defaultMarker, 'click', function(){ 
+            defaultMarker.openInfoWindowHtml(
+              "I'm a default Google info window with HTML content."
+            ); 
+          });
+          map.addOverlay(defaultMarker);
+
+          //marker with ext info window with a red skin
+          var redIcon1 = new GIcon(G_DEFAULT_ICON);
+          redIcon1.image = "http://gmaps-samples.googlecode.com/svn/trunk/markers/red/marker1.png";
+          redIcon1.iconAnchor = new GPoint(0, 0);
+          redIcon1.infoWindowAnchor = new GPoint(3,0);
+
+          marker = new GMarker( new GLatLng(43, -120), redIcon1);
+          GEvent.addListener(marker, 'click', function(){ 
+            marker.openExtInfoWindow(
+              map,
+              "extInfoWindow_funkyBox",
+              "<p>I'm a funky ExtInfoWindow with HTML content.</p>",
+              {beakOffset: 2}
+            ); 
+          });
+          map.addOverlay(marker);
+
+          //marker with ext info window with a talking bubble skin
+          var redIcon2 = new GIcon(G_DEFAULT_ICON);
+          redIcon2.image = "http://gmaps-samples.googlecode.com/svn/trunk/markers/red/marker2.png";
+          redIcon2.iconAnchor = new GPoint(0, 0);
+          redIcon2.infoWindowAnchor = new GPoint(0, 0 );
+          marker2 = new GMarker( new GLatLng(43, -110), redIcon2);
+          GEvent.addListener(marker2, 'click', function(){ 
+            marker2.openExtInfoWindow(
+              map,
+              "custom_info_window_bubble",
+              "<p>I'm an ExtInfoWindow styled to look like a talking bubble.</p>",
+              {beakOffset: 2}
+            ); 
+          });
+          map.addOverlay(marker2);
+
+          //marker with ext info window with Ajax contents and red skin
+          var redIcon3 = new GIcon(G_DEFAULT_ICON);
+          redIcon3.image = "http://gmaps-samples.googlecode.com/svn/trunk/markers/red/marker3.png";
+          redIcon3.iconAnchor = new GPoint(0, 0);
+          redIcon3.infoWindowAnchor = new GPoint(6,0);
+          marker3 = new GMarker( new GLatLng(43, -100), redIcon3);
+          GEvent.addListener(marker3, 'click', function(){ 
+            marker3.openExtInfoWindow(
+              map, 
+              "custom_info_window_red",
+              "<div class='title'>ExtInfoWindow Fun!</div>"+
+              "<div class='section1'><p>See how you can use background colors "+
+              "to match up with the CSS images to create title bars.</p></div>"+
+              "<div class='section2'><p>Also, you can do anything you want "+
+              "within the bounds of CSS.</p></div>"+
+              "<div class='section1'><p>Including the striped row look you see here.</p></div>",
+              {beakOffset: 3}
+            ); 
+          });
+          map.addOverlay(marker3);
+
+          //marker with ext info window with Ajax contents and red skin
+          var redIcon4 = new GIcon(G_DEFAULT_ICON);
+          redIcon4.image = "http://gmaps-samples.googlecode.com/svn/trunk/markers/red/marker4.png";
+          redIcon4.iconAnchor = new GPoint(0, 0);
+          redIcon4.infoWindowAnchor = new GPoint(0,0);
+          marker4 = new GMarker( new GLatLng(43, -90), redIcon4);
+          GEvent.addListener(marker4, 'click', function(){ 
+            marker4.openExtInfoWindow(
+              map,
+              "opacity_window",
+              "<div>~/extinfowinow/]$</div>"+
+              "<div>How about a terminal theme window? Sure, why not.</div>",
+              {beakOffset: 18}
+            ); 
+          });
+          map.addOverlay(marker4);
+
+          //marker with ext info window with Ajax contents and red skin
+          var redIcon5 = new GIcon(G_DEFAULT_ICON);
+          redIcon5.image = "http://gmaps-samples.googlecode.com/svn/trunk/markers/red/marker5.png";
+          redIcon5.iconAnchor = new GPoint(0, 0);
+          redIcon5.infoWindowAnchor = new GPoint(40,34);
+          marker5 = new GMarker( new GLatLng(43, -80), redIcon5);
+          GEvent.addListener(marker5, 'click', function(){ 
+            marker5.openExtInfoWindow(
+              map,
+              "extInfoWindow_coolBlues",
+              "<div>With some clever use of gradients, widths, and the "+
+              "GIcon.infoWindowAnchor position, we can make a cool info window "+
+              "with a beak pointing to the Lat / Lon on the map</div>",
+              {beakOffset: 1}
+            ); 
+          });
+          map.addOverlay(marker5);
+
+        }
+      }
+    </script>
+  </head>
+  <body onload="load()" onunload="GUnload()">
+    <div id="map"></div>
+  </body>
+</html>
