@@ -39,6 +39,7 @@
  *                    info window styling containers a border.
  */
 function ExtInfoWindow(marker, windowId, html, opt_opts) {
+  alert('Please update your code to refer to the /release or /1.0 folder. Apologies for the inconvenience.');
   this.html_ = html;
   this.marker_ = marker;
   this.infoWindowId_ = windowId;
