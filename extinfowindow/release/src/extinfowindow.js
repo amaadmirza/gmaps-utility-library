@@ -142,6 +142,9 @@ ExtInfoWindow.prototype.initialize = function(map) {
   this.container_.appendChild(this.wrapperDiv_);
 
   GEvent.bindDom(this.container_, 'mousedown', this,this.onClick_);
+  GEvent.bindDom(this.container_, 'dblclick', this,this.onClick_);
+  GEvent.bindDom(this.container_, 'DOMMouseScroll', this, this.onClick_);
+  
 
   GEvent.trigger(this.map_, 'extinfowindowopen');
   if (this.ajaxUrl_ != null ) {
@@ -161,7 +164,7 @@ ExtInfoWindow.prototype.onClick_ = function(e) {
     window.event.cancelBubble = true;
     window.event.returnValue = false;
   } else {
-    e.preventDefault();
+    //e.preventDefault();
     e.stopPropagation();
   }
 };
@@ -181,7 +184,6 @@ ExtInfoWindow.prototype.remove = function() {
       this.container_.parentNode.removeChild(this.container_);
     }
     this.container_ = null;
-    
     GEvent.trigger(this.map_, 'extinfowindowclose');
     this.map_.setExtInfoWindow_(null);
   }
@@ -484,9 +486,6 @@ ExtInfoWindow.prototype.getStyle_ = function(element, style) {
       value = element.offsetHeight;
     }
   }
-  if (window.opera && ['left', 'top', 'right', 'bottom'].include(style)) {
-    if (this.getStyle_(element, 'position') == 'static') value = 'auto';
-  } 
   return (value == 'auto') ? null : value;
 };
 
@@ -583,7 +582,9 @@ GMarker.prototype.openExtInfoWindow = function(map, cssId, html, opt_opts) {
  * @param {GMap2} map The map where the GMarker and ExtInfoWindow exist
  */
 GMarker.prototype.closeExtInfoWindow = function(map) {
-  map.closeExtInfoWindow();
+  if( map.getExtInfWindow() != null ){
+    map.closeExtInfoWindow();
+  }
 };
 
 /**
@@ -603,5 +604,7 @@ GMap2.prototype.setExtInfoWindow_ = function( extInfoWindow ){
  * Remove the ExtInfoWindow from the map
  */
 GMap2.prototype.closeExtInfoWindow = function(){
-  this.ExtInfoWindowInstance_.remove();
+  if( this.getExtInfoWindow() != null ){
+    this.ExtInfoWindowInstance_.remove();
+  }
 };
