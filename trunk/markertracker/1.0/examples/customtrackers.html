@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google Maps JavaScript API Example: Simple Map</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxT8bemrB74QmF-ljSt0r6xw5vxKjRRisAno3SZU83rSdUS3zR_JADzEUA"
+            type="text/javascript"></script>
+    <script src="../src/markertracker.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+function initialize() {
+  if (GBrowserIsCompatible()) {
+    var map = new GMap2(document.getElementById("map_canvas"));
+    map.setCenter(new GLatLng(37.4419, -122.1419), 13);
+    map.setCenter(new GLatLng(36.0078125, -115.95703125), 4);
+    map.addControl(new GMapTypeControl());
+    map.addControl(new GSmallZoomControl());
+
+    var latlng1 = new GLatLng(37.419799, -122.064972);
+    marker1 = new GMarker(latlng1);
+    map.addOverlay(marker1);
+
+    var lepIcon = new GIcon(marker1.getIcon());
+    lepIcon.image = 'images/Animated-Leprechaun-1.gif';
+    lepIcon.iconSize = new GSize(38, 50);
+    var latlng2 = new GLatLng(53.41291, -8.24389);
+    marker2 = new GMarker(latlng2, lepIcon);
+    map.addOverlay(marker2);
+
+    var barIcon = new GIcon(marker1.getIcon());
+    barIcon.image = 'images/bar.png';
+    barIcon.iconSize = new GSize(32, 32);
+    var latlng3 = new GLatLng(-33.861293, 151.208096);
+    marker3 = new GMarker(latlng3, barIcon);
+    map.addOverlay(marker3);
+
+    var snowIcon = new GIcon(marker1.getIcon());
+    snowIcon.image = 'images/snowflake_simple.png';
+    snowIcon.iconSize = new GSize(32, 32);
+    var latlng4 = new GLatLng(-54.252389, -69.279785);
+    marker4 = new GMarker(latlng4, snowIcon);
+    map.addOverlay(marker4);
+
+
+    // setup the trackers w/ options
+    var mt1 = new MarkerTracker(marker1, map);
+
+    opt2 = { color: '#00A300', weight: 9, length: 20 };
+    var mt2 = new MarkerTracker(marker2, map, opt2);
+
+    opt3 = { color: '#E0E000', weight: 5, length: 10, padding: 50, panEvent: 'mouseover' };
+    var mt3 = new MarkerTracker(marker3, map, opt3);
+
+    opt4 = { color: '#00E0E0', weight: 30, length: 40, quickPanEnabled: false };
+    var mt4 = new MarkerTracker(marker4, map, opt4);
+  }
+}
+
+    </script>
+  </head>
+  <body onload="initialize()" onunload="GUnload()">
+    <div id="map_canvas" style="width: 600px; height: 400px"></div>
+  </body>
+</html>
+
+

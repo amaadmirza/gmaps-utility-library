@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>MarkerTracker Documentation: Examples</title>
+   <link rel="stylesheet" type="text/css" href="http://code.google.com/apis/maps/documentation/local_extensions.css" /> 
+   <link rel="stylesheet" type="text/css" href="http://code.google.com/css/dev_docs.css" />
+   <script type="text/javascript" src="http://code.google.com/apis/maps/include/prettify.js"></script>
+  </head>
+  <body onload="prettyPrint()">
+<h1><a name="Marker_Tracker_Examples" id="Marker_Tracker_Examples"></a>Marker Tracker Examples</h1>
+
+<p>To use a marker tracker, create a <code>MarkerTracker</code> object by passing the marker to be tracked and the map.</p>
+<pre class="prettyprint">
+var map = new GMap2(document.getElementById("map"));
+map.setCenter(new GLatLng(37, -122), 13);
+var mt = new MarkerTracker(marker, map);
+</pre>
+
+<p>You may also specify a number of options to customize. 
+These options are passed via a  <code>MarkerTrackerOptions</code> object which 
+is fully outlined in the <a href="reference.html#MarkerTrackerOptions">reference documentation</a>.
+<p>
+The <code>MarkerTrackerOptions</code> object is an object literal, so you 
+simply declare the object without a constructor. In this example the 
+<code>padding</code> from the edge of the maps is set to 30 pixels, the arrow 
+<code>color</code> is modified and the original icon is replicated at 30% of the original size using <code>iconScale</code>.
+</p>
+<pre class="prettyprint">
+var map = new GMap2(document.getElementById("map"));
+map.setCenter(new GLatLng(37, -122), 13);
+var mtOptions = { padding: 30, color: '#aaaaaa', iconScale: 0.3 };
+var mt = new MarkerTracker(marker, map, mtOptions);
+</pre>
+
+<h2><a name="Marker_Tracker_Simple" id="Marker_Tracker_Simple"></a>Simple MarkerTracker Examples</h2>
+
+<p>The following examples show how you can easily create trackers for markers:</p>
+
+<h3> An example with one MarkerTracker:</h3>
+<pre class="prettyprint">
+function loadMap() {
+  if (GBrowserIsCompatible()) {
+    map = new GMap2(document.getElementById("map"));
+    map.setCenter(new GLatLng(36, -115), 4);        
+    map.addControl(new GMapTypeControl());
+    map.addControl(new GSmallZoomControl());
+    
+    var latlng = new GLatLng(42, -71);
+    marker = new GMarker(latlng);
+    map.addOverlay(marker);
+    
+    var mt = new MarkerTracker(marker, map);
+  }
+}
+</pre>
+<p><a href="../examples/onetracker.html">View example (onetracker.html)</a></p>
+
+<h2><a name="Marker_Tracker_Custom" id="Marker_Tracker_Custom"></a>Customizing the MarkerTracker</h2>
+
+<p>There are quite a few options available for customizing how the MarkerTracker looks and behaves. 
+Below is an example of how to customize the marker tracker to your needs. 
+Notice how the GIcon used for the original GMarker is inherited by the MarkerTracker.
+
+<pre class="prettyprint">
+function loadMap() {
+  if (GBrowserIsCompatible()) {
+    map = new GMap2(document.getElementById("map"));
+    map.setCenter(new GLatLng(36.0078125, -115.95703125), 4);        
+    map.addControl(new GMapTypeControl());
+    map.addControl(new GSmallZoomControl());
+    
+    var latlng1 = new GLatLng(37.419799, -122.064972);
+    marker1 = new GMarker(latlng1);
+    map.addOverlay(marker1);
+    
+    var lepIcon = new GIcon(marker1.getIcon());
+    lepIcon.image = 'images/Animated-Leprechaun-1.gif';
+    lepIcon.iconSize = new GSize(38, 50);
+    var latlng2 = new GLatLng(53.41291, -8.24389);
+    marker2 = new GMarker(latlng2, lepIcon );
+    map.addOverlay(marker2);
+    
+    var barIcon = new GIcon(marker1.getIcon());
+    barIcon.image = 'images/bar.png';
+    barIcon.iconSize = new GSize(32, 32);
+    var latlng3 = new GLatLng(-33.861293, 151.208096);
+    marker3 = new GMarker(latlng3, barIcon);
+    map.addOverlay(marker3);
+    
+    var snowIcon = new GIcon(marker1.getIcon());
+    snowIcon.image = 'images/snowflake_simple.png';
+    snowIcon.iconSize = new GSize(32, 32);
+    var latlng4 = new GLatLng(-54.252389, -69.279785);
+    marker4 = new GMarker(latlng4, snowIcon);
+    map.addOverlay(marker4);
+
+    // setup the trackers w/ options
+    var mt1 = new MarkerTracker(marker1, map);
+    
+    opt2 = { color: '#00A300', weight: 9, length: 20 };
+    var mt2 = new MarkerTracker(marker2, map, opt2);  
+    
+    opt3 = { color: '#E0E000', weight: 5, length: 10, padding: 50, panEvent: 'mouseover' };
+    var mt3 = new MarkerTracker(marker3, map, opt3);
+    
+    opt4 = { color: '#00E0E0', weight: 30, length: 40, quickPanEnabled: false };
+    var mt4 = new MarkerTracker(marker4, map, opt4);
+  }
+}
+</pre>
+<p><a href="../examples/customtrackers.html">View example (customtrackers.html)</a></p>
+
+
+<h2><a name="Feeling_Lucky" id="Feeling_Lucky"></a>Feeling Lucky?</h2>
+
+<a href="../examples/potofgold/index.html">
+<p><img src='../examples/potofgold/leprechaun.gif'/>
+<p> Try your hand at this festive game that utilizes the MarkerTracker utility.</p>
+<a/>
+<h2>&nbsp;</h2>
+</body>
+</html>
