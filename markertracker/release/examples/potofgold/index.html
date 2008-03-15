@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>Hunt For the Pot O' Gold</title>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxT8bemrB74QmF-ljSt0r6xw5vxKjRRisAno3SZU83rSdUS3zR_JADzEUA"
+type="text/javascript"></script>
+<script src="../../src/markertracker.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+  //<![CDATA[
+  // Written by: Dan Rummel 
+  // Base code was borrowed from Pamela Fox's anti-valentine's day game "Heartbreaker":
+  // http://gmaps-samples.googlecode.com/svn/trunk/heartbreaker/heartbreaker.html
+  // Graphics found at:
+  // http://www.christmas-graphics-plus.com/free/animated-leprechaun.html
+  
+  var lepIcon = new GIcon(); 
+  lepIcon.image = 'leprechaun.gif';
+  lepIcon.shadow = '';
+  lepIcon.iconSize = new GSize(80, 110);
+  lepIcon.shadowSize = new GSize(0, 0);
+  lepIcon.iconAnchor = new GPoint(30, 110);
+
+  var potOgoldIcon = new GIcon(); 
+  potOgoldIcon.image = 'potogold.gif';
+  potOgoldIcon.shadow = '';
+  potOgoldIcon.iconSize = new GSize(75, 75);
+  potOgoldIcon.shadowSize = new GSize(0, 0);
+  potOgoldIcon.iconAnchor = new GPoint(25, 25);
+
+  var gameTimer;
+  var markers = [];
+  var gameSeconds = 0;
+  var currentScore = 0;
+  var gameTime = 60;
+  var gameWin = 7;
+  var map;
+  var numClicks = 0;
+  var lepMarker;
+  var ireland;
+  var irelandPlus;
+  var potOgold;
+  var defaultzoom = 5;
+
+  function load() {
+    if (GBrowserIsCompatible()) {
+      map = new GMap2(document.getElementById("map"));
+	  map.setCenter(new GLatLng(53.41291, -8.24389), defaultzoom);
+	  map.setMapType(G_HYBRID_MAP);
+	  map.disableDoubleClickZoom();
+	
+	  // leprechaun marker
+	  ireland = new GLatLng(53.41291, -8.24389);
+      lepMarker = new GMarker( ireland, lepIcon );
+      map.addOverlay(lepMarker);
+
+      //pot o gold marker (dont add overlay just yet)
+      potOgold = new GMarker(ireland, potOgoldIcon);
+
+      // here's where we add the marker tracker
+      // first change some of the options
+      // green color, 9pt line weight, 20px length , smaller icon and no auto pan
+      opt = { 'color': '#00A300',
+          'weight': 12,
+	      'length': 25,
+	      'iconScale': 0.5,
+	      'quickPanEnabled':false };
+	
+      var tracker = new MarkerTracker(lepMarker, map, opt);
+
+      // add an event listener to the leperchaun
+      GEvent.bind(lepMarker, 'click', this, scoreCatch);
+    }
+  }  
+
+  function moveToRandomLocation() {
+    //pic random locations until one outside of the bounds is found
+    // first check for cheaters
+    if ( map.getZoom() != defaultzoom ) {
+      currentScore = currentScore - 100;
+      updateScoreAndTime();
+	  alert('Cheaters never prosper!');
+	  map.setZoom(defaultzoom);
+    }
+    var bounds = map.getBounds();
+    var southWest = bounds.getSouthWest();
+    var northEast = bounds.getNorthEast();
+    var south = southWest.lat();
+    var north = northEast.lat();
+    var west = southWest.lng();
+    var east = northEast.lng();
+    var lat=south;
+    var lng=east;
+    if ( west < east) {
+	  while  ( lng <= east && lng >= west ) {
+	    var lng = Math.random()*360-180;
+      }  
+    } else {
+	  while ( lng <= east || lng >= west ) {
+	    var lng = Math.random()*360-180;
+      }
+    }
+    while ( lat <= north && lat >= south ) {
+	  var lat = Math.random()*140-70; // not quite to the poles
+    }
+
+    var latlng = new GLatLng(lat, lng);
+    lepMarker.setLatLng(latlng);
+  }
+
+  function startGame() {
+     gameSeconds = 0;
+     currentScore = 0;
+     numClicks = 0;
+     map.removeOverlay(potOgold);
+     clearInterval(gameTimer);
+     moveToRandomLocation();
+     gameTimer = setInterval(cycleClock, 1000);
+     updateScoreAndTime();
+  }
+
+  function winGame() {
+	  document.getElementById("score").innerHTML ="YOU WIN!";
+	  lepMarker.setLatLng(ireland);
+	  map.addOverlay(potOgold);
+	  map.setCenter(ireland);
+  }
+
+  function endGame() {
+    clearInterval(gameTimer);
+    document.getElementById("time").innerHTML = "TIME IS UP!";
+  }
+
+  function inGame() { 
+    return gameSeconds > 0 && gameSeconds < gameTime;
+  }
+
+  function updateScoreAndTime() {
+    document.getElementById("score").innerHTML = currentScore;
+    document.getElementById("time").innerHTML = gameTime - gameSeconds;
+  }
+
+  function cycleClock() {
+    gameSeconds++;
+    updateScoreAndTime();
+    if (gameSeconds >= gameTime) {
+	  endGame(); 
+    }
+  }
+
+  function scoreCatch() {
+    if ( inGame() ) {
+	  currentScore++;
+	  updateScoreAndTime();
+	  if ( currentScore >= gameWin ) {
+	    clearInterval(gameTimer);
+	    winGame();
+	  } else {
+	    moveToRandomLocation();
+	  }
+    }
+  }
+  
+//]]>
+</script>
+</head>
+
+  <body style="font-family:arial,sans-serif; font-size:11px;text-align:center;" onload="load()" onunload="GUnload()">
+     
+  <div style="border:2px solid green;background-color:#94DB94;width:850px;">
+  <table style="width:500px;margin:auto;">
+  
+  <h1><i>
+    Top of the mornin'!!!!<br/>
+    If you can catch me 7 times in 60 seconds and I'll give you me POT O' GOLD!
+  </i></h1>
+   <h2>
+   Instructions:<br/>
+   Click 'Start New Game'. <br/>
+   Follow the arrow by dragging the map to find the leprechaun. <br/>
+   Click him to score a catch.<br/>
+   </h2>
+   <tr>
+    <td>
+    
+    <div style="border:5px solid green;">
+    <div id="map" style="border:6px dashed green; width: 600px; height: 420px"></div>
+    </div>
+
+    </td>
+    <td valign="top" style="width:100px">
+    <br/>
+    <br/>
+    <br/>
+    TIMES CAUGHT:
+    <br/>
+    <span id="score" style="font-size:36px">0</span>
+    <br/>
+    <br/>
+    CLOCK:
+    <br/>
+    <span id="time" style="font-size:36px; color: #FF0000">0</span>
+    <br/>
+
+    <br/>
+    <input id='startButton' type="button" onclick="startGame()" value="Start New Game" />
+    </td>
+    </tr>
+    </table>
+    <br/>
+    Graphics found at: <a href="http://www.christmas-graphics-plus.com/free/animated-leprechaun.html">
+    St. Patrick's Day Graphics Plus
+    </a>
+    <br/><br/>&nbsp;
+  </div>
+  </body>
+</html>
