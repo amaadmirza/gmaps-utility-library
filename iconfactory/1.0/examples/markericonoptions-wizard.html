@@ -91,50 +91,7 @@ function createMarker(point, icon) {
 
 <h2>MarkerIconOptions Wizard</h2>
 
-<h3><img src="http://www.google.com/uds/solutions/wizards/img/1b.gif" style="vertical-align: middle;"> Specify size and color options</h3>
+This is now at a <a href="http://gmaps-utility-library.googlecode.com/svn/trunk/mapiconfactory/release/examples/markericonoptions-wizard.html">a new location</a>. Apologies for the inconvenience.
 
-<table>
-<tr>
-<td colspan="3">
-Width: 
-<input type="text" size="3" id="markerWidth" value="32"/>
-&nbsp;  &nbsp;
-Height: 
-<input type="text" size="3" id="markerHeight" value="32"/>
-</td>
-</tr>
-<tr>
-<td>
-Primary color:
-<input type="text" class="color" onchanged="updateImage()" id="primaryColor" value="#FFFF00">
-</td>
-<td>
-Corner color:
-<input type="text" class="color" onchanged="updateImage()" id="cornerColor" value="#ff8a00">
-</td>
-<td>
-Stroke color:
-<input type="text" class="color" onchanged="updateImage()" id="strokeColor" value="#FF0000">
-</td>
-</tr>
-<tr>
-<td colspan="3" valign="top">
-<input type="button" onclick="updateImage()" value="Update & Preview Marker"/>
-<br/><br/> 
-<div id="marker" style="height: 50px"></div>
-<div id="map" style="width: 500px; height: 300px"></div>
-</td>
-</tr>
-</table>
-<h3><img src="http://www.google.com/uds/solutions/wizards/img/2b.gif" style="vertical-align: middle;"> Get the Code</h3>
-<pre class="code" style="width: 700px; overflow-x: scroll;">
-  var iconOptions = {};
-  iconOptions.width = <span id="p_width"></span>;
-  iconOptions.height = <span id="p_height"></span>;
-  iconOptions.primaryColor = "<span id="p_primaryColor"></span>";
-  iconOptions.cornerColor = "<span id="p_cornerColor"></span>";
-  iconOptions.strokeColor = "<span id="p_strokeColor"></span>";
-  var icon = IconFactory.createMarkerIcon(iconOptions);
-</pre>
 </body>
 </html>
