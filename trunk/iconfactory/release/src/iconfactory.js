@@ -24,6 +24,8 @@
 var IconFactory = {};
 
 IconFactory.createMarkerIcon = function(opts) {
+  alert('This has been renamed to MapIconFactory. Please refer to the new JS and change your code. Apologies for the inconvenience.');
+  return;
   var width = opts.width || 32;
   var height = opts.height || 32;
   var primaryColor = opts.primaryColor || "#ff0000";
