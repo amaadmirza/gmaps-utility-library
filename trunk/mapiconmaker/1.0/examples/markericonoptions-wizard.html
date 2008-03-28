@@ -12,7 +12,7 @@
  </style>
  <script type="text/javascript"  src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxQGj0PqsCtxKvarsoS-iqLdqZSKfxRdmoPmGl7Y9335WLC36wIGYa6o5Q">
  </script>
- <script src="../src/mapiconfactory.js" type="text/javascript"></script>
+ <script src="../src/mapiconmaker.js" type="text/javascript"></script>
  <script src="colorselector/colorselector.js" type="text/javascript"></script>
 <script type="text/javascript">
 var iconOptions = {
@@ -50,7 +50,7 @@ function updateImage() {
   iconOptions.primaryColor = document.getElementById("primaryColor").value + "FF";
   iconOptions.cornerColor = document.getElementById("cornerColor").value + "FF";
   iconOptions.strokeColor = document.getElementById("strokeColor").value + "FF";
-  var icon = MapIconFactory.createMarkerIcon(iconOptions);
+  var icon = MapIconMaker.createMarkerIcon(iconOptions);
 
   // Make an image from the foreground of the marker
   document.getElementById("marker").innerHTML = "";
@@ -134,7 +134,7 @@ Stroke color:
   iconOptions.primaryColor = "<span id="p_primaryColor"></span>";
   iconOptions.cornerColor = "<span id="p_cornerColor"></span>";
   iconOptions.strokeColor = "<span id="p_strokeColor"></span>";
-  var icon = MapIconFactory.createMarkerIcon(iconOptions);
+  var icon = MapIconMaker.createMarkerIcon(iconOptions);
 </pre>
 </body>
 </html>
