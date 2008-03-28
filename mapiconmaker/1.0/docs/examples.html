@@ -2,28 +2,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <title>MapIconFactory Documentation: Examples</title>
+    <title>MapIconMaker Documentation: Examples</title>
    <link rel="stylesheet" type="text/css" href="http://code.google.com/apis/maps/documentation/local_extensions.css" /> 
    <link rel="stylesheet" type="text/css" href="http://code.google.com/css/dev_docs.css" />
    <script type="text/javascript" src="http://code.google.com/apis/maps/include/prettify.js"></script>
   </head>
   <body onload="prettyPrint()">
-<h1><a name="MapIconFactory_HowTo" id="MapIconFactory_HowTo"></a>MapIconFactory How-to</h1>
+<h1><a name="MapIconMaker_HowTo" id="MapIconMaker_HowTo"></a>MapIconMaker How-to</h1>
 <p>
-You can use the MapIconFactory to create icons for your map markers easily:
+You can use the MapIconMaker to create icons for your map markers easily:
 </p>
 <ol>
-<li>Include mapiconfactory.js in your document header. You can reference it from here or download it to your own server.
+<li>Include mapiconmaker.js in your document header. You can reference it from here or download it to your own server.
 <pre class="prettyprint">
-&lt;script src="mapiconfactory.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="mapiconmaker.js" type="text/javascript"&gt;&lt;/script&gt;
 </pre>
 </li>
 
-<li>Create an icon using <code>MapIconFactory.createMarkerIcon</code> and add it to the map.</li>
+<li>Create an icon using <code>MapIconMaker.createMarkerIcon</code> and add it to the map.</li>
 <pre class="prettyprint">
   var map = new GMap2(document.getElementById("map"));
   map.setCenter(new GLatLng(37.441944, -122.141944), 13);
-  var newIcon = MapIconFactory.createMarkerIcon({width: 64, height: 64, primaryColor: "#00ff00"});
+  var newIcon = MapIconMaker.createMarkerIcon({width: 64, height: 64, primaryColor: "#00ff00"});
   var marker = new GMarker(map.getCenter(), {icon: newIcon});
   map.addOverlay(marker);
 </pre>
