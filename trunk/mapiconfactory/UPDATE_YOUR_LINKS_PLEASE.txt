@@ -1,0 +1,2 @@
+MapIconFactory has been renamed to MapIconMaker. Everything now lives here:
+http://gmaps-utility-library.googlecode.com/svn/trunk/mapiconmaker/
