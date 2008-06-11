@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google Maps JavaScript API Example</title>
+    <link rel="stylesheet" type="text/css" href="http://www.google.com/apis/maps/documentation/local_extensions.css" />
+    <style type="text/css">
+    td { 
+      background-color: #FFFFFF;
+    }
+    </style>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxQGj0PqsCtxKvarsoS-iqLdqZSKfxRdmoPmGl7Y9335WLC36wIGYa6o5Q"
+      type="text/javascript"></script>
+    <script src="../src/dragzoom.js" type="text/javascript"></script>
+    <script src="http://www.google.com/apis/maps/include/prettify.js" type="text/javascript"></script>
+ 
+<script type="text/javascript">
+   //<![CDATA[
+
+   var map;
+
+   function load() {
+     if (GBrowserIsCompatible()) {
+       updateCode();
+     }
+   }
+
+   function updateCode() {
+
+       map = new GMap2(document.getElementById("map"));
+       map.addControl(new GSmallMapControl());
+       map.setCenter(new GLatLng(40.713955826286046,-35.15625), 2);
+     map.clearOverlays();
+     /*
+     if (curcontrol) {
+       curcontrol.initStyles_();
+       curcontrol.globals.mapCover.style.display = 'none';
+       map.removeControl(curcontrol);
+     }
+     */
+     var code = [];
+     code.push("var styleOpts = {};");
+     code.push("var otherOpts = {};");
+     var val_opacity = parseFloat(el("opt_opacity").value);
+     if (val_opacity != .2) {
+       code.push("styleOpts.opacity = " + val_opacity + ";");
+     }
+     
+     var val_border = el("opt_border").value;
+     if (val_border != "2px solid blue") {
+       code.push("styleOpts.border = '" + val_border + "';");
+     }
+ 
+     var val_fillColor = el("opt_fillColor").value;
+     if (val_fillColor != "#00") {
+       code.push("styleOpts.fillColor = '" + val_fillColor + "';");
+     }
+
+     if (el("opt_backButtonEnabled").checked) {
+       code.push("otherOpts.backButtonEnabled = true;"); 
+     }
+
+     if (el("opt_stickyZoomEnabled").checked) {
+       code.push("otherOpts.stickyZoomEnabled = true;"); 
+     }
+
+     if (el("opt_rightMouseZoomOutEnabled").checked) {
+       code.push("otherOpts.rightMouseZoomOutEnabled = true;"); 
+     }
+
+     if (el("opt_buttonHTML").value != 'zoom...') {
+       var val_buttonHTML = el("opt_buttonHTML").value; 
+       val_button_HTML = val_buttonHTML.replace(">", "&gt;");
+       val_button_HTML = val_buttonHTML.replace("<", "&lt;");
+       code.push("otherOpts.buttonHTML = '" + val_buttonHTML + "';");
+     }
+     if (el("opt_backButtonHTML").value != 'zoom back...') {
+       var val_backButtonHTML = el("opt_backButtonHTML").value; 
+       val_backButton_HTML = val_backButtonHTML.replace(">", "&gt;");
+       val_backButton_HTML = val_backButtonHTML.replace("<", "&lt;");
+       code.push("otherOpts.backButtonHTML = '" + val_backButtonHTML + "';");
+     }
+     if (el("opt_buttonZoomingHTML").value != 'Drag a region on the map') {
+       code.push("otherOpts.buttonZoomingHTML = '" + el("opt_buttonZoomingHTML").value + "';");
+     }
+     var val_overlayRemoveTime = parseInt(el("opt_overlayRemoveTime").value);
+     if(val_overlayRemoveTime != 6000) {
+       code.push("otherOpts.overlayRemoveTime = " + val_overlayRemoveTime + ";");
+     }
+
+     var val_minDragSize = parseInt(el("opt_minDragSize").value);
+     if(val_minDragSize != 0) {
+       code.push("otherOpts.minDragSize = " + val_minDragSize + ";");
+     }
+
+     if (el("opt_backButtonStyle").value != "{display: 'none', background: '#FFF'}") {
+       code.push("otherOpts.backButtonStyle = " + el("opt_backButtonStyle").value + ";");
+     }
+
+     if (el("opt_buttonStyle").value != "{background: '#FFF'}") {
+       code.push("otherOpts.buttonStyle = " + el("opt_buttonStyle").value + ";");
+     }
+
+     if (el("opt_buttonStartingStyle").value != "{width: '52px', border: '1px solid black', padding: '2px'}") {
+       code.push("otherOpts.buttonStartingStyle = " + el("opt_buttonStartingStyle").value + ";");
+     }
+
+     if (el("opt_buttonZoomingStyle").value != "{background: '#FF0'}") {
+       code.push("otherOpts.buttonZoomingStyle = " + el("opt_buttonZoomingStyle").value + ";");
+     }
+
+     code.push("var zcontrol = new DragZoomControl(styleOpts, otherOpts, {});");
+     
+     code.push("map.addControl(zcontrol);");
+     
+     var codeHTML = code.join("<br/>");
+
+     el("code").innerHTML = codeHTML;
+
+     var codeJS = codeHTML.replace(/<br\/>/g,"\n");
+     eval(codeJS);
+     var curcontrol = zcontrol;
+     prettyPrint();
+   }
+
+   function el(id) {
+     return document.getElementById(id);
+   }
+
+   //]]>
+   </script>
+
+ </head>
+
+ <body onload="load()" onunload="GUnload()">
+
+
+   <br/>
+   fillColor: <input type="text" id="opt_fillColor" onblur="updateCode()" value="#00"/>
+
+   border: <input type="text" id="opt_border" onblur="updateCode()" value="2px solid blue"/>
+
+   &nbsp;
+   opacity:
+     <select id="opt_opacity" onchange="updateCode()">
+       <option value="1.0">1.0</option>
+       <option value="0.8">0.8</option>
+       <option value="0.6">0.6</option>
+       <option value="0.4">0.4</option>
+       <option value="0.2" SELECTED>0.2</option>
+       <option value="0.0">0.0</option>
+  </select>
+   <br/><br/>
+   <table width="500" backgr>
+   <tr>
+   <td>
+   buttonHTML: <input type="text" size="15" id="opt_buttonHTML" onblur="updateCode()" value="zoom..."/>
+   </td>
+   <td>
+   backButtonHTML: <input type="text" size="15" id="opt_backButtonHTML" onblur="updateCode()" value="zoom back..."/>
+   </td>
+   <td>
+   buttonZoomingHTML: <input type="text" size="15" id="opt_buttonZoomingHTML" onblur="updateCode()" value="Drag a region on the map"/>
+   </td>
+   </tr>
+   <tr>
+   <td>
+   backButtonEnabled:<input type="checkbox" id="opt_backButtonEnabled" onclick="updateCode()"/>
+   </td>
+   <td>
+   stickyZoomEnabled:<input type="checkbox" id="opt_stickyZoomEnabled" onclick="updateCode()"/>
+   </td>
+   <td>
+   overlayRemoveTime: <input type="text" size="6" id="opt_overlayRemoveTime" onblur="updateCode()" value="6000"/>
+   </td>
+   </tr>
+   <tr>
+   <td>
+   rightMouseZoomOutEnabled: <input type="checkbox" id="opt_rightMouseZoomOutEnabled" onclick="updateCode()"/>
+   </td>
+   <td>
+   minDragSize:  <input type="text" size="6" id="opt_minDragSize" onblur="updateCode()" value="0"/>
+   </table>
+   <table width="500" >
+   <tr>
+   <td>
+   buttonStyle:
+   </td>
+   <td> 
+   <input type="text" size="60" id="opt_buttonStyle" onblur="updateCode()" value="{background: '#FFF'}"/>
+   </td>
+   </tr>
+   <tr>
+   <td>
+   backButtonStyle:
+   </td>
+   <td> 
+   <input type="text" size="60" id="opt_backButtonStyle" onblur="updateCode()" value="{display: 'none', background: '#FFF'}"/>
+   </td>
+   </tr>
+   <tr>
+   <td>
+   buttonStartingStyle: 
+   </td>
+   <td>
+   <input type="text" size="60" id="opt_buttonStartingStyle" onblur="updateCode()" value="{width: '52px', border: '1px solid black', padding: '2px'}"/>
+   </td>
+   </tr>
+   <tr>
+   <td>
+   buttonZoomingStyle:
+   </td>
+   <td>
+   <input type="text" size="60" id="opt_buttonZoomingStyle" onblur="updateCode()" value="{background: '#FF0'}"/>
+   </td>
+   </tr>
+   </table>
+   <br/>
+    <div id="map" style="width: 500px; height: 250px"></div>
+
+    <pre class="prettyprint" id="code" style="width:500px; overflow:auto;"></pre>
+
+   </table>
+
+ </body>
+</html>
+
