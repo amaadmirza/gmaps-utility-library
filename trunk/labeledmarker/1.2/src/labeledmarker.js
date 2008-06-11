@@ -1,5 +1,5 @@
 /*
-* LabeledMarker Class, v1.1
+* LabeledMarker Class, v1.2
 *
 * Copyright 2007 Mike Purvis (http://uwmike.com)
 * 
