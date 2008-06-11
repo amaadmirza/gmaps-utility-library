@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>LabeledMarker V1.0 Reference</title>
+<link rel="stylesheet" type="text/css" href="http://code.google.com/css/dev_docs.css"></link>
+</head>
+<body>
+<h2>
+<a name="LabeledMarker"></a>class LabeledMarker</h2>
+<p>
+This class extends the Maps API's standard <a href="http://www.google.com/apis/maps/documentation/reference.html#GMarker">GMarker</a> class with the ability to support markers with textual labels. 
+</p>
+<h3>Constructor</h3>
+<table summary="class LabeledMarker - Constructor">
+<tbody><tr>
+<th>Constructor</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">LabeledMarker(<span class="type" title="type:  GLatLng">latlng</span>, <span class="type" title="type:  LabeledMarkerOptions"> opts?</span>)</td>
+<td>
+Creates a marker at point with options specified in LabeledMarkerOptions (extension of GMarkerOptions). 
+By default markers are clickable & have the default icon G_DEFAULT_ICON. 
+
+</td>
+</tr>
+</tbody></table>
+
+<h3>Methods</h3>
+<table summary="class LabeledMarker - Methods">
+<tbody><tr>
+<th>Constructor</th>
+<th>Methods</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">setLabelVisibility(<span class="type" title="type: Boolean">visibility</span>)</td>
+<td class="code">none</td>
+<td>
+Sets the visibility of the label, which will be respected during show/hides. If marker is visible when set, it will show or hide label appropriately.
+</td>
+</tr>
+<tr class="odd">
+<td class="code">getLabelVisibility()</td>
+<td class="code">Boolean</td>
+<td>
+Returns true if label visibility is set on, and false otherwise.
+</td>
+</tr>
+<tr class="odd">
+<td class="code">showLabel()</td>
+<td class="code">none</td>
+<td>
+Shows the label of the marker.
+</td>
+</tr>
+</tr>
+<tr class="odd">
+<td class="code">hideLabel()</td>
+<td class="code">none</td>
+<td>
+Hides the label of the marker. Note that this does not persist after a marker hide/show.
+</td>
+</tr>
+</tbody></table>
+
+
+<h2>
+<a name="LabeledMarkerOptions"></a>class LabeledMarkerOptions</h2>
+<p>Instances of this class are used in the <code><span class="nomatch">opts?</span></code> argument to the constructor of the
+  <code><span class="xref"><a href="#LabeledMarker">LabeledMarker</a></span></code> class. There is no constructor for this
+  class. Instead, this class is instantiated as a javascript object literal. This is an extension of <a href="http://www.google.com/apis/maps/documentation/reference.html#GMarkerOptions">GMarkerOptions</a>. At this time, the draggable property is not supported by LabeledMarker.</p>
+<h3>Properties</h3>
+<p>As the name of this class indicates, all properties are optional.</p>
+
+<table style="width: 90%;" summary="class LabeledMarkerOptions - Properties">
+<tbody><tr>
+<th>Properties</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">labelText</td>
+<td class="code"> String</td>
+<td> Text to place on top of the marker. </td>
+
+</tr>
+<tr class="even">
+<td class="code">labelClass</td>
+<td class="code"> String</td>
+<td> Name of CSS class that defines style of label div. Default is "LabeledMarker_markerLabel".
+</td>
+</tr>
+<tr class="odd">
+
+<td class="code">labelOffset</td>
+<td class="code"> GSize</td>
+<td> The x- and y-distance between the marker's GLatLng and the upper-left corner of the text div.
+</td>
+</tr>
+</tbody>
+</table>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-964209-4";
+urchinTracker();
+</script>
+
+</body>
+</html>
