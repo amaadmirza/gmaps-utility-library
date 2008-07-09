@@ -65,6 +65,10 @@
        code.push("otherOpts.stickyZoomEnabled = true;"); 
      }
 
+     if (el("opt_rightMouseZoomOutEnabled").checked) {
+       code.push("otherOpts.rightMouseZoomOutEnabled = true;"); 
+     }
+
      if (el("opt_buttonHTML").value != 'zoom...') {
        var val_buttonHTML = el("opt_buttonHTML").value; 
        val_button_HTML = val_buttonHTML.replace(">", "&gt;");
@@ -83,6 +87,11 @@
      var val_overlayRemoveTime = parseInt(el("opt_overlayRemoveTime").value);
      if(val_overlayRemoveTime != 6000) {
        code.push("otherOpts.overlayRemoveTime = " + val_overlayRemoveTime + ";");
+     }
+
+     var val_minDragSize = parseInt(el("opt_minDragSize").value);
+     if(val_minDragSize != 0) {
+       code.push("otherOpts.minDragSize = " + val_minDragSize + ";");
      }
 
      if (el("opt_backButtonStyle").value != "{display: 'none', background: '#FFF'}") {
@@ -149,7 +158,7 @@
    buttonHTML: <input type="text" size="15" id="opt_buttonHTML" onblur="updateCode()" value="zoom..."/>
    </td>
    <td>
-   backButonuttonHTML: <input type="text" size="15" id="opt_backButtonHTML" onblur="updateCode()" value="zoom back..."/>
+   backButtonHTML: <input type="text" size="15" id="opt_backButtonHTML" onblur="updateCode()" value="zoom back..."/>
    </td>
    <td>
    buttonZoomingHTML: <input type="text" size="15" id="opt_buttonZoomingHTML" onblur="updateCode()" value="Drag a region on the map"/>
@@ -166,6 +175,12 @@
    overlayRemoveTime: <input type="text" size="6" id="opt_overlayRemoveTime" onblur="updateCode()" value="6000"/>
    </td>
    </tr>
+   <tr>
+   <td>
+   rightMouseZoomOutEnabled: <input type="checkbox" id="opt_rightMouseZoomOutEnabled" onclick="updateCode()"/>
+   </td>
+   <td>
+   minDragSize:  <input type="text" size="6" id="opt_minDragSize" onblur="updateCode()" value="0"/>
    </table>
    <table width="500" >
    <tr>

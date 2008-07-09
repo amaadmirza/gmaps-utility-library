@@ -5,13 +5,13 @@
 </head>
 <body>
 <h2>
-<a name="DragZoom"></a>class DragZoomControl</h2>
+<a name="DragZoomControl"></a>class DragZoomControl</h2>
 <p>
 This class lets you add a control to the map which, when clicked, will let the map user zoom by dragging a rectangle on the map.
-It extends <a href="http://www.google.com/apis/maps/documentation/reference.html#GControl" target="_blank">GControl</a>.
+It extends <code><span class="xref"><a href="http://www.google.com/apis/maps/documentation/reference.html#GControlImpl">GControl</a></span></code>.
 </p>
 <h3>Constructor</h3>
-<table summary="class DragZoomControl - Constructor">
+<table style="width: 90%" summary="class DragZoomControl - Constructor">
 <tbody><tr>
 <th>Constructor</th>
 <th>Description</th>
@@ -53,9 +53,36 @@ Creates a DragZoomControl with the specified options (hashes). All parameters ar
 </tbody>
 </table>
 
+<h3>
+<a name="DragZoomEvents"></a>Events</h3>
+<table style="width:90%;" summary="class DragZoomControl - Events">
+<tbody><tr>
+<th>Events</th>
+<th>Arguments</th>
+<th>Description</th>
+</tr>
+<tr class="odd">
+<td class="code">addoverlay</td>
+<td class="code">overlay</td>
+<td>This event is fired when the mouse button is
+released after a zoom rectangle has been specified. The <code><span class="xref"><a href="http://code.google.com/apis/maps/documentation/reference.html#GPolyline">GPolyline</a></span></code>
+representing the frame around the selected area is passed as the overlay
+argument.</td>
+</tr>
+<tr class="even">
+<td class="code">removeoverlay</td>
+<td class="code">overlay</td>
+<td>This event is fired when the <code><span class="xref"><a href="http://code.google.com/apis/maps/documentation/reference.html#GPolyline">GPolyline</a></span></code>
+representing the frame around the selected area (passed as the overlay
+argument) is removed. This occurs <span class="xref"><a href="#DragZoomOtherOptions">overlayRemoveTime</a></span> milliseconds after the
+area was specified.</td>
+</tr>
+</tbody>
+</table>
+
 <h2>
 <a name="DragZoomBoxStyleOptions"></a>class DragZoomBoxStyleOptions</h2>
-<p>Instances of this class are used in the <code><span class="nomatch">opts_boxStyle</span></code> argument to the constructor of the
+<p>Instances of this class are used in the <code><span class="xref"><a href="#DragZoomBoxStyleOptions">opts_boxStyle</a></span></code> argument to the constructor of the
 <code><span class="xref"><a href="#DragZoomControl">DragZoomControl</a></span></code> class. There is no constructor for this class. 
 Instead, this class is instantiated as a javascript object literal. 
 <h3>Properties</h3>
@@ -172,7 +199,21 @@ Instead, this class is instantiated as a javascript object literal.
 <td> Whether or not the control stays in "zoom mode" until turned off. When true, the user can zoom repeatedly, until clicking on the zoom button again to turn zoom mode off. Defaults to false.
 </td>
 </tr>
+<tr class="odd">
 
+<td class="code">rightMouseZoomOutEnabled</td>
+<td class="code"> Boolean</td>
+<td> Whether to zoom out when a drag with the right mouse button occurs.  If enabled, dragging with the right button tries to find a zoom level to
+fit the current visible extent of the map into the size of the dragged box. Defaults to false.
+</td>
+</tr>
+<tr class="even">
+
+<td class="code">minDragSize</td>
+<td class="code"> Number</td>
+<td> Often, users will try to &quot;cancel&quot; a dragzoom operation by resizing their selected rectangle to a point.  <code>minDragSize</code> specifies a minimum size in pixels for the dragged rectangle to trigger a zoom. The default is 0, but something like 3-5 is sensible for most cases.
+</td>
+</tr>
 </tbody>
 </table>
 
@@ -232,13 +273,6 @@ this backbuttonclick was to restore context set by the saveMapContext(text) meth
 
 </tbody>
 </table>
-
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-964209-4";
-urchinTracker();
-</script>
 
 </body>
 </html>
