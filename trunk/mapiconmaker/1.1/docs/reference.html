@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>MapIconMaker v1.0 Reference</title>
+    <link rel="stylesheet" type="text/css" href="http://code.google.com/css/codesite.css"></link>
+    <link rel="stylesheet" type="text/css" href="../../util/docs/template/local_extensions.css"></link>
+  </head>
+  <body>
+    <h1>MapIconMaker</h1>
+    <p>
+This gives you static functions for creating dynamically
+    sized and colored marker icons using the Charts API marker output.</p>
+    
+      <h2><a name="MapIconMaker"></a>namespace MapIconMaker</h2>
+      <p>
+This namespace contains functions that you can use to easily create
+    dynamically sized, colored, and labeled icons.</p>
+      
+        <h3>Static Methods</h3>
+        <table summary="namespace MapIconMaker - Static Methods" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Static Methods</th>
+              
+                
+                  <th>Return&nbsp;Value</th>
+                
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>createFlatIcon(<span class="type" title="type:  MarkerIconOptions">opts?</span>)</code></td>
+                
+                  
+                    <td><code>GIcon</code></td>
+                  
+                
+                <td>Creates a flat icon based on the specified options in the 
+    <code><a href="reference.html#MarkerIconOptions">MarkerIconOptions</a></code> argument.
+    Supported options are: width, height, primaryColor,
+    shadowColor, label, labelColor, labelSize, and shape..</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>createLabeledMarkerIcon(<span class="type" title="type:  MarkerIconOptions">opts?</span>)</code></td>
+                
+                  
+                    <td><code>GIcon</code></td>
+                  
+                
+                <td>Creates a labeled marker icon based on the specified options in the 
+    <code><a href="reference.html#MarkerIconOptions">MarkerIconOptions</a></code> argument.
+    Supported options are: primaryColor, strokeColor, 
+    starPrimaryColor, starStrokeColor, label, labelColor, and addStar.</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>createMarkerIcon(<span class="type" title="type:  MarkerIconOptions">opts?</span>)</code></td>
+                
+                  
+                    <td><code>GIcon</code></td>
+                  
+                
+                <td>Creates an icon based on the specified options in the 
+  <code><a href="reference.html#MarkerIconOptions">MarkerIconOptions</a></code> argument.
+  Supported options are: width, height, primaryColor, 
+  strokeColor, and cornerColor.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+    
+      <h2><a name="MarkerIconOptions"></a>class MarkerIconOptions</h2>
+      <p>This class represents optional arguments to <code>createMarkerIcon</code>, 
+    <code>createFlatIcon</code>, or <code>createLabeledMarkerIcon</code>. Each of the
+    functions use a subset of these arguments. See the function descriptions
+    for the list of supported options.  There is no constructor for this class.  Instead, this class is instantiated as a javascript object literal.</p>
+      
+        <h3>Properties</h3>
+        <table summary="class MarkerIconOptions - Properties" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Properties</th>
+              
+                
+                  <th>Type</th>
+                
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>addStar</code></td>
+                
+                  
+                    <td><code>Boolean</code></td>
+                  
+                
+                <td>Specifies whether to add a star to the
+    edge of the icon.  The default value is <code> false</code>.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>cornerColor</code></td>
+                
+                  
+                    <td><code>String</code></td>
+                  
+                
+                <td>Specifies, as a hexadecimal
+    string, the color used for the top corner of the icon. If you'd like the
+    icon to have a consistent color, make the this the same as the
+    <code>primaryColor</code>.  The default value is <code>"#ffffff"</code>.</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>height</code></td>
+                
+                  
+                    <td><code>Number</code></td>
+                  
+                
+                <td>Specifies, in pixels, the height of the icon.  The default value is <code>32</code>.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>label</code></td>
+                
+                  
+                    <td><code>String</code></td>
+                  
+                
+                <td>Specifies a character or string to display
+    inside the body of the icon. Generally, one or two characters looks best.  The default value is <code>""</code>.</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>labelColor</code></td>
+                
+                  
+                    <td><code>String</code></td>
+                  
+                
+                <td>Specifies, as a hexadecimal 
+    string, the color used for the label text.  The default value is <code>"#000000"</code>.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>labelSize</code></td>
+                
+                  
+                    <td><code>Number</code></td>
+                  
+                
+                <td>Specifies, in pixels, the size of the label
+    text. If set to 0, the text auto-sizes to fit the icon body.  The default value is <code>0</code>.</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>primaryColor</code></td>
+                
+                  
+                    <td><code>String</code></td>
+                  
+                
+                <td>Specifies, as a hexadecimal
+    string, the color used for the majority of the icon body.  The default value is <code>"#ff0000"</code>.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>shadowColor</code></td>
+                
+                  
+                    <td><code>String</code></td>
+                  
+                
+                <td>Specifies, as a hexadecimal
+    string, the color used for the shadow of the icon.  The default value is <code>"#000000"</code>.</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>shape</code></td>
+                
+                  
+                    <td><code>String</code></td>
+                  
+                
+                <td>Specifies shape of the icon. Current
+    options are "circle" for a circle or "roundrect" for a rounded rectangle.  The default value is <code>"circle"</code>.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>starPrimaryColor</code></td>
+                
+                  
+                    <td><code>String</code></td>
+                  
+                
+                <td>Specifies, as a hexadecimal
+    string, the color used for the star body.  The default value is <code>"#FFFF00"</code>.</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>starStrokeColor</code></td>
+                
+                  
+                    <td><code>String</code></td>
+                  
+                
+                <td>Specifies, as a hexadecimal
+    string, the color used for the outside line (stroke) of the star.  The default value is <code>"#0000FF"</code>.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>strokeColor</code></td>
+                
+                  
+                    <td><code>String</code></td>
+                  
+                
+                <td>Specifies, as a hexadecimal
+    string, the color used for the outside line (stroke) of the icon.  The default value is <code>"#000000"</code>.</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>width</code></td>
+                
+                  
+                    <td><code>Number</code></td>
+                  
+                
+                <td>Specifies, in pixels, the width of the icon.
+    The width may include some blank space on the side, depending on the
+    height of the icon, as the icon will scale its shape proportionately.  The default value is <code>32</code>.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+    
+    <!-- <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      _uacct = "UA-964209-4";
+      urchinTracker();
+    </script> -->
+  </body>
+</html>

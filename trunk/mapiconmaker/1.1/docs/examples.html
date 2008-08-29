@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>MapIconMaker Documentation: Examples</title>
+    <link rel="stylesheet" type="text/css" href="http://code.google.com/css/codesite.css"></link>
+    <link rel="stylesheet" type="text/css" href="../../util/docs/template/local_extensions.css"></link>
+    <script type="text/javascript" src="http://code.google.com/js/prettify.js"></script>
+  </head>
+  <body onload="prettyPrint()">
+<h1><a name="MapIconMaker_HowTo" id="MapIconMaker_HowTo"></a>MapIconMaker How-to</h1>
+<p>
+You can use the MapIconMaker to create icons for your map markers easily:
+</p>
+<ol>
+<li>Include mapiconmaker.js in your document header. You can reference it from here or download it to your own server.
+<pre class="prettyprint">
+&lt;script src="mapiconmaker.js" type="text/javascript"&gt;&lt;/script&gt;
+</pre>
+</li>
+
+<li>Create an icon using <code>MapIconMaker.createMarkerIcon</code> and add it to the map.</li>
+<pre class="prettyprint">
+  var map = new GMap2(document.getElementById("map"));
+  map.setCenter(new GLatLng(37.441944, -122.141944), 13);
+  var newIcon = MapIconMaker.createMarkerIcon({width: 64, height: 64, primaryColor: "#00ff00"});
+  var marker = new GMarker(map.getCenter(), {icon: newIcon});
+  map.addOverlay(marker);
+</pre>
+</li>
+</ol>
+<p>
+<a href="../examples/createmarkericon-simple.html">View example (createmarkericon-simple.html).</a>
+</p>
+
+<h2>Creating Different Icon Types</h2>
+<p>
+There are three basic types of icons that you can create and customize, using one of the three provided static functions. The following table summarizes them, shows a sample marker, and links to an example. For a full description, read the <a href="reference.html">reference</a>.</p>
+<table>
+<tr>
+ <td>
+  <strong>createFlatIcon</strong>
+ </td>
+ <td>
+  The icons can be dynamically sized and colored, can be either circular or rectangular in shape, and can have text overlaid on them. They will appear to lie 'flat' on the map because of their shape.
+  <br/>
+  <a href="../examples/createflaticon-simple.html">View example (createflaticon-simple.html).</a>
+ <td align="center">
+  <img src="http://chart.apis.google.com/chart?cht=it&chs=48x48&chco=33FF33,000000ff,ffffff01&chl=a&chx=000000,0&chf=bg,s,00000000&ext=.png"/>
+ </td>
+</tr>
+<tr>
+ <td>
+  <strong>createLabeledMarkerIcon</strong>
+ </td>
+ <td>
+  The icons can be dynamically colored and can have text overlaid on them, but can only be one shape and size (marker-shape, 32*32). They can optionally have a dynamically colored star attached to the corner.
+  <br/>
+  <a href="../examples/createlabeledmarkericon-simple.html">View example (createlabeledmarkericon-simple.html).</a>
+ <td align="center">
+  <img src="http://chart.apis.google.com/chart?cht=d&chdp=mapsapi&chl=pin_star'i\'[a'-2'f\hv'a\]h\]o\33FF33'fC\000000'tC\000000'eC\FFFF00'1C\0000FF'0C\Lauto'f\"/>
+ </td>
+</tr>
+<tr>
+ <td>
+  <strong>createMarkerIcon</strong>
+ </td>
+ <td>
+  The icons can be dynamically sized and colored, but cannot have any text overlaid on them. 
+  <br/>
+  <a href="../examples/createmarkericon-simple.html">View example (createmarkericon-simple.html).</a>
+ <td align="center">
+  <img src="http://chart.apis.google.com/chart?cht=mm&chs=48x48&chco=FFFFFF,FF0000,000000&ext=.png"/>
+ </td>
+</tr>
+</table>
+
+<h2>Using the MarkerIconOptions Wizard</h2>
+<p>
+We've created a wizard to make it easy for you to play around with the various parameters in <code>MarkerIconOptions</code>. The wizard lets you choose an icon type, customize the relevant options, and then shows you the result using randomly placed markers on a map.
+<p>
+<a href="../examples/markericonoptions-wizard.html">View example (markericonoptions-wizard.html).</a>
+</p>
+
+</body>
+</html>
