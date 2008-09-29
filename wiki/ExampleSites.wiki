@@ -6,7 +6,7 @@
 If you've used one of the libraries offered here, feel free to link to an example site. Please list libraries used and any implementation tips.
 
   * Link: http://www.kreisalarm.de/drkmap
-   * Libraries used: [http://gmaps-utility-library.googlecode.com/svn/trunk/labeledmarker/ LabeledMarker], [http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager MarkerManager], [http://extjs.com ExtJS]
+   * Libraries used: !LabeledMarker, !MarkerManager, !ExtJS
    * Shows dozens of marker when zooming in
    * Shows changing the z-index on mouseover for stacked markers
 
@@ -15,5 +15,5 @@ If you've used one of the libraries offered here, feel free to link to an exampl
    * The map contains about 700 markers (when zoomed in)
 
   * Link: http://maps.forum.nu/server_side_clusterer/index2.php
-   * Libraries used: MapIconMaker
+   * Libraries used: !MapIconMaker
   
