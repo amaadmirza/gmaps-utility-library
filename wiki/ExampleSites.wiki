@@ -17,3 +17,5 @@ If you've used one of the libraries offered here, feel free to link to an exampl
   * Link: http://maps.forum.nu/server_side_clusterer/index2.php
    * Libraries used: !MapIconMaker
   
+  * Link: http://ozcamps.net/index.php?option=com_wrapper&view=wrapper&Itemid=29
+   * Libraries used: !MapIconMaker
