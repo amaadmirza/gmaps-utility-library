@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<title>Google Maps JavaScript API Example - ProgressBarControl</title>
+<script src="http://maps.google.com/maps?file=api&v=2.x&key=ABQIAAAAbRm2TpqQOvF3ceP4wzWXeBQGj0PqsCtxKvarsoS-iqLdqZSKfxQU7evjDDIaBB_enSeWW-bsfxdKuQ" type="text/javascript"></script>
+<script type="text/javascript">
+  document.write('<script type="text/javascript" src="../src/progressbarcontrol'+(document.location.search.indexOf('packed')>-1?'_packed':'')+'.js"><'+'/script>');
+</script>
+<script type="text/javascript">
+var map;
+var progressBar;
+
+function load() {
+  map = new GMap2(document.getElementById("map"));
+  map.setCenter(new GLatLng(52, 4), 7);
+  map.addControl(new GLargeMapControl());
+  map.addControl(new GMapTypeControl());
+  progressBar = new ProgressbarControl(map, {width:150}); 
+}
+
+var markersArray = [];
+var maxNum = 200;
+var num = 0;
+
+function loadMarkers(){
+  progressBar.start(maxNum);
+  setTimeout('createMarker()', 10);
+}
+
+function createMarker(){
+  num++;
+  progressBar.updateLoader(1);
+
+  var bounds = map.getBounds();
+  var southWest = bounds.getSouthWest();
+  var northEast = bounds.getNorthEast();
+  var lngSpan = northEast.lng() - southWest.lng();
+  var latSpan = northEast.lat() - southWest.lat();
+  var latlng = new GLatLng(southWest.lat() + latSpan * Math.random(), 
+      southWest.lng() + lngSpan * Math.random());
+  var marker = new GMarker(latlng);
+  markersArray.push(marker);
+  map.addOverlay(marker);
+
+  if (num < maxNum) {
+    setTimeout('createMarker()', 10);
+  } else {
+    progressBar.remove();
+    num = 0;
+  }
+}
+
+
+function removeMarkers(){
+  progressBar.start(markersArray.length);
+  setTimeout("removeMarker()", 10);
+}
+
+
+function removeMarker(){
+  progressBar.updateLoader(1);
+  map.removeOverlay(markersArray.pop());
+  if (markersArray.length > 0) {
+    setTimeout("removeMarker()", 10);
+  } else {
+    progressBar.remove();
+  }
+}
+</script>
+</head>
+<body onload="load()" onunload="GUnload()">
+ <button onclick="loadMarkers();">loadMarkers()</button>
+ <button onclick="removeMarkers();">removeMarkers()</button>
+ <br/>
+ <div id="map" style="width: 550px; height: 400px"></div>
+</body>
+</html>
