@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<title>Google Maps JavaScript API Example - ProgressBarControl</title>
+<script src="http://maps.google.com/maps?file=api&v=2.x&key=ABQIAAAAbRm2TpqQOvF3ceP4wzWXeBQGj0PqsCtxKvarsoS-iqLdqZSKfxQU7evjDDIaBB_enSeWW-bsfxdKuQ" type="text/javascript"></script>
+<script type="text/javascript">
+  document.write('<script type="text/javascript" src="../src/progressbarcontrol'+(document.location.search.indexOf('packed')>-1?'_packed':'')+'.js"><'+'/script>');
+</script>
+<script type="text/javascript">
+var map;
+var progressBar;
+
+function load() {
+  map = new GMap2(document.getElementById("map"));
+  map.setCenter(new GLatLng(52, 4), 7);
+  map.addControl(new GLargeMapControl());
+  map.addControl(new GMapTypeControl());
+  progressBar = new ProgressbarControl(map, {width:150}); 
+}
+</script>
+</head>
+<body onload="load()" onunload="GUnload()">
+ <button onclick="progressBar.start(500);">start</button>
+ <button onclick="progressBar.updateLoader(7);">updateLoader</button>
+ <button onclick="progressBar.remove();">remove</button>
+ <br/>
+ <div id="map" style="width: 700px; height: 500px"></div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>ProgressbarControl Documentation: Examples</title>
+<link rel="stylesheet" type="text/css" href="http://code.google.com/css/codesite.css"></link>
+    <link rel="stylesheet" type="text/css" href="http://gmaps-utility-library.googlecode.com/svn/trunk/util/docs/template/local_extensions.css"></link>
+    <script type="text/javascript" src="http://code.google.com/js/prettify.js"></script>
+  </head>
+
+  <body onload="prettyPrint()">
+<h1>ProgressBarControl Examples</h1>
+
+<p>To use the progress bar, create a <code>ProgressbarControl</code> object by passing 
+the GMap2 object and (optional) options to the constructor.</p>
+<pre class="prettyprint">
+var map = new GMap2(document.getElementById("map"));
+map.setCenter(new GLatLng(37, -122), 13);
+var progressbar = new ProgressbarControl(map);
+</pre>
+
+<p>
+Additional options can be specified using <a
+href="reference.html#ProgressbarControlOptions"><code>ProgressbarControlOptions</code></a>.
+In the code below, the <code>width</code> of the progress bar is set to 150 pixels, and the text that is printed before progress begins (<code>loadstring</code>) is set to 
+"One moment please...".
+</p>
+
+<pre class="prettyprint">
+var map = new GMap2(document.getElementById('map'));
+map.setCenter(new GLatLng(37, -122), 13);
+var progressbarOptions = {width: 150, loadstring: 'One moment please'};
+var progressbar = new ProgressbarControl(map, progressbarOptions);
+</pre>
+
+<h2>Basic Example</h2>
+
+<p>The following example lets you experiment with the functionality available in ProgressBarControl, providing buttons for starting, updating, and removing the control. The HTML for those buttons is shown below:</p>
+
+<pre class="prettyprint">
+ &lt;button onclick="progressBar.start(500);"&gt;start&lt;/button&gt;
+ &lt;button onclick="progressBar.updateLoader(7);"&gt;updateLoader&lt;/button&gt;
+ &lt;button onclick="progressBar.remove();"&gt;remove&lt;/button&gt;
+</pre>
+
+<p><a href="../examples/howtouse.html">View example (howtouse.html)</a></p>
+
+<h2>Marker Loading Example</h2>
+
+<p>In the following example, we use the control to show the process of loading markers to the user. Since the browser will not update the screen unless it has time to do so, we use setTimeout with a 1 millisecond delay in between each update. The code below shows the creation of one marker at a random location in the map viewport, with an update to the loader and a setTimeout before the next marker is created:</p>
+
+<pre class="prettyprint">
+// create a marker
+function createMarker(){
+  num++;
+  progressBar.updateLoader(1);
+
+  var bounds = map.getBounds();
+  var southWest = bounds.getSouthWest();
+  var northEast = bounds.getNorthEast();
+  var lngSpan = northEast.lng() - southWest.lng();
+  var latSpan = northEast.lat() - southWest.lat();
+  var latlng = new GLatLng(southWest.lat() + latSpan * Math.random(), 
+      southWest.lng() + lngSpan * Math.random());
+  var marker = new GMarker(latlng);
+  markersArray.push(marker);
+  map.addOverlay(marker);
+
+  if (num &lt; maxNum) {
+    setTimeout('createMarker()', 10);
+  } else {
+    progressBar.remove();
+    num = 0;
+  }
+}
+</pre>
+<p><a href="../examples/markerloader.html">View example (markerloader.html)</a></p>
+<br/><br/>
+</body>
+</html>
