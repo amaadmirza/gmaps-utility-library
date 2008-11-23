@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<title>Google Maps JavaScript API Example - Snap to Polyline</title>
+<link rel="stylesheet" type="text/css" href="/mapStyle.css" />
+<script src="http://maps.google.com/maps?file=api&v=2.x&key=ABQIAAAAbRm2TpqQOvF3ceP4wzWXeBQGj0PqsCtxKvarsoS-iqLdqZSKfxQU7evjDDIaBB_enSeWW-bsfxdKuQ" type="text/javascript"></script>
+<script type="text/javascript">
+  document.write('<' + 'script type="text/javascript" src="../src/snaptoroute' + (document.location.search.indexOf('packed')>-1?'_packed':'') +'.js"><'+'/script>');
+</script>
+<script type="text/javascript">
+var map;
+var centerPoint = new GLatLng(40.078071,-101.689453);
+var routeVertices = [];
+var routePixels = [];
+var routeOverlay = null;
+var normalProj = G_NORMAL_MAP.getProjection();
+var threshold = 15; //pixels for proximity
+var snapToRoute;
+
+function load() {
+  map = new GMap2(document.getElementById("map"), {draggableCursor:"crosshair"});
+  map.setCenter(centerPoint, 7);
+  map.addControl(new GLargeMapControl());
+  map.addControl(new GMapTypeControl());
+  GEvent.addListener(map, 'click', mapClick);
+  GEvent.addListener(map, 'mousemove', mouseMove);
+}
+
+
+function mapClick(overlay, latlng) {
+  if (!overlay) {
+    addRouteVertex(latlng);
+  }
+}
+
+
+function mouseMove(latlng) {
+  if(snapToRoute){
+    document.getElementById("statusDiv").innerHTML = snapToRoute.getDistAlongRoute().toFixed(0) + " meters from start at " + latlng.toUrlValue();
+  }
+}
+
+
+function addRouteVertex(vertex) {
+  routeVertices.push(vertex);
+  var pix = G_NORMAL_MAP.getProjection().fromLatLngToPixel(vertex, map.getZoom());
+  routePixels.push(pix);
+
+  if (routeVertices.length > 1)    {
+    plotRoute();
+    if (!snapToRoute) {
+      snapToRoute = new SnapToRoute(map, startMarker, routeOverlay);
+    } else {
+      snapToRoute.updateTargets(null, routeOverlay);
+    }
+  } else {
+    startMarker = createMarker(vertex,'Start')
+    map.addOverlay(startMarker);
+  }
+}
+
+
+function plotRoute() {
+  if ( routeOverlay ) {
+    map.removeOverlay(routeOverlay);
+  }
+  routeOverlay = new GPolyline(routeVertices, '#FF9601', 3, 1);
+  map.addOverlay(routeOverlay);
+}
+
+
+function createMarker(latlng, title) {
+  var marker = new GMarker(latlng, {title:title});
+  return marker;
+}
+
+
+function resetRoute() {
+  routeVertices = [];
+  routePixels = [];
+  map.clearOverlays();
+  document.getElementById("statusDiv").innerHTML = '';
+}
+</script>
+</head>
+<body onload="load()" onunload="GUnload()">
+<div id="msg" style="width: 680px; font: bold 12px verdana;padding:3px;margin:10px;">
+Click the map two or more times to create polylines. The marker wil snap to the polyline at all times.
+</div>
+<table cellspacing="0" cellpadding="0" style="-moz-outline-width:8px; -moz-outline-radius:15px; -moz-outline-style:solid;-moz-outline-color:#838FBB;margin:20px;">
+ <tr>
+  <td valign="top">
+   <div id="map" style="width: 700px; height: 500px"></div>
+   <div id="statusDiv" style="width: 660px; height: 50px; border: 1px solid gray;font: bold 12px verdana;padding:3px;margin:15px;"></div>
+  </td>
+ </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>SnapToRoute v1.0 Reference</title>
+    <link rel="stylesheet" type="text/css" href="http://code.google.com/css/codesite.css"></link>
+    <link rel="stylesheet" type="text/css" href="../../util/docs/template/local_extensions.css"></link>
+  </head>
+  <body>
+    <h1>SnapToRoute</h1>
+    <p>
+This class is used to snap a marker to closest point on a line,
+  based on the current position of the cursor.
+  <!--  
+  This is based on Marcelo's <a href="http://maps.forum.nu/gm_mouse_dist_to_line.html">
+  "Distance to line" example</a>
+  Work was done by Björn Brala to wrap the algorithm in a class operating on Maps API objects,
+  and by Bill Chadwick to factor the basic algorithm out of the class and add distance along line
+  to nearest point calculation.
+  --></p>
+    <p>For a description and examples of how to use this library, check out the <a href="examples.html">how-to</a>.</p>
+    
+      <h2><a name="SnapToRoute"></a>class SnapToRoute</h2>
+      <p></p>
+      
+        <h3>Constructor</h3>
+        <table summary="class SnapToRoute - Constructor" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Constructor</th>
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>SnapToRoute(<span class="type">map:GMap2</span>, <span class="type">marker:GMarker</span>, <span class="type">polyline:GPolyline</span>)</code></td>
+                
+                <td>Creates a new SnapToRoute that will snap the marker to the route.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3>Methods</h3>
+        <table summary="class SnapToRoute - Methods" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Methods</th>
+              
+                
+                  <th>Return&nbsp;Value</th>
+                
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>getClosestLatLng(<span class="type">latlng:GLatLng</span>)</code></td>
+                
+                  
+                    <td><code>GLatLng</code></td>
+                  
+                
+                <td>Calculate closest lat/lng on the polyline to a test lat/lng.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>getDistAlongRoute(<span class="type">latlng?:GLatLng</span>)</code></td>
+                
+                  
+                    <td><code>Number</code></td>
+                  
+                
+                <td>Get the distance (in meters) along the polyline 
+of the closest point on route to test lat/lng.</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>updateTargets(<span class="type">marker:GMarker</span>, <span class="type">polyline:GPolyline</span>)</code></td>
+                
+                  
+                    <td><code>None</code></td>
+                  
+                
+                <td>Change the marker and/or polyline used by the class.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+    
+    <!-- <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      _uacct = "UA-964209-4";
+      urchinTracker();
+    </script> -->
+  </body>
+</html>
