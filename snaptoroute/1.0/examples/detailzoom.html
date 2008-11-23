@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<title>Google Maps JavaScript API Example - Snap to Polyline - Zoom to route</title>
+<script src="http://maps.google.com/maps?file=api&v=2.88&key=ABQIAAAAbRm2TpqQOvF3ceP4wzWXeBQGj0PqsCtxKvarsoS-iqLdqZSKfxQU7evjDDIaBB_enSeWW-bsfxdKuQ" type="text/javascript"></script>
+<script type="text/javascript">
+  document.write('<' + 'script type="text/javascript" src="../src/snaptoroute' + (document.location.search.indexOf('packed')>-1?'_packed':'') +'.js"><'+'/script>');
+</script>
+<script type="text/javascript">
+var map;
+var snapToRoute;
+var routeOverlay;
+var lookingGlass;
+
+function load() {
+  map = new GMap2(document.getElementById("map"));
+  map.setCenter(new GLatLng(52.093008,4.267845), 12);
+  map.addControl(new GSmallMapControl());
+  map.addControl(new GMapTypeControl());
+  GEvent.addListener(map, 'click', zoomToRoute);
+
+  createMarker();
+  createRoute();
+  snapToRoute = new SnapToRoute(map, lookingGlass, routeOverlay);
+}
+
+
+function zoomToRoute(overlay, latlng){
+  if (latlng || overlay instanceof GMarker || overlay instanceof GPolyline) {
+    lookingGlass.hide();
+    lookingGlass.showMapBlowup(lookingGlass.getLatLng());
+    lookingGlass.show();
+  }
+}
+
+
+function createMarker() {
+  var lookingglassIcon = new GIcon(G_DEFAULT_ICON, 'lookingglass.png');
+  lookingglassIcon.iconSize = new GSize(41,41);
+  lookingglassIcon.shadowSize = new GSize(0,0);
+  lookingglassIcon.iconAnchor = new GPoint(25,14);
+  lookingGlass = new GMarker(map.getCenter(),{icon: lookingglassIcon})
+  map.addOverlay(lookingGlass);
+
+}
+
+function createRoute() {
+  var routePoints = [new GLatLng(52.11375316600609,4.2938947677612305), new GLatLng(52.114253891691796,4.2905473709106445), new GLatLng(52.1145437829393,4.2878007888793945), new GLatLng(52.11710001506486,4.287371635437012), new GLatLng(52.11478096528512,4.282393455505371), new GLatLng(52.10310482547506,4.265570640563965), new GLatLng(52.101312280503336,4.269132614135742), new GLatLng(52.099546026022765,4.271965026855469), new GLatLng(52.09432593982866,4.264283180236816), new GLatLng(52.09287580747666,4.264540672302246), new GLatLng(52.09045002617664,4.267458915710449), new GLatLng(52.089896296739404,4.266386032104492), new GLatLng(52.08739124437795,4.269647598266602), new GLatLng(52.08594088662689,4.265098571777344), new GLatLng(52.08343561220977,4.259219169616699), new GLatLng(52.08338286807887,4.255785942077637), new GLatLng(52.08135217164323,4.251279830932617), new GLatLng(52.07866201592022,4.245700836181641), new GLatLng(52.07734325291564,4.246344566345215), new GLatLng(52.076551976411956,4.245572090148926), new GLatLng(52.07589256861141,4.242610931396484), new GLatLng(52.07689486461893,4.240379333496094), new GLatLng(52.076182709243625,4.23771858215332), new GLatLng(52.07227884092348,4.240508079528809), new GLatLng(52.06887586644174,4.231538772583008), new GLatLng(52.068163583146465,4.227762222290039), new GLatLng(52.067372143937284,4.226260185241699), new GLatLng(52.066369634135846,4.223642349243164), new GLatLng(52.06220106257857,4.22673225402832), new GLatLng(52.06301897755245,4.229650497436523), new GLatLng(52.062517676603335,4.230165481567383), new GLatLng(52.06758319576457,4.246730804443359), new GLatLng(52.08053459244596,4.281964302062988), new GLatLng(52.081193931677035,4.286212921142578), new GLatLng(52.08472782394499,4.2935943603515625), new GLatLng(52.08683747698153,4.300804138183594), new GLatLng(52.0898171919731,4.311962127685547), new GLatLng(52.096461503468106,4.306168556213379), new GLatLng(52.097146971357404,4.305052757263184), new GLatLng(52.099176949087884,4.300289154052734), new GLatLng(52.1013650034426,4.294366836547852), new GLatLng(52.10281485984947,4.2952680587768555), new GLatLng(52.10497637643073,4.293808937072754), new GLatLng(52.10603073674691,4.29440975189209), new GLatLng(52.10832388436216,4.290375709533691), new GLatLng(52.109351808806345,4.291234016418457), new GLatLng(52.1100107222683,4.291191101074219), new GLatLng(52.11090682895019,4.2897748947143555), new GLatLng(52.1116711410058,4.293465614318848), new GLatLng(52.112988889642715,4.293551445007324)];
+  routeOverlay = new GPolyline(routePoints, '#FF9601', 3, 1);
+  map.addOverlay(routeOverlay);
+}
+</script>
+</head>
+<body style="font-family:Arial, sans serif" onload="load()" onunload="GUnload()">
+<div id="msg">
+Click the map to zoom to given snapped point on the route.
+</div>
+<div id="map" style="width: 550px; height: 325px"></div>
+</body>
+</html>
