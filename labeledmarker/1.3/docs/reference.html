@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>LabeledMarker v1.3 Reference</title>
+    <link rel="stylesheet" type="text/css" href="http://code.google.com/css/codesite.css"></link>
+    <link rel="stylesheet" type="text/css" href="../../util/docs/template/local_extensions.css"></link>
+  </head>
+  <body>
+    <h1>LabeledMarker</h1>
+    <p>
+<p>This library extends the Google Maps API's standard GMarker class
+        with the ability to support markers with textual labels. Please
+        see articles here:</p>
+    <ul>
+      <li><a
+          href="http://googlemapsbook.com/2007/01/22/extending-gmarker/"
+          >Extending The API To Create Labeled Markers</a></li>
+      <li><a
+           href="http://googlemapsbook.com/2007/03/06/clickable-labeledmarker/"
+           >Clickable LabeledMarker</a></li>
+    </ul></p>
+    <p>For a description and examples of how to use this library, check out the <a href="examples.html">how-to</a>.</p>
+    
+      <h2><a name="LabeledMarker"></a>class LabeledMarker</h2>
+      <p></p>
+      
+        <h3>Constructor</h3>
+        <table summary="class LabeledMarker - Constructor" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Constructor</th>
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>LabeledMarker(<span class="type">latlng:GLatLng</span>, <span class="type">opt_opts?:LabeledMarkerOptions</span>)</code></td>
+                
+                <td>Creates a marker with options specified in <code><a href="reference.html#LabeledMarkerOptions">LabeledMarkerOptions</a></code>
+    (extension of <code>GMarkerOptions</code>). Creates a div for the
+    label and then calls the <code>GMarker</code> constructor.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3>Methods</h3>
+        <table summary="class LabeledMarker - Methods" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Methods</th>
+              
+                
+                  <th>Return&nbsp;Value</th>
+                
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>getLabelVisibility()</code></td>
+                
+                  
+                    <td><code>Boolean</code></td>
+                  
+                
+                <td>Returns whether label visibility is set on.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>setLabelText(<span class="type">text:String</span>)</code></td>
+                
+                  
+                    <td><code>None</code></td>
+                  
+                
+                <td>Sets label text/html for the marker.</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>setLabelVisibility(<span class="type">visibility:Boolean</span>)</code></td>
+                
+                  
+                    <td><code>None</code></td>
+                  
+                
+                <td>Sets the visibility of the label, which will be respected during
+    show/hides. If marker is visible when set, it will show or hide label
+    appropriately.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+    
+      <h2><a name="LabeledMarkerOptions"></a>class LabeledMarkerOptions</h2>
+      <p>This class extends <code>GMarkerOptions</code>. Instances of this
+    class are used in the <code>opt_opts</code> argument to the
+    constructor of the <code><a href="reference.html#LabeledMarker">LabeledMarker</a></code> class. At this time the
+    <code>draggable</code> property is not supported and is forced to be
+    <code>false</code>.  There is no constructor for this class.  Instead, this class is instantiated as a javascript object literal.</p>
+      
+        <h3>Properties</h3>
+        <table summary="class LabeledMarkerOptions - Properties" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Properties</th>
+              
+                
+                  <th>Type</th>
+                
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>labelClass</code></td>
+                
+                  
+                    <td><code>String</code></td>
+                  
+                
+                <td>CSS class to use for the overlay div
+    (default "LabeledMarker_markerLabel").</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>labelOffset</code></td>
+                
+                  
+                    <td><code>GSize</code></td>
+                  
+                
+                <td>Label offset, the x- and y-distance
+    between the marker's latlng and the upper-left corner of the text div
+    (default (0,0)).</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>labelText</code></td>
+                
+                  
+                    <td><code>String</code></td>
+                  
+                
+                <td>Label text/html to place in the overlay div
+    (defaults to empty string).</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+    
+    <!-- <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      _uacct = "UA-964209-4";
+      urchinTracker();
+    </script> -->
+  </body>
+</html>

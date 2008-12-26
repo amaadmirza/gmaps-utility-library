@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>LabeledMarker Documentation: Examples</title>
+    <link rel="stylesheet" type="text/css" href="http://code.google.com/css/codesite.css"></link>
+    <link rel="stylesheet" type="text/css" href="../../util/docs/template/local_extensions.css"></link>
+    <script type="text/javascript" src="http://code.google.com/js/prettify.js"></script>
+  </head>
+  <body onload="prettyPrint()">
+<h1><a name="LabeledMarker_Examples" id="LabeledMarker_Examples"></a>LabeledMarker Examples</h1>
+
+<p>To create a labeled marker, create a new LabeledMarker, and specify the relevant options. The most important options are icon, labelText and labelOffset. Then you can assign it event listeners and add it to the map just as you would with a GMarker object.</p>
+<pre class="prettyprint">
+var latlng = new GLatLng(48.25, 11.00);
+
+var icon = new GIcon();
+icon.image = 'red_marker.png';
+icon.iconSize = new GSize(32, 32);
+icon.iconAnchor = new GPoint(16, 16);
+icon.infoWindowAnchor = new GPoint(25, 7);
+
+opts = { 
+  "icon": icon,
+  "clickable": true,
+  "labelText": "A",
+  "labelOffset": new GSize(-6, -10)
+};
+var marker = new LabeledMarker(latlng, opts);
+
+GEvent.addListener(marker, "click", function() {
+  marker.openInfoWindowHtml("I'm a Labeled Marker!");
+});
+
+map.addOverlay(marker);
+</pre>
+<p><a href="../examples/simplelabeledmarker.html">View example (simplelabeledmarker.html)</a>. </p>
+
+<h2><a name="LabeledMarker_AirportMap" id="LabeledMarker_AirportMap"></a>Multiple Markers with Styling (Airport Map) Example </a></h2>
+<p>
+Most likely, you'll want to use LabeledMarker to display multiple markers with different text for each marker, and you'll also want to tweak the style of the marker text. Just make sure you test your labeled markers in the various browsers and operating systems, as CSS interpretation can vary.
+The default CSS classname used by LabeledMarker is LabeledMarker_markerLabel. If you define that in a CSS file, it will automatically be picked up by the marker label div. Alternatively, you can use an alternate classname and pass that in LabeledMarkerOptions in the labelClass property. The following example defines the default LabeledMarker_markerLabel:
+</p>
+<pre class="prettyprint">
+div.LabeledMarker_markerLabel  {
+  color: black;
+  font-family: Arial;
+  width: 32px;
+  text-align: center;
+}
+</pre>
+
+<p>You can also use LabeledMarker with the GMarker.setImage property, if you'd like to implement image-change on mouseovers or other marker events. The following code will achieve a mouse-over effect:</p>
+
+<pre class="prettyprint">
+  GEvent.addListener(marker, "mouseover", function() {
+    marker.setImage('http://gmaps-samples.googlecode.com/svn/trunk/markers/circular/yellowcirclemarker.png');
+  });
+
+  GEvent.addListener(marker, "mouseout", function() {
+    marker.setImage('http://gmaps-samples.googlecode.com/svn/trunk/markers/circular/greencirclemarker.png');
+  });
+</pre>
+
+<p> This example of the most popular Airports in the world defines the LabeledMarker style and implements a mouse-over effect as shown above, and uses Google Spreadsheets as the data source for the markers. <a href="../examples/airportmap.html">View example (airportmap.html)</a>. </p>
+
+<h2><a name="LabeledMarker_Manhattan" id="LabeledMarker_Manhattan"></a>Multiple Markers & Sidebar (Manhattan Subways) Example</h2>
+
+<p>The following advanced example creates multiple markers based on information stored in JSON format. You could choose to represent your data in XML format, using very similar code. 
+It also uses more CSS definitions to create a sidebar with a style similar to the markers on the map.
+</p>
+<p><a href="../examples/manhattan/index.html">View example (manhattan/index.html)</a>. </p>
+
+<h2><a name="LabeledMarker_ShowHide" id="LabeledMarker_ShowHide"></a>Multiple Marker Groups & Visibility Toggling (Seattle) Example</h2>
+
+<p>The following advanced example creates multiple marker groups based on information stored in XML format, and provides checkboxes to enable toggling of the marker and label visibility.
+</p>
+<p>
+The marker groups are created based on an attribute in the XML tag. The marker groups are stored in a javascript object that acts as an associative array, with the key for each group being the same as the attribute value stored in the XML (e.g. <code>group="restaurant"</code>). The relevant parts of the javascript code that creates the groups are shown below:
+</p>
+<pre class="prettyprint">
+var markerGroups = { "restaurant": [], "bar": []};
+...
+// in GDownloadUrl callback
+var type = markers[i].getAttribute("type");
+...
+// in createMarker
+markerGroups[type].push(marker);
+</pre>
+<p>
+<p>
+In this example, we create checkboxes for each marker group, and then call a function to toggle that group's visibility when the checkbox is toggled (<code>onclick="toggleGroup('restaurant')"</code>). The <code>toggleGroup</code> function is shown below:
+<pre class="prettyprint">
+function toggleGroup(type) {
+  for (var i = 0; i &lt; markerGroups[type].length; i++) {
+    var marker = markerGroups[type][i];
+    if (marker.isHidden()) {
+      marker.show();
+    } else {
+      marker.hide();
+    }
+  } 
+}
+</pre>
+
+<p>
+We also create a checkbox for showing the marker labels, and call a function to toggle all labels when the checkbox is toggled (<code>onclick="toggleLabels()"</code>). That function uses <code>LabeledMarker.setLabelVisibility</code> to set the visibility of the labels. The <code>toggleLabels</code> function is shown below:
+</p>
+<pre class="prettyprint">
+function toggleLabels() {
+  var showLabels = document.getElementById("labelsCheckbox").checked;
+  for (groupName in markerGroups) {
+    for (var i = 0; i &lt; markerGroups[groupName].length; i++) {
+      var marker = markerGroups[groupName][i];
+      marker.setLabelVisibility(showLabels);
+   }
+ }
+}
+</pre>
+<p>
+<a href="../examples/markerhider.html">View example (markerhider.html)</a>
+</p>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-964209-4";
+urchinTracker();
+</script>
+
+</body>
+</html>
