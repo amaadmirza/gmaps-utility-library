@@ -1,0 +1,16 @@
+The original libraries that were a part of the Open Source Maps API Utility
+Library have a "release" folder. This folder was meant to contain the latest
+stable version of the library, so that a developer could refer to it and
+automatically get updates without needing to change their script tag. The
+concept of the release folder has been deprecated for various reasons:
+  * Guaranteeing backwards compatibility limits innovation and refactoring.
+  * Maintaining a release branch takes time, and time is hard to come by.
+  * There isn't a thorough enough testing process for the library to guarantee
+    that old functionality/behavior doesn't break. We can do much faster
+    releases of new versions of a library if we're not concerned about
+    exhaustively testing it.
+
+So, please ignore the "release" folder and pick the numbered version that suits you. 
+The versions are numbered chronologically, so it should be obvious which is the most
+recent. Some libraries have a release_notes.txt with more info about the changes
+across versions. If not, you can refer to the revision history in this project.
