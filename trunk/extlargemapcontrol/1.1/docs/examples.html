@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>ExtLargeMapControl Documentation: Examples</title>
+<link rel="stylesheet" type="text/css" href="http://code.google.com/css/codesite.css"></link>
+    <link rel="stylesheet" type="text/css" href="http://gmaps-utility-library.googlecode.com/svn/trunk/util/docs/template/local_extensions.css"></link>
+    <script type="text/javascript" src="http://code.google.com/js/prettify.js"></script>
+  </head>
+
+  <body onload="prettyPrint()">
+<h1>ExtLargeMapControl How-to</h1>
+<p>You can use this class to add a control that mimics the 3-d pan/zoom control used on Google Maps. Since it's open source, you can also tweak its UI or functionality to meet your needs. Adding it to your map is easy: 
+</p>
+<ol>
+<li>Include extlargemapcontrol.js in your document header. You can reference it from here or download it to your own server.
+<pre>
+&lt;script src="extlargemapcontrol.js" type="text/javascript"&gt;&lt;/script&gt;
+</pre>
+<li>Create a <code>ExtLargeMapControl</code> object and add it to the map.</p>
+<pre class="prettyprint">
+var map = new GMap2(document.getElementById("map_canvas"));
+map.setCenter(new GLatLng(37.4419, -122.1419), 13);
+var extLargeMapControl = new ExtLargeMapControl();
+map.addControl(extLargeMapControl);
+</pre>
+</ol>
+<p><a href="../examples/simple.html">View example (simple.html)</a></p>
+
+<h2>Advanced Configuration</h2>
+
+<p>The following example shows 2 maps with two advanced uses of the control. 
+In the first map, we add the small version of the control (just the +/- buttons)
+by specifying type="small" in the constructor options.
+</p>
+<pre>
+var extLargeMapControl1 = new ExtLargeMapControl({type : "small"});
+map1.addControl(extLargeMapControl1);
+</pre>
+<p>In the second map, we add a version of the control with tooltips in a
+different language (Spanish) by specifying the various tooltip strings
+in the constructor options.
+</p>
+<pre>
+var opts2 = {
+  zoomInBtnTitle : "Aumentar",
+  zoomOutBtnTitle : "Reducir",
+  moveNorthBtnTitle : "Vista panorámica hacia arriba",
+  moveSouthBtnTitle : "Vista panorámica hacia abajo",
+  moveEastBtnTitle : "Vista panorámica a la derecha",
+  moveWestBtnTitle : "Vista panorámica a la izquierda",
+  homeBtnTitle : "Volver al último resultado"
+};
+var extLargeMapControl2 = new ExtLargeMapControl(opts2);
+map2.addControl(extLargeMapControl2);
+</pre>
+<p><a href="../examples/advanced.html">View example (advanced.html)</a></p>
+</body>
+</html>
