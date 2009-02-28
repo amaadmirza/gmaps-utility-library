@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Google Maps API Example - MaxZoom</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2.x&key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxT8bemrB74QmF-ljSt0r6xw5vxKjRRisAno3SZU83rSdUS3zR_JADzEUA" type="text/javascript"></script>
+    <script type="text/javascript">
+      document.write('<script type="text/javascript" src="../src/markermanager' + (document.location.search.indexOf('packed') > -1 ? '_packed' : '') + '.js"><' + '/script>');
+    </script>
+    <script type="text/javascript">
+    //<![CDATA[
+
+    function setupMap() {
+        if (GBrowserIsCompatible()) {
+          var map = new GMap2(document.getElementById("map"));
+          var center = new GLatLng(37.4419, -122.1419);
+          map.setCenter(center, 16);
+          map.addControl(new GSmallZoomControl());
+          map.setMapType(G_SATELLITE_MAP);
+          var mgr = new MarkerManager(map);
+          mgr.addMarker(mgr.getMarker(center.lat(), center.lng(), 18), 18, 19);
+
+          GEvent.addListener(map, "zoomend", function (oldLevel, newLevel) {
+            GLog.write("Zoomed from " + oldLevel + " to " + newLevel + ".");
+          });
+        }
+    }
+
+    //]]>
+    </script>
+  </head>
+
+  <body onload="setupMap()" onunload="GUnload()">
+    <div id="map" style="margin: 5px auto; width: 650px; height: 400px"></div>
+    <div style="text-align: center; font-size: large;">
+      MarkerManager MaxZoom Test<br />
+      No marker should appear initially.  Zooming to levels 18-19 should show a marker.
+    </div>
+  </body>
+</html>
+
