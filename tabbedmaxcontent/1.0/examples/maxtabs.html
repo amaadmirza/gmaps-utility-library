@@ -1,0 +1,61 @@
+<!DOCTYPE html "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <title>Tabbed Max Content Infowindow Example</title>
+        <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxQGj0PqsCtxKvarsoS-iqLdqZSKfxRdmoPmGl7Y9335WLC36wIGYa6o5Q" type="text/javascript">
+        </script>
+        <script type="text/javascript">
+            document.write('<script type="text/javascript" src="../src/tabbedmaxcontent' + (document.location.search.indexOf('packed') > -1 ? '_packed' : '') + '.js"><' + '/script>');
+        </script>
+       
+        <script type="text/javascript">
+            function initialize() {
+              if (GBrowserIsCompatible()) {
+                var map = new GMap2(document.getElementById("map"));
+                var pt = new GLatLng(35.22, -80.84);
+                map.setCenter(pt, 13);
+                map.addControl(new GLargeMapControl());
+                // map example
+                GEvent.addListener(map, 'click', function(ov, latlng, ovll) {
+                  if (!ov && latlng) {
+                    var min = 'regular map info:' + latlng;
+                    var sum = '<p>summary map info:<br/><br/>' + latlng+ Math.random()+'</p>';
+                    var tabs = [
+                     new MaxContentTab('map tab0', 'map content0'),
+                     new MaxContentTab('map tab1', 'map content1'),
+                     new MaxContentTab('map tab2', 'map content2'), 
+                     new MaxContentTab('map tab3', 'map content3')];
+                    map.openMaxContentTabsHtml(latlng, min, sum, tabs, {
+                      maxTitle: "More Map Info"
+                    });
+                  }
+                });
+                
+                // marker example
+                var marker = new GMarker(pt);
+                map.addOverlay(marker);
+                GEvent.addListener(marker, 'click', function(latlng){
+                    var min = 'regular marker info:' + latlng;
+                    var sum = '<p>summary marker info:' + latlng+ Math.random()+'</p>';
+                    var tabs = [
+                     new MaxContentTab('marker tab0', 'marker content 0'),
+                     new MaxContentTab('marker tab1', 'marker content 1'),
+                     new MaxContentTab('marker tab2', 'marker content 2'), 
+                     new MaxContentTab('marker tab3', 'marker content 3')];
+                    marker.openMaxContentTabsHtml(map, min, sum, tabs, {
+                      maxTitle: "More Marker Info"
+                    });
+                });
+              }
+            }
+        </script>
+    </head>
+    <body onload="initialize()" onunload="GUnload()">
+       <a href='?packed'>Packed </a> | 
+       <a href='?'> Unpacked</a> Version of the script.
+       <div>Click on map or marker to get an info window, then maximize it.</div>
+        <div id="map" style="width: 800px; height: 600px;">
+        </div>
+    </body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <title>Google Maps - Max Infowindow API Example</title>
+        <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxQGj0PqsCtxKvarsoS-iqLdqZSKfxRdmoPmGl7Y9335WLC36wIGYa6o5Q" type="text/javascript">
+        </script>
+        <style>
+            #address {
+                padding: 9px;
+            }
+        </style>
+        <script type="text/javascript">
+            document.write('<script type="text/javascript" src="../src/tabbedmaxcontent' + (document.location.search.indexOf('packed') > -1 ? '_packed' : '') + '.js"><' + '/script>');
+        </script>
+        <script type="text/javascript">
+            var map;
+            function initialize() {
+              if (GBrowserIsCompatible()) {
+                map = new GMap2(document.getElementById("map_canvas"));
+                var geocoder = new GClientGeocoder();
+                var panoClient = new GStreetviewClient();
+                
+                var pt = new GLatLng(37.4419, -122.1419);
+                map.setCenter(pt, 16);
+                map.addControl(new GLargeMapControl());
+                GEvent.addListener(map, 'click', function(ov, latlng, ovll) {
+                  if (latlng) {
+                    var regular = '<div>LatLng:' + latlng + '</div><a href="javascript:void(0)" onclick="javascript:map.getInfoWindow().maximize()">more info.. </a>'
+                    var summary = '<div id="sum">Address of' + latlng + '</div><a href="javascript:void(0)" onclick="javascript:map.getInfoWindow().restore()">less info.. </a>';
+                    var panoDiv = document.createElement('div');
+                    panoDiv.style.width = "400px"; // can be anything, will be auto resized
+                    panoDiv.style.width = "200px";
+                    var tabs = [new MaxContentTab('address', '<div id="address"></div>'), new MaxContentTab('streetview', panoDiv)];
+                    map.openMaxContentTabsHtml(latlng, regular, summary, tabs, {
+                      maxTitle: "More Info",
+                      selectedTab: 'streetview',// or use index 1,
+                      style: {
+                        tabOff: {
+                          backgroundColor: '#CCCCFF'
+                        }
+                      },maximized: document.getElementById('maximized').checked
+                    });
+                  }
+                });
+                GEvent.addListener(map.getTabbedMaxContent(), 'selecttab', function(tab) {
+                  var node = tab.getContentNode();
+                  var latlng = map.getInfoWindow().getPoint();
+                  switch (tab.getLabel()) {
+                  case 'address':
+                    // do a quick check to avoid repeat call
+                    if (document.getElementById('address').innerHTML == '') {
+                      // reverse geocode
+                      geocoder.getLocations(latlng, function(response) {
+                        if (!response) {
+                          alert('server error');
+                        } else if (response.Status.code != 200) {
+                          alert("Status Code:" + response.Status.code);
+                        } else {
+                          var place = response.Placemark[0];
+                          document.getElementById('sum').innerHTML = 'Address of the clicked point: <b>' + place.address + '</b>';
+                          document.getElementById('address').innerHTML = '<b>orig latlng:</b>' + response.name + '<br/>' +
+                          '<b>latlng:</b>' +
+                          place.Point.coordinates[0] +
+                          "," +
+                          place.Point.coordinates[1] +
+                          '<br>' +
+                          '<b>Status Code:</b>' +
+                          response.Status.code +
+                          '<br>' +
+                          '<b>Status Request:</b>' +
+                          response.Status.request +
+                          '<br>' +
+                          '<b>Address:</b>' +
+                          place.address +
+                          '<br>' +
+                          '<b>Accuracy:</b>' +
+                          place.AddressDetails.Accuracy +
+                          '<br>' +
+                          '<b>Country code:</b> ' +
+                          place.AddressDetails.Country.CountryNameCode;
+                        }
+                      });
+                    }
+                    break;
+                  case 'streetview':
+                    if (!node.pano) {
+                      var pano = new GStreetviewPanorama(node);
+                      GEvent.addListener(pano, 'error', function(errorCode) {
+                        if (errorCode == 603) {
+                          node.innerHTML = 'StreetView requires flash plugin. Click <a href="http://get.adobe.com/flashplayer/" target="_blank"> here</a> to download';
+                        }
+                      });
+                      pano.setLocationAndPOV(latlng);
+                      node.pano = pano;
+                    }
+                    break;
+                  }
+                });
+                GEvent.addListener(map.getTabbedMaxContent(), 'selecttab', function(tab) {
+                  GLog.write(' tab :' +tab.getLabel() + ' seleced');
+                });
+              }
+            }
+        </script>
+    </head>
+    <body onload="initialize()" onunload="GUnload()">
+        <a href='?packed'>Packed </a>
+        | <a href='?'>Unpacked</a>
+        Version of the script.
+        <br/>
+        <div>
+            Click on map, then maximize info window to get the address of the location, and street view
+        <input id="maximized" type="checkbox"> maximized at open
+        </div>
+        <div id="map_canvas" style="width: 100%; height: 600px;">
+        </div>
+    </body>
+</html>
