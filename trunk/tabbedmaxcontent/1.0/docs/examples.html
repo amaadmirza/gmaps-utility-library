@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Tabbed Max Content Examples</title>
+    <link rel="stylesheet nofollow" type="text/css" href="http://code.google.com/css/codesite.css"/>
+    <link rel="stylesheet nofollow" type="text/css" href="http://gmaps-utility-library.googlecode.com/svn/trunk/util/docs/template/local_extensions.css"/>
+    <script type="text/javascript" src="http://code.google.com/js/prettify.js"></script>
+  </head>
+  <body onload="prettyPrint()">
+<div>
+<a name="Top"></a>  
+<h1><a></a><span lang="en-us">Tabbed Max Content</span> Examples</h1>
+  <p>
+This library provides a max info window UI that's similar to the info window UI 
+for local business results on <a href="http://maps.google.com">Google Maps</a>.
+It lets a developer pass in an array of content that will be rendered in tabs 
+in the maximized state of an info window.
+</div>
+<div>
+<h2><a name="HowTo"></a>Include Scripts</h2>
+<p>
+The first step is to include 
+<code>tabbedmaxcontent.js</code> or <code>tabbedmaxcontent_packed.js</code> 
+in your document header, after the Google Maps API has loaded. 
+You can use the hosted release version if you do not want to download the script.
+</p>
+    <pre class="prettyprint">
+&lt;script src=&quot;/path/to/tabbedmaxcontent.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    </pre>
+</div>
+
+<div><h2>Open Max Tabbed Content</h2> 
+<p>You can simply call <code>GMap2.openMaxContentTabs()</code> 
+to open an window with tabbed maximized content, similar to how you can call 
+<code>GMap2.openInfoWindowTabs()</code> in the core API.</span></p>
+
+<pre class="prettyprint">
+function init(){
+  var map = new GMap2(document.getElementById("map"));
+  map.setCenter(new GLatLng(45.5, -122.7), 14);
+  //...
+  var min = 'regular map info:' + latlng;
+  var sum = 'summary map info:' + latlng+ Math.random();
+  var tabs = [
+    new MaxContentTab('map tab0', 'map content0'),
+    new MaxContentTab('map tab1', 'map content1'),
+    new MaxContentTab('map tab2', 'map content2'), 
+    new MaxContentTab('map tab3', 'map content3')];
+  map.openMaxContentTabsHtml(latlng, min, sum, tabs, { maxTitle: "More Map Info" });
+}
+</pre>
+
+<p>
+<a href="../examples/maxtabs.html">View example (maxtabs.html)</a>
+</p>
+</div>
+
+<div><h2>Using Dynamic Loading and Options</h2> 
+<p>You can pass optional values like CSS properties, max title and the selected
+tab index when you open a maximized tabbed info window. 
+You can also perform asynchronously load in content after the window is maximized.
+</p>
+<p>
+The following example performs a reverse geocode and loads in a Street View 
+panorama after the infowindow has been maximized, and then puts that content
+into the tabs:</p>
+
+<pre class="prettyprint">
+function init(){
+  var map = new GMap2(document.getElementById("map"));
+  map.setCenter(new GLatLng(45.5, -122.7), 14);
+  //...
+  map.openMaxContentTabsHtml(latlng, latlng.toString(), summary, tabs, {
+    maxTitle: "More Info",
+    selectedTab: 1,
+    style: {...}
+  });
+                  
+  GEvent.addListener(map.getInfoWindow(), 'maximizeend', function() {
+    geocoder.getLocations(latlng, function(response) {
+    ....            
+    });
+    panoClient.getNearestPanorama(latlng, function(panoData) {
+    ....
+    });
+  });
+}
+</pre>
+
+<p>
+<a href="../examples/ajaxmaxtabs.html">View example (ajaxmaxtabs.html) </a>
+</p>
+</div>
+<br/><br/>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3946449-5");
+pageTracker._trackPageview();
+</script>
+</body>
+</html>

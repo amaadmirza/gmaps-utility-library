@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Tabbed Max Content v1.0 Reference</title>
+    <link rel="stylesheet" type="text/css" href="http://code.google.com/css/codesite.css"></link>
+    <link rel="stylesheet" type="text/css" href="../../util/docs/template/local_extensions.css"></link>
+  </head>
+  <body>
+    <h1>Tabbed Max Content</h1>
+    <p>
+This library provides a max info window UI that's similar  to the info window UI for local business results on Google Maps. It lets a  developer pass in an array of content that will be rendered in tabs in the  maximized state of an info window.</p>
+    <p>For a description and examples of how to use this library, check out the <a href="examples.html">how-to</a>.</p>
+    
+      <h2><a name="GMap2"></a>class GMap2</h2>
+      <p>These are new methods added to the Google Maps API's<a href  = 'http://code.google.com/apis/maps/documentation/reference.html#GMap2'>GMap2</a>class.</p>
+      
+        <h3>Methods</h3>
+        <table summary="class GMap2 - Methods" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Methods</th>
+              
+                
+                  <th>Return&nbsp;Value</th>
+                
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>getTabbedMaxContent()</code></td>
+                
+                  
+                    <td><code>TabbedMaxContent</code></td>
+                  
+                
+                <td>Returns the <code><a href="reference.html#TabbedMaxContent">TabbedMaxContent</a></code> for currently opened info window.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>openMaxContentTabs(<span class="type">latlng:GLatLng</span>, <span class="type">minNode:Node</span>, <span class="type">summaryNode:Node</span>, <span class="type">tabs:MaxContentTab[]</span>, <span class="type">opt_maxOptions:MaxContentOptions</span>)</code></td>
+                
+                  
+                    <td><code>None</code></td>
+                  
+                
+                <td>Opens an info window with maximizable content at the given <code>latlng</code>.The infowindow displays the content in the <code>minNode</code> in the minimized state, and then displays the content in the <code>summaryNode</code>along with the array of <code>tabs</code> in the maximized state.Additional options can be sent in <code>opt_maxOptions</code>.</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>openMaxContentTabsHtml(<span class="type">latlng:GLatLng</span>, <span class="type">minHtml:String</span>, <span class="type">summaryHtml:String</span>, <span class="type">tabs:MaxContentTab[]</span>, <span class="type">opt_maxOptions:MaxContentOptions</span>)</code></td>
+                
+                  
+                    <td><code>None</code></td>
+                  
+                
+                <td>Opens an info window with maximizable content at the given <code>latlng</code>.The infowindow displays the content in the <code>minHtml</code> in the minimized state, and then displays the content in the <code>summaryHtml</code>along with the array of <code>tabs</code> in the maximized state.Additional options can be sent in <code>opt_maxOptions</code>.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+    
+      <h2><a name="GMarker"></a>class GMarker</h2>
+      <p>These are new methods added to Google Maps API's<a href  = 'http://code.google.com/apis/maps/documentation/reference.html#GMarker'>GMarker</a>class.</p>
+      
+        <h3>Methods</h3>
+        <table summary="class GMarker - Methods" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Methods</th>
+              
+                
+                  <th>Return&nbsp;Value</th>
+                
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>openMaxContentTabs(<span class="type">map:GMap2</span>, <span class="type">minNode:Node</span>, <span class="type">summaryNode:Node</span>, <span class="type">tabs:MaxContentTab[]</span>, <span class="type">opt_maxOptions:MaxContentOptions</span>)</code></td>
+                
+                  
+                    <td><code>None</code></td>
+                  
+                
+                <td>Opens an info window with maximizable content above the marker.The infowindow displays the content in the <code>minNode</code> in the minimized state, and then displays the content in the <code>summaryNode</code>along with the array of <code>tabs</code> in the maximized state.Additional options can be sent in <code>opt_maxOptions</code>.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>openMaxContentTabsHtml(<span class="type">map:GMap2</span>, <span class="type">minHtml:String</span>, <span class="type">summaryHtml:String</span>, <span class="type">tabs:MaxContentTab[]</span>, <span class="type">opt_maxOptions:MaxContentOptions</span>)</code></td>
+                
+                  
+                    <td><code>None</code></td>
+                  
+                
+                <td>Opens an info window with maximizable content above the marker.The infowindow displays the content in the <code>minHtml</code> in the minimized state, and then displays the content in the <code>summaryHtml</code>along with the array of <code>tabs</code> in the maximized state.Additional options can be sent in <code>opt_maxOptions</code>.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+    
+      <h2><a name="MaxContentOptions"></a>class MaxContentOptions</h2>
+      <p>This class extends <a href='http://code.google.com/apis/maps/documentation/reference.ht    ml#GInfoWindowOptions'><code>GInfoWindowOptions</code></a>. Instances of this class are used in the <code>opts_maxOption</code> argument to methods openMaxContentTabs(), openMaxContentTabsHtml(). Note, <code>GInfoWindowOptions.maxContent</code> can not be specified.  There is no constructor for this class.  Instead, this class is instantiated as a javascript object literal.</p>
+      
+        <h3>Properties</h3>
+        <table summary="class MaxContentOptions - Properties" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Properties</th>
+              
+                
+                  <th>Type</th>
+                
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>maximized</code></td>
+                
+                  
+                    <td><code>Boolean</code></td>
+                  
+                
+                <td>Specifies if the window should be opened in the maximized state by default.  The default value is <code> false</code>.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>maxTitle</code></td>
+                
+                  
+                    <td><code>String|Node</code></td>
+                  
+                
+                <td>Specifies the title to be shown whenthe infowindow is maximized.  The default value is <code> ""</code>.</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>selectedTab</code></td>
+                
+                  
+                    <td><code>Number|String</code></td>
+                  
+                
+                <td>Selects the tab with the given index or name by default when the info window is first maximized.  The default value is <code> 0</code>.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>style</code></td>
+                
+                  
+                    <td><code>Object</code></td>
+                  
+                
+                <td>The object that holds a set of css styles for the maximized content. It has the following properties:    <code> tabOn, tabOff, tabBar, tabLeft, tabRight, content </code>.  Each property is a css object such as     <code> {backgroundColor: 'gray', opacity: 0.2}</code>.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+    
+      <h2><a name="MaxContentTab"></a>class MaxContentTab</h2>
+      <p>This class represents a tab in the maximized info window. An array of instances of this class can be passed in as the <code>tabs</code> argument to  the methods <code>openMaxContentTabs*()</code> etc.This class is similar to the <a target=_blank href=http://code.google.com/apis/maps/documentation/reference.html#GInfoWindowTab>GInfoWindowTab</a>class in the core API.</p>
+      
+        <h3>Constructor</h3>
+        <table summary="class MaxContentTab - Constructor" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Constructor</th>
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>MaxContentTab(<span class="type">label:String</span>, <span class="type">content:Node|String</span>)</code></td>
+                
+                <td>Creates a content tab data structure that can be passed in the <code>tabs</code> argumentin the <code>openMaxContentTabs*()</code> methods.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3>Methods</h3>
+        <table summary="class MaxContentTab - Methods" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Methods</th>
+              
+                
+                  <th>Return&nbsp;Value</th>
+                
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>getContentNode()</code></td>
+                
+                  
+                    <td><code>Node</code></td>
+                  
+                
+                <td>Returns the content of the tab.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>getLabel()</code></td>
+                
+                  
+                    <td><code>String</code></td>
+                  
+                
+                <td>Returns the label of the tab.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+    
+      <h2><a name="TabbedMaxContent"></a>class TabbedMaxContent</h2>
+      <p>This class represent the max content in the info window. There is no public constructor for this class. If needed, it can be accessed via  <code>GMap2.getTabbedMaxContent()</code>.</p>
+      
+        <h3>Methods</h3>
+        <table summary="class TabbedMaxContent - Methods" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Methods</th>
+              
+                
+                  <th>Return&nbsp;Value</th>
+                
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>checkResize()</code></td>
+                
+                  
+                    <td><code>None</code></td>
+                  
+                
+                <td>Adjust sizes of tabs to fit inside the maximized info window. This method is automatically called on <code>GInfoWindow</code>'s <code>'maximizeend'</code> event. However, there maybe cases where additional content is loaded in after that event,and an additional resize is needed.</td>
+              </tr>
+            
+              <tr class="even">
+                <td><code>getTab(<span class="type">identifier:Number|String</span>)</code></td>
+                
+                  
+                    <td><code>MaxContentTab</code></td>
+                  
+                
+                <td>Return the <code><a href="reference.html#MaxContentTab">MaxContentTab</a></code> at the given index or label.</td>
+              </tr>
+            
+              <tr class="odd">
+                <td><code>selectTab(<span class="type">identifier:Number|String</span>)</code></td>
+                
+                  
+                    <td><code>None</code></td>
+                  
+                
+                <td>Select a tab using the given index or label.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3>Events</h3>
+        <table summary="class TabbedMaxContent - Events" width="90%">
+          
+          <tbody>
+            <tr>
+              <th>Events</th>
+              
+                
+                  <th>Arguments</th>
+                
+              
+              <th>Description</th>
+            </tr>
+            
+              <tr class="odd">
+                <td><code>selecttab</code></td>
+                
+                  
+                    <td><code><span class="type">selected:MaxContentTab</span></code></td>
+                  
+                
+                <td>This event is fired after a tab is selected,passing the selected <code><a href="reference.html#MaxContentTab">MaxContentTab</a></code> into the callback.</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+    
+    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      _uacct = "UA-964209-4";
+      urchinTracker();
+    </script> 
+  </body>
+</html>
