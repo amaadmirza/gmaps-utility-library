@@ -198,12 +198,11 @@
     this.selectedTab_ = -1;
     if (this.maxNode_) {
       GEvent.clearNode(this.maxNode_);
-      this.maxNode_.innerHTML = '';
-    } else {
-      this.maxNode_ = createEl('div', {
+      this.maxNode_ = null;
+    } 
+    this.maxNode_ = createEl('div', {
         id: 'maxcontent'
-      });
-    }
+    });
     opt_maxOptions = opt_maxOptions || {};
     var selectedTab = opt_maxOptions.selectedTab || 0;
     this.style_ = setVals({}, defaultStyle);
@@ -235,6 +234,7 @@
       GEvent.addDomListener(this.tabs_[i].navNode_, 'click', GEvent.callback(this, this.selectTab, i));
     }
   };
+  
   /**
    * Clean up listeners on tabs.
    * @private
