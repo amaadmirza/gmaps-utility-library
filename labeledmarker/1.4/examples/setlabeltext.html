@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Google Maps API Example - Labeled Marker - setLabelText</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA-O3c-Om9OcvXMOJXreXHAxQGj0PqsCtxKvarsoS-iqLdqZSKfxS27kJqGZajBjvuzOBLizi931BUow"
+      type="text/javascript"></script>
+    <script type="text/javascript">
+      document.write('<script type="text/javascript" src="../src/labeledmarker' + (document.location.search.indexOf('packed') > -1 ? '_packed' : '') + '.js"><' + '/script>');
+    </script>
+    <script type="text/javascript">
+    //<![CDATA[
+
+
+    function setupMap() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map"));
+        map.addControl(new GLargeMapControl());
+        map.setCenter(new GLatLng(48.25, 11.00), 4);
+        map.addControl(new GOverviewMapControl());
+        map.enableDoubleClickZoom();
+
+        var latlng = new GLatLng(48.25, 11.00);
+
+        var icon = new GIcon();
+        icon.image = 'http://gmaps-samples.googlecode.com/svn/trunk/markers/circular/greencirclemarker.png';
+        icon.iconSize = new GSize(32, 32);
+        icon.iconAnchor = new GPoint(16, 16);
+        icon.infoWindowAnchor = new GPoint(25, 7);
+
+        opts = {
+          "icon": icon,
+          "clickable": true,
+          "title": "Click to change the marker label",
+          "labelText": "A",
+          "labelOffset": new GSize(-6, -10)
+        };
+        var marker = new LabeledMarker(latlng, opts);
+        var markerLabelText = opts.labelText;
+
+        GEvent.addListener(marker, "click", function() {
+        	markerLabelText =
+            String.fromCharCode(markerLabelText.charCodeAt(0) + 1);
+        	marker.setLabelText (markerLabelText);
+          GLog.write("Changing marker label text to '" +
+                     markerLabelText + "'");
+        });
+        map.addOverlay(marker);
+      }
+    }
+
+
+    //]]>
+    </script>
+
+  </head>
+
+  <body onload="setupMap()" onunload="GUnload()">
+    <div id="map" style="margin: 5px auto; width: 650px; height: 400px"></div>
+  </body>
+</html>
+

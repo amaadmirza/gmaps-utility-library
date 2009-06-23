@@ -1,0 +1,26 @@
+v1.3:
+
+Changed Issues:
+- Issue 54: Error occurred by setLatLng method with LabeledMarker
+  http://code.google.com/p/gmaps-utility-library-dev/issues/detail?id=54
+- Issue 73: LabeledMarker click event does not pass thru click coordinates 
+  http://code.google.com/p/gmaps-utility-library-dev/issues/detail?id=73 
+- Issue 19: Need a setLabelText function in LabeledMarker
+  http://code.google.com/p/gmaps-utility-library-dev/issues/detail?id=19 
+
+Public Changes:
+- Removal of showLabel/hideLabel methods in favor of setLabelVisibility
+  http://groups.google.com/group/google-maps-utility-library/browse_thread/thread/2099a45b76dc6dbe/166219d409a6d0f2
+- Various changes in the way visibility works:
+  Allow setting visibility before .initialize()/.addOverlay(); 
+  Provide consistent label visibility control aligned with visibility of the marker itself; 
+  Fix the issue that the marker is always added to a map in visible state regardless of any visibility settings applied before
+  http://groups.google.com/group/google-maps-utility-library/browse_thread/thread/2099a45b76dc6dbe/da6cec86f0aab106
+
+Internal Changes:
+- Removal of internal latlng_ property and setLatLng() method as they were not needed
+- JSDoc comments changed to prevent technical details from appearing in API reference
+- Update of copy method to accommodate new API features
+- Code style fixed to accommodate jslint
+- Fix to the event passing mechanism:
+  http://groups.google.com/group/google-maps-utility-library/browse_thread/thread/2099a45b76dc6dbe
