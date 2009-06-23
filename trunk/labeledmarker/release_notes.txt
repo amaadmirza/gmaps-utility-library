@@ -1,3 +1,12 @@
+v1.4:
+Changed Issues:
+- Issue 89: this.div_ is null
+  http://code.google.com/p/gmaps-utility-library-dev/issues/detail?id=89
+- Issue 91: LabeledMarker is always clickable
+  http://code.google.com/p/gmaps-utility-library-dev/issues/detail?id=91
+- Issue 92: LabeledMarker & MarkerManager don't work well together
+  http://code.google.com/p/gmaps-utility-library-dev/issues/detail?id=92
+
 v1.3:
 
 Changed Issues:
