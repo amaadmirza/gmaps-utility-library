@@ -1,0 +1,5 @@
+1.2:
+Changed Issues:
+ - Issue 124: ExtLargeMapControl - no control display in IE8
+  http://code.google.com/p/gmaps-utility-library-dev/issues/detail?id=124
+
