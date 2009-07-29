@@ -1,0 +1,5 @@
+1.1:
+* Fixed Issue 130
+* Added ability to specify textColor and bgColor for PopupMarkerChartAPIOptions.
+* Makes PopupMarker work with GMarkerManager.
+* Hides the popup during marker dragging.
