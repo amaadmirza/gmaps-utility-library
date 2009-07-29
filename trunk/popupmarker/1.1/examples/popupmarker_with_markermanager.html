@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>PopupMarker Example - Simple PopupMarker</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxQGj0PqsCtxKvarsoS-iqLdqZSKfxRdmoPmGl7Y9335WLC36wIGYa6o5Q" type="text/javascript"></script>
+    <script type="text/javascript">
+    document.write('<script type="text/javascript" src="../src/popupmarker'+(document.location.search.indexOf('packed')>-1?'_packed':'')+'.js"><'+'/script>');
+  </script>
+    <script type="text/javascript">
+
+    function initialize() {
+        if (GBrowserIsCompatible()) {
+     
+            var map = new GMap2(document.getElementById("map_canvas"));
+            map.setCenter(new GLatLng(35.677335,139.744613), 12);
+            
+            map.addControl(new GLargeMapControl());
+            var mgrOptions = {
+                                borderPadding: 50,
+                                trackMarkers: true
+                             };
+            var mgr = new GMarkerManager(map, mgrOptions);
+            
+            bounds = map.getBounds();
+            
+            mgr.addMarkers(makeMarkerArray(bounds, 15), 12);
+            mgr.addMarkers(makeMarkerArray(bounds, 10), 10, 11);
+            mgr.addMarkers(makeMarkerArray(bounds, 5), 8, 9);
+            mgr.addMarkers(makeMarkerArray(bounds, 1), 0, 7);
+            mgr.refresh();
+     
+        }
+    }
+     
+    function makeMarkerArray(bounds, length){
+        var markerArray=new Array();
+        
+        var sw = bounds.getSouthWest();
+        var ne = bounds.getNorthEast();
+        var lngSpan = ne.lng() - sw.lng();
+        var latSpan = ne.lat() - sw.lat();
+        for (var i = 1; i < length + 1; i++) {
+            var lat = sw.lat() + latSpan * Math.random();
+            var lng = sw.lng() + lngSpan * Math.random();
+            var latlng = new GLatLng(lat, lng);
+           
+            markerArray.push(makeMarker(latlng, i));
+        }
+        
+        return markerArray;
+    }
+    function makeMarker(point, mkrIdx){
+        var marker = new PopupMarker(point, {text : mkrIdx});
+        return marker;
+    }
+
+
+    </script>
+  </head>
+  <body onload="initialize()" onunload="GUnload()">
+    <div id="map_canvas" style="width: 500px; height: 500px"></div>
+  </body>
+</html>
+

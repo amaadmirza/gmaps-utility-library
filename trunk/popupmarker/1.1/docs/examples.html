@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>PopupMarker Documentation: Examples</title>
+<link rel="stylesheet" type="text/css" href="http://code.google.com/css/codesite.css"></link>
+    <link rel="stylesheet" type="text/css" href="http://gmaps-utility-library.googlecode.com/svn/trunk/util/docs/template/local_extensions.css"></link>
+    <script type="text/javascript" src="http://code.google.com/js/prettify.js"></script>
+  </head>
+
+  <body onload="prettyPrint()">
+<h1>PopupMarker Examples</h1>
+
+<p>To create a popup marker, create a new PopupMarker, and specify the relevant options. 
+The most important options are style and text. Then you can assign it event listeners and add it to the map just as you would with a <code>GMarker</code> object.</p>
+<pre class="prettyprint">
+var map = new GMap2(document.getElementById("map_canvas"));
+map.setCenter(new GLatLng(35.681382, 139.766084), 1);
+
+var opts = {text : "Hello! I'm a PopupMarker."};
+
+var marker = new PopupMarker(new GLatLng(35.681382, 139.766084), opts);
+map.addOverlay(marker);
+</pre>
+<p>
+<a href="../examples/simple.html">View example (simple.html).</a>
+</p>
+
+<h2>Chart-Style Marker Example</h2>
+<p>
+The default "normal" style for the popup lets you specify text or HTML to put 
+inside some DIVs that are styled with CSS to look like a mini infowindow.
+The "chart" style uses the Google Charts API bubbles output to dynamically
+create an image according to options passed in - 
+like background color, text, icon.
+</p>
+<p>
+To use the chart style, just specify "chart" for the <code>style</code> property in
+PopupMarkerOptions, and then specify additional options in the <code>chart</code> property:
+</p>
+<pre class="prettyprint">
+var chartAPI_Opt = {
+                   chartStyle : "d_bubble_icon_texts_big",
+                   icon       : "petrol",
+                   textColor  : "000000",
+                   bgColor    : "FFFF88"
+                   }; 
+var markerOpt = {
+                  draggable  :  true,
+                  style      : "chart",
+                  chart      : chartAPI_Opt,
+                  text       : "Made using Chart API. Please drag me!"
+                  };
+var marker = new PopupMarker(new GLatLng(35.681382, 139.766084), markerOpt);
+map.addOverlay(marker);
+</pre>
+<p>
+You can also set the chart options later, using various methods on <code>PopupMarker</code>:
+</p>
+<pre class="prettyprint">
+var markerOpt2 = {"style":"chart"};
+var marker2 = new PopupMarker(new GLatLng(-40.756054, -73.986951), markerOpt2);
+marker2.setChartStyle("d_bubble_icon_text_big");
+marker2.setChartIcon("snack");
+marker2.setChartTextColor("000000");
+marker2.setChartBgColor("FFBB00");
+marker2.setShapeStyle("bb");
+marker2.setText("Click me!");
+map.addOverlay(marker2);
+</pre>
+<p>
+<a href="../examples/chartstylemarker.html">View example (chartstylemarker.html).</a>
+</p>
+
+<h2>Toggling Popups</h2>
+<p>
+You can use the <code>showPopup</code>/<code>hidePopup</code> methods 
+to toggle the visibility of the popup:
+</p>
+<pre class="prettyprint">
+GEvent.addListener(marker,"mouseover", function(){
+  marker.showPopup();
+});
+GEvent.addListener(marker,"mouseout", function(){
+  marker.hidePopup();
+});
+</pre>
+<p>
+<a href="../examples/draggable.html">View example (draggable.html).</a>
+</p>
+
+</body>
+</html>
